@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview · Cabeceras Pipeline · CMR Isopan</title>
+<style>
+:root{--azul:#0056b3;--azulSuave:#e6f0fc;--verde:#0e7c4f;--verdeSuave:#e3f5ec;--amarillo:#a16207;--amarilloSuave:#fdf3d7;--rojo:#c0392b;--rojoSuave:#fdeceb;--gris:#64748b;--borde:#dce6f0;--colFondo:#eaf0f7}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:#f4f7fb;color:#1e293b;padding:24px 16px 60px}
+.wrap{max-width:1400px;margin:0 auto}
+h1{font-size:20px;margin-bottom:4px}
+.sub{font-size:13px;color:var(--gris);margin-bottom:20px}
+.diseno{border:1px dashed #b6c6da;border-radius:14px;padding:18px;margin-bottom:36px;background:#fbfdff}
+.diseno>h2{font-size:15px;margin-bottom:2px}
+.diseno>.desc{font-size:12px;color:var(--gris);margin-bottom:16px}
+.pipeBoard{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.pipeColumn{border-radius:16px;background:var(--colFondo);border:1px solid var(--borde);padding:14px}
+.pipeCard{border:1px solid #d8e4f2;border-radius:12px;background:white;padding:14px;margin-bottom:10px}
+.pipeCard .cli{font-size:14px;font-weight:600;line-height:1.4}
+.pipeCard .meta{font-size:11px;color:var(--gris);margin-top:6px}
+/* ===== DISEÑO A: acento de color (borde superior + píldora) ===== */
+.a .pipeColumn>h3{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14px;padding:10px 12px;border-radius:10px;background:#fff;border:1px solid var(--borde);border-top:4px solid var(--c);margin-bottom:4px}
+.a .pipeColumn>h3 .n{font-size:11px;font-weight:700;color:#fff;background:var(--c);border-radius:999px;padding:3px 10px}
+.a .pipeColumn>p{font-size:11px;color:var(--gris);margin:8px 4px 14px}
+.a .enviada{--c:var(--azul)}.a .negociacion{--c:var(--amarillo)}.a .ganada{--c:var(--verde)}.a .perdida{--c:var(--rojo)}
+/* ===== DISEÑO B: banda rellena suave del color de fase ===== */
+.b .pipeColumn{padding:0;overflow:hidden}
+.b .pipeColumn>h3{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14px;padding:12px 14px;background:var(--cs);color:var(--cd);border-bottom:1px solid var(--borde)}
+.b .pipeColumn>h3 .n{font-size:11px;font-weight:700;background:#fff;color:var(--cd);border-radius:999px;padding:3px 10px;border:1px solid var(--cb)}
+.b .pipeColumn>p{font-size:11px;color:var(--gris);margin:10px 14px 0}
+.b .pipeColumn .cards{padding:12px 14px 14px}
+.b .enviada{--cs:var(--azulSuave);--cd:var(--azul);--cb:#bfd9f5}
+.b .negociacion{--cs:var(--amarilloSuave);--cd:var(--amarillo);--cb:#eedf9e}
+.b .ganada{--cs:var(--verdeSuave);--cd:var(--verde);--cb:#bfe6d2}
+.b .perdida{--cs:var(--rojoSuave);--cd:var(--rojo);--cb:#f2c6c0}
+.b .pipeCard{margin-bottom:10px}
+.b .pipeCard:last-child{margin-bottom:0}
+@media(max-width:768px){.pipeBoard{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Preview · Cabeceras de columnas del Pipeline</h1>
+<p class="sub">Dos propuestas con el lenguaje de colores de la app: azul = base, amarillo = pendiente/en curso, verde = éxito, rojo = pérdida. Tarjetas de ejemplo ficticias.</p>
+
+<div class="diseno a">
+<h2>Diseño A · Acento de color</h2>
+<p class="desc">Cabecera blanca con borde superior del color de la fase y píldora de conteo rellena. Sobrio, mantiene la columna neutra.</p>
+<div class="pipeBoard">
+<section class="pipeColumn enviada"><h3>Enviadas <span class="n">6</span></h3><p>6 ofertas · 4.650 m²</p>
+<article class="pipeCard"><div class="cli">CLIENTE EJEMPLO UNO SL</div><div class="meta">Cubierta · Navarra · 1000 m²</div></article>
+<article class="pipeCard"><div class="cli">CLIENTE EJEMPLO DOS SL</div><div class="meta">Fachada · Álava · 100 m²</div></article></section>
+<section class="pipeColumn negociacion"><h3>En negociación <span class="n">3</span></h3><p>3 ofertas · 2.970 m²</p>
+<article class="pipeCard"><div class="cli">CLIENTE EJEMPLO TRES SL</div><div class="meta">Cubierta · Madrid · 1850 m²</div></article></section>
+<section class="pipeColumn ganada"><h3>Ganadas <span class="n">4</span></h3><p>4 ofertas · 3.323 m²</p>
+<article class="pipeCard"><div class="cli">CLIENTE EJEMPLO CUATRO SL</div><div class="meta">Fachada · Sevilla · 350 m²</div></article></section>
+<section class="pipeColumn perdida"><h3>Perdidas <span class="n">2</span></h3><p>2 ofertas · 2.350 m²</p>
+<article class="pipeCard"><div class="cli">CLIENTE EJEMPLO CINCO SL</div><div class="meta">Cubierta · Almería · 2000 m²</div></article></section>
+</div>
+</div>
+
+<div class="diseno b">
+<h2>Diseño B · Banda rellena suave</h2>
+<p class="desc">La cabecera entera lleva un tinte suave del color de fase con el texto en el color fuerte; la píldora de conteo va en blanco. Más distinción visual entre fases.</p>
+<div class="pipeBoard">
+<section class="pipeColumn enviada"><h3>Enviadas <span class="n">6</span></h3><p>6 ofertas · 4.650 m²</p><div class="cards">
+<article class="pipeCard"><div class="cli">CLIENTE EJEMPLO UNO SL</div><div class="meta">Cubierta · Navarra · 1000 m²</div></article>
+<article class="pipeCard"><div class="cli">CLIENTE EJEMPLO DOS SL</div><div class="meta">Fachada · Álava · 100 m²</div></article></div></section>
+<section class="pipeColumn negociacion"><h3>En negociación <span class="n">3</span></h3><p>3 ofertas · 2.970 m²</p><div class="cards">
+<article class="pipeCard"><div class="cli">CLIENTE EJEMPLO TRES SL</div><div class="meta">Cubierta · Madrid · 1850 m²</div></article></div></section>
+<section class="pipeColumn ganada"><h3>Ganadas <span class="n">4</span></h3><p>4 ofertas · 3.323 m²</p><div class="cards">
+<article class="pipeCard"><div class="cli">CLIENTE EJEMPLO CUATRO SL</div><div class="meta">Fachada · Sevilla · 350 m²</div></article></div></section>
+<section class="pipeColumn perdida"><h3>Perdidas <span class="n">2</span></h3><p>2 ofertas · 2.350 m²</p><div class="cards">
+<article class="pipeCard"><div class="cli">CLIENTE EJEMPLO CINCO SL</div><div class="meta">Cubierta · Almería · 2000 m²</div></article></div></section>
+</div>
+</div>
+
+</div>
+</body>
+</html>
