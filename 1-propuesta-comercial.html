@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>CMR Isopan · Versión comerciales (propuesta)</title>
+<link rel="icon" type="image/png" href="https://github.com/alvaromartinezisopan/App-Comerciales/blob/87038b9872c2559a7522a1daaa8ff04408a47925/logo_azul.png?raw=true">
+<style>
+:root{--glass-bg:rgba(255,255,255,0.75);--glass-border:rgba(255,255,255,0.9);--text-main:#1e293b;--text-secondary:#64748b;--isopan-blue:#0056b3;--isopan-blue-hover:#004494;--input-bg:rgba(255,255,255,0.85);--input-border:#cbd5e1;--error-color:#ef4444;--cmr-sales:#087f68;--cmr-sales-soft:#ddf4e9;--cmr-danger:#a74332;--cmr-danger-soft:#fce9e7;--cmr-pending:#8b650f;--cmr-pending-soft:#fff1cf}
+*{margin:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{min-height:100vh;background:linear-gradient(135deg,#00417f 0%,#0056b3 48%,#007da0 100%);color:var(--text-main)}
+.demoBanner{position:sticky;top:0;z-index:50;background:#fff1cf;color:#8b650f;text-align:center;font-size:12px;font-weight:700;padding:7px 12px;letter-spacing:.02em}
+/* ---------- LOGIN ---------- */
+#loginView{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+.loginLogo{display:flex;align-items:center;gap:14px;margin-bottom:26px;color:#fff}
+.loginLogo img{height:52px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.25))}
+.loginLogo .t1{font-size:30px;font-weight:800;letter-spacing:.02em}
+.loginLogo .t2{font-size:11px;opacity:.85;margin-top:2px}
+.loginCard{width:100%;max-width:380px;background:rgba(255,255,255,.97);border-radius:20px;padding:28px 26px;box-shadow:0 24px 60px rgba(0,20,50,.28)}
+.loginCard h1{font-size:20px;text-align:center;color:var(--isopan-blue);margin-bottom:6px}
+.loginCard p{font-size:12.5px;color:var(--text-secondary);text-align:center;margin-bottom:18px}
+label{display:block;font-size:11px;font-weight:700;color:var(--text-secondary);margin:12px 0 4px;text-transform:none}
+input,select,textarea{width:100%;padding:9px 11px;border:1px solid var(--input-border);border-radius:9px;background:var(--input-bg);font-size:13.5px;color:var(--text-main);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--isopan-blue);box-shadow:0 0 0 3px rgba(0,86,179,.15)}
+.btnPrimary{width:100%;margin-top:18px;padding:11px;border:none;border-radius:10px;background:var(--isopan-blue);color:#fff;font-size:14px;font-weight:700;cursor:pointer}
+.btnPrimary:hover{background:var(--isopan-blue-hover)}
+.loginNote{margin-top:12px;font-size:11px;color:var(--text-secondary);text-align:center}
+/* ---------- APP ---------- */
+#appView{display:none;min-height:100vh;background:#f2f6fb}
+.appHead{background:linear-gradient(135deg,#00417f,#0056b3 60%,#007da0);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.appHead img{height:30px}
+.appHead .brand{font-weight:800;font-size:17px}
+.appHead .badge{background:#ffe9a8;color:#7a5b00;font-size:10px;font-weight:800;border-radius:6px;padding:2px 7px;letter-spacing:.04em}
+.appHead .who{margin-left:auto;font-size:12.5px;opacity:.95}
+.appHead button{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);color:#fff;font-size:12px;border-radius:8px;padding:6px 11px;cursor:pointer}
+.wrap{max-width:1150px;margin:0 auto;padding:18px 16px 60px}
+.panel{background:#fff;border:1px solid #e2e9f2;border-radius:16px;padding:18px;box-shadow:0 4px 18px rgba(15,40,80,.05)}
+.panelHead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.panelHead h2{font-size:17px;color:var(--isopan-blue)}
+.panelHead .sub{font-size:12px;color:var(--text-secondary)}
+.btnNew{margin-left:auto;background:var(--cmr-sales);color:#fff;border:none;border-radius:10px;padding:9px 15px;font-size:13px;font-weight:700;cursor:pointer}
+.btnNew:hover{background:#066b57}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{background:#eef4fb;color:#33506e;text-align:left;padding:9px 8px;font-size:11px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap}
+td{padding:10px 8px;border-top:1px solid #edf2f7;vertical-align:middle}
+tbody tr:hover{background:rgba(0,86,179,.05)}
+.refPill{display:inline-block;max-width:100%;white-space:normal;overflow-wrap:anywhere;border-radius:20px;padding:3px 8px;background:#e1efff;color:#0056b3;font-weight:800;font-size:10.5px;line-height:1.3}
+.estPill{display:inline-block;border-radius:20px;padding:3px 10px;font-weight:800;font-size:10.5px;white-space:nowrap}
+.estPendiente{background:var(--cmr-pending-soft);color:var(--cmr-pending)}
+.estGanada{background:var(--cmr-sales-soft);color:var(--cmr-sales)}
+.estPerdida{background:var(--cmr-danger-soft);color:var(--cmr-danger)}
+.btnEdit{background:var(--isopan-blue);color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}
+.btnEdit:hover{background:var(--isopan-blue-hover)}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.emptyMsg{padding:34px;text-align:center;color:var(--text-secondary);font-size:13px}
+/* ---------- FORM ---------- */
+#formView{display:none}
+.formGrid{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px}
+.formGrid .full{grid-column:1/-1}
+.radioRow{display:flex;gap:8px;flex-wrap:wrap}
+.radioRow label{margin:0}
+.chip{border:1px solid var(--input-border);border-radius:9px;padding:8px 13px;font-size:12.5px;font-weight:600;cursor:pointer;background:#fff;color:var(--text-secondary)}
+.chip.on{background:#e1efff;border-color:var(--isopan-blue);color:var(--isopan-blue)}
+.chipEstado.on.estPendienteOn{background:var(--cmr-pending-soft);border-color:var(--cmr-pending);color:var(--cmr-pending)}
+.chipEstado.on.estGanadaOn{background:var(--cmr-sales-soft);border-color:var(--cmr-sales);color:var(--cmr-sales)}
+.chipEstado.on.estPerdidaOn{background:var(--cmr-danger-soft);border-color:var(--cmr-danger);color:var(--cmr-danger)}
+.formActions{display:flex;gap:10px;margin-top:20px}
+.btnGhost{background:none;border:none;color:var(--isopan-blue);font-size:13px;font-weight:700;cursor:pointer;padding:10px}
+.btnSave{flex:1;background:var(--isopan-blue);color:#fff;border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:700;cursor:pointer}
+.btnSave:hover{background:var(--isopan-blue-hover)}
+#formError{display:none;color:var(--error-color);font-size:12px;font-weight:600;margin-top:10px}
+@media(max-width:640px){.formGrid{grid-template-columns:1fr}.panelHead h2{font-size:15px}td,th{padding:8px 6px;font-size:11.5px}.hideSm{display:none}}
+</style>
+</head>
+<body>
+<div class="demoBanner">PROPUESTA · Versión comerciales · Datos ficticios, nada se guarda en el CMR real</div>
+
+<!-- LOGIN -->
+<div id="loginView">
+  <div class="loginLogo">
+    <img src="https://raw.githubusercontent.com/alvaromartinezisopan/app-calculadora-envios/refs/heads/main/logo2.png" alt="Isopan">
+    <div><div class="t1">ISOPAN</div><div class="t2">Manni Group - Marcegaglia J.V.</div></div>
+  </div>
+  <div class="loginCard">
+    <h1>CMR Isopan</h1>
+    <p>Inicia sesión para registrar y consultar tus ofertas.</p>
+    <label>Email</label>
+    <input id="loginEmail" type="email" placeholder="tu@email.com" value="comercial.demo@isopan.example">
+    <label>Contraseña</label>
+    <input id="loginPass" type="password" placeholder="········" value="demo">
+    <button class="btnPrimary" onclick="doLogin()">Entrar</button>
+    <p class="loginNote">Propuesta: pulsa Entrar para verla por dentro.</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="appView">
+  <div class="appHead">
+    <img src="https://raw.githubusercontent.com/alvaromartinezisopan/app-calculadora-envios/refs/heads/main/logo2.png" alt="">
+    <span class="brand">CMR ISOPAN</span><span class="badge">COMERCIALES</span>
+    <span class="who">Comercial Demo Norte</span>
+    <button onclick="doLogout()">Cerrar sesión</button>
+  </div>
+  <div class="wrap">
+
+    <!-- HISTORIAL -->
+    <div class="panel" id="listView">
+      <div class="panelHead">
+        <div><h2>Historial de ofertas</h2><span class="sub" id="listSub"></span></div>
+        <button class="btnNew" onclick="openForm(null)">+ Nueva oferta</button>
+      </div>
+      <div style="overflow-x:auto">
+      <table>
+        <thead><tr>
+          <th>Fecha</th><th>Cliente</th><th>Referencia</th><th class="hideSm">Provincia</th><th class="hideSm">Producto</th><th class="num">Metros (m²)</th><th>Estado</th><th></th>
+        </tr></thead>
+        <tbody id="offerRows"></tbody>
+      </table>
+      </div>
+      <div class="emptyMsg" id="emptyMsg" style="display:none">Aún no hay ofertas. Pulsa «+ Nueva oferta» para registrar la primera.</div>
+    </div>
+
+    <!-- FORM -->
+    <div class="panel" id="formView">
+      <div class="panelHead"><div><h2 id="formTitle">Nueva oferta</h2><span class="sub" id="formSub"></span></div></div>
+      <div class="formGrid">
+        <div class="full"><label>País de la operación</label>
+          <div class="radioRow" id="fPais">
+            <button type="button" class="chip on" data-v="España" onclick="pickChip(this)">España</button>
+            <button type="button" class="chip" data-v="Portugal" onclick="pickChip(this)">Portugal</button>
+          </div>
+        </div>
+        <div><label>Nombre del cliente</label><input id="fCliente" placeholder="Cliente S.L."></div>
+        <div><label>Referencia</label><input id="fRef" placeholder="REF-0001"></div>
+        <div><label>Provincia</label><input id="fProv" placeholder="Madrid"></div>
+        <div><label>Superficie (m²)</label><input id="fMetros" type="number" min="0" placeholder="1000"></div>
+        <div class="full"><label>Producto</label>
+          <div class="radioRow" id="fProd">
+            <button type="button" class="chip on" data-v="Cubierta" onclick="pickChip(this)">Cubierta</button>
+            <button type="button" class="chip" data-v="Fachada" onclick="pickChip(this)">Fachada</button>
+            <button type="button" class="chip" data-v="Cámara frigorífica" onclick="pickChip(this)">Cámara frigorífica</button>
+          </div>
+        </div>
+        <div class="full"><label>Aislante</label>
+          <div class="radioRow" id="fAisl">
+            <button type="button" class="chip on" data-v="Poliuretano" onclick="pickChip(this)">Poliuretano</button>
+            <button type="button" class="chip" data-v="Lana de roca" onclick="pickChip(this)">Lana de roca</button>
+          </div>
+        </div>
+        <div class="full" id="estadoGroup" style="display:none"><label>Estado de la oferta</label>
+          <div class="radioRow" id="fEstado">
+            <button type="button" class="chip chipEstado estPendienteOn on" data-v="Pendiente" onclick="pickChip(this)">Pendiente</button>
+            <button type="button" class="chip chipEstado" data-v="Ganada" onclick="pickChip(this)">Ganada</button>
+            <button type="button" class="chip chipEstado" data-v="Perdida" onclick="pickChip(this)">Perdida</button>
+          </div>
+        </div>
+        <div class="full"><label>Notas (opcionales)</label><textarea id="fNotas" rows="2" placeholder=""></textarea></div>
+      </div>
+      <p id="formError"></p>
+      <div class="formActions">
+        <button class="btnGhost" onclick="closeForm()">Cancelar</button>
+        <button class="btnSave" onclick="saveOffer()">Guardar oferta</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let offers=[
+ {id:1,fecha:'2026-10-28',cliente:'NAVES AURORA SL',ref:'DEMO-VAR-05',prov:'Zaragoza',prod:'Cubierta',aisl:'Poliuretano',metros:800,estado:'Pendiente',notas:''},
+ {id:2,fecha:'2026-10-30',cliente:'CLIENTE PRUEBA NORTE',ref:'REF-PRUEBA-N1',prov:'Madrid',prod:'Cubierta',aisl:'Poliuretano',metros:500,estado:'Pendiente',notas:''},
+ {id:3,fecha:'2026-11-02',cliente:'ALMACENES LEVANTE SA',ref:'LEV-2210',prov:'Valencia',prod:'Fachada',aisl:'Lana de roca',metros:1850,estado:'Ganada',notas:''},
+ {id:4,fecha:'2026-11-04',cliente:'LOGÍSTICA SUR SL',ref:'SUR-0098',prov:'Sevilla',prod:'Cubierta',aisl:'Poliuretano',metros:2350,estado:'Perdida',notas:''}
+];
+let nextId=5, editId=null;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmtM=n=>Number(n||0).toLocaleString('es-ES');
+const fmtF=d=>{const[a,m,dd]=d.split('-');return dd+'/'+m+'/'+a};
+
+function doLogin(){$('loginView').style.display='none';$('appView').style.display='block';render()}
+function doLogout(){$('appView').style.display='none';$('loginView').style.display='flex'}
+function pickChip(btn){[...btn.parentElement.children].forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
+function chipVal(id){const b=document.querySelector('#'+id+' .chip.on');return b?b.dataset.v:''}
+function setChip(id,v){const b=[...document.querySelectorAll('#'+id+' .chip')].find(x=>x.dataset.v===v);if(b)pickChip(b)}
+
+function render(){
+  const rows=[...offers].sort((a,b)=>b.fecha.localeCompare(a.fecha)||b.id-a.id);
+  $('listSub').textContent=rows.length+' ofertas · '+fmtM(rows.reduce((n,o)=>n+(+o.metros||0),0))+' m²';
+  $('emptyMsg').style.display=rows.length?'none':'block';
+  $('offerRows').innerHTML=rows.map(o=>`<tr>
+    <td style="white-space:nowrap">${fmtF(o.fecha)}</td>
+    <td><b>${esc(o.cliente)}</b></td>
+    <td><span class="refPill">${esc(o.ref)}</span></td>
+    <td class="hideSm">${esc(o.prov)}</td>
+    <td class="hideSm">${esc(o.prod)}</td>
+    <td class="num">${fmtM(o.metros)}</td>
+    <td><span class="estPill est${o.estado}">${o.estado}</span></td>
+    <td><button class="btnEdit" onclick="openForm(${o.id})">Editar</button></td>
+  </tr>`).join('');
+}
+
+function openForm(id){
+  editId=id;
+  const o=offers.find(x=>x.id===id);
+  $('formTitle').textContent=o?'Editar oferta':'Nueva oferta';
+  $('formSub').textContent=o?('Referencia '+o.ref):'';
+  $('estadoGroup').style.display=o?'block':'none';
+  $('formError').style.display='none';
+  if(o){
+    setChip('fPais',o.pais||'España');$('fCliente').value=o.cliente;$('fRef').value=o.ref;$('fProv').value=o.prov;
+    $('fMetros').value=o.metros;setChip('fProd',o.prod);setChip('fAisl',o.aisl);setChip('fEstado',o.estado);$('fNotas').value=o.notas||'';
+  }else{
+    setChip('fPais','España');$('fCliente').value='';$('fRef').value='';$('fProv').value='';$('fMetros').value='';
+    setChip('fProd','Cubierta');setChip('fAisl','Poliuretano');setChip('fEstado','Pendiente');$('fNotas').value='';
+  }
+  $('listView').style.display='none';$('formView').style.display='block';
+}
+function closeForm(){$('formView').style.display='none';$('listView').style.display='block'}
+
+function saveOffer(){
+  const cliente=$('fCliente').value.trim(), ref=$('fRef').value.trim(), metros=$('fMetros').value;
+  if(!cliente||!ref||!metros){$('formError').textContent='Cliente, referencia y superficie son obligatorios.';$('formError').style.display='block';return}
+  if(editId){
+    const o=offers.find(x=>x.id===editId);
+    Object.assign(o,{pais:chipVal('fPais'),cliente,ref,prov:$('fProv').value.trim(),metros:+metros,prod:chipVal('fProd'),aisl:chipVal('fAisl'),estado:chipVal('fEstado'),notas:$('fNotas').value.trim()});
+  }else{
+    offers.push({id:nextId++,fecha:new Date().toISOString().slice(0,10),pais:chipVal('fPais'),cliente,ref,prov:$('fProv').value.trim(),metros:+metros,prod:chipVal('fProd'),aisl:chipVal('fAisl'),estado:'Pendiente',notas:$('fNotas').value.trim()});
+  }
+  closeForm();render();
+}
+</script>
+</body>
+</html>
