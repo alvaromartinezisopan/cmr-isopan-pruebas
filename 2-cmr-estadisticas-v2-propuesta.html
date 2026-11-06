@@ -743,3 +743,14 @@ const recover=document.getElementById('btnIrRecuperar');if(recover)recover.remov
 })();
 </script>
 
+
+<style>#cmrStatsPanel [aria-label="Periodo de estadísticas"] .homePeriodBtn.on{background:#dbeafe;color:#0056b3;box-shadow:0 0 0 1px #b7d5ff inset;font-weight:700}</style>
+<script>/* Periodo seleccionado: feedback visual y accesible, sin cambiar métricas. */
+cmrStats.period='todas';
+function cmrStatsPeriodPaint(){const group=document.querySelector('#cmrStatsPanel [aria-label="Periodo de estadísticas"]');if(!group)return;const keys=['mes','anyo','todas'];group.querySelectorAll('button').forEach((b,i)=>{const active=cmrStats.period===keys[i];b.classList.toggle('on',active);b.setAttribute('aria-pressed',String(active));});let label=document.getElementById('cmrStatsPeriodLabel');if(!label){label=document.createElement('span');label.id='cmrStatsPeriodLabel';label.style.cssText='font-size:12px;color:#2563a5;font-weight:600;display:block;width:100%;text-align:right;margin-top:6px';group.after(label);}label.textContent=cmrStats.period==='custom'?'Periodo: Personalizado':cmrStats.period==='mes'?'Periodo: Este mes':cmrStats.period==='anyo'?'Periodo: Este año':'Periodo: Todo el histórico';}
+const cmrStatsPeriodRender=cmrStatsRender;cmrStatsRender=function(){cmrStatsPeriodRender();cmrStatsPeriodPaint();};
+const cmrStatsPeriodQuick=cmrStatsQuick;cmrStatsQuick=function(k){cmrStats.period=k;cmrStatsPeriodQuick(k);};
+const cmrStatsPeriodSet=cmrStatsSet;cmrStatsSet=function(k,v){if(k==='desde'||k==='hasta')cmrStats.period='custom';cmrStatsPeriodSet(k,v);};
+const cmrStatsPeriodReset=cmrStatsReset;cmrStatsReset=function(){cmrStats.period='todas';cmrStatsPeriodReset();};
+cmrStatsPeriodPaint();
+</script>
