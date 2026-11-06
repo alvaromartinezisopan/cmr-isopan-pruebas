@@ -51,3 +51,12 @@ document.getElementById('salesForm').addEventListener('submit',()=>{submitted=cm
 const originalPopup=mostrarPopUp;mostrarPopUp=function(t,m,tipo){if(submitted){if(tipo==='success'&&t==='¡Registro Guardado!'){pending=submitted;cmrCerrarOferta();cmrLoadHome();}submitted=null;}return originalPopup(t,m,tipo);};
 document.getElementById('modalCloseBtn').addEventListener('click',async()=>{const p=pending;if(!p)return;await cmrLoadHome();if(pending!==p||cmrSection!=='inicio')return;const recent=[...cmrHomeRows].sort((a,b)=>parseFechaLocal(b.fecha)-parseFechaLocal(a.fecha)||Number(b.id||b.fila)-Number(a.id||a.fila)).slice(0,4);const idx=recent.findIndex(r=>!p.before.has(String(r.id||r.fila))&&normalizarCliente(r.cliente)===p.cliente&&(r.referencia||'')===p.referencia);if(idx<0)return;pending=null;const el=document.querySelectorAll('#cmrHome .homeRow')[idx];if(!el)return;el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'center'});el.classList.add('cmrOfferNew');setTimeout(()=>el.classList.remove('cmrOfferNew'),3000);});
 })();
+(()=>{
+const ids=['cliente','referencia','edit_cliente','edit_referencia','cliNombre'];
+const upper=el=>{if(!el||typeof el.value!=='string')return;const start=el.selectionStart,end=el.selectionEnd;el.value=el.value.toLocaleUpperCase('es');try{el.setSelectionRange(start,end)}catch(_){}};
+ids.forEach(id=>{const el=document.getElementById(id);if(el){el.style.textTransform='uppercase';el.addEventListener('input',()=>upper(el),true);el.addEventListener('change',()=>upper(el),true);}});
+document.getElementById('salesForm')?.addEventListener('submit',()=>ids.forEach(id=>upper(document.getElementById(id))),true);
+document.getElementById('btnGuardarEdicion')?.addEventListener('click',()=>['edit_cliente','edit_referencia'].forEach(id=>upper(document.getElementById(id))),true);
+const st=document.createElement('style');st.textContent='.homeRowMain b,.homeRowMain small,.offerClient,.pipeRefPill,.cliCard>b,.pipeCard h3,.pipeCard .pipeClient,#sugerenciasCliente .sugerencia-item{text-transform:uppercase}';document.head.appendChild(st);
+const clean=()=>{document.querySelectorAll('.fichaItem').forEach(el=>{const key=el.querySelector('small')?.textContent.trim().toLocaleLowerCase('es');if(key==='cliente'||key==='referencia')el.querySelector('b')?.style.setProperty('text-transform','uppercase');});};new MutationObserver(clean).observe(document.body,{childList:true,subtree:true});clean();
+})();
