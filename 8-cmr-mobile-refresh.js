@@ -22,3 +22,12 @@ document.addEventListener('touchmove',e=>{if(!start||e.touches.length!==1||block
 document.addEventListener('touchend',()=>{const fire=pulling&&dy>=60&&!blocked();reset();if(fire)refresh();},{passive:true});
 document.addEventListener('touchcancel',reset,{passive:true});
 })();
+(function(){
+function label(v){const n=parseFloat(String(v).replace(',','.'));return Number.isFinite(n)?n<=30?'Baja':n>=70?'Alta':'Media':'Sin registrar';}
+function cleanProbability(){
+document.querySelectorAll('#fichaGrid .fichaItem').forEach(e=>{if(e.querySelector('small')?.textContent.toLocaleLowerCase('es').includes('probabilidad')){const b=e.querySelector('b');if(b&&/\d/.test(b.textContent))b.textContent=label(b.textContent);}});
+document.querySelectorAll('#pipeEditProbability option').forEach(e=>{if(e.value&&/\d/.test(e.textContent))e.textContent=label(e.value);});
+document.querySelectorAll('#exitoPills .probPill,#editExitoPills .probPill,#pipeProbPills .probPill').forEach(e=>{if(/\d/.test(e.textContent))e.textContent=label(e.dataset.val||e.textContent);});
+}
+new MutationObserver(cleanProbability).observe(document.body,{subtree:true,childList:true,characterData:true});cleanProbability();
+})();
