@@ -60,3 +60,12 @@ document.getElementById('btnGuardarEdicion')?.addEventListener('click',()=>['edi
 const st=document.createElement('style');st.textContent='.homeRowMain b,.homeRowMain small,.offerClient,.pipeRefPill,.cliCard>b,.pipeCard h3,.pipeCard .pipeClient,#sugerenciasCliente .sugerencia-item{text-transform:uppercase}';document.head.appendChild(st);
 const clean=()=>{document.querySelectorAll('.fichaItem').forEach(el=>{const key=el.querySelector('small')?.textContent.trim().toLocaleLowerCase('es');if(key==='cliente'||key==='referencia')el.querySelector('b')?.style.setProperty('text-transform','uppercase');});};new MutationObserver(clean).observe(document.body,{childList:true,subtree:true});clean();
 })();
+(()=>{
+const ids=['descuento','edit_descuento'];
+function valid(el){if(!el)return true;const raw=el.value.trim();const n=Number(raw.replace(',','.'));const ok=raw===''||(/^\d+(?:[.,]\d+)?$/.test(raw)&&Number.isFinite(n)&&n>=0&&n<=100);el.setCustomValidity(ok?'':'El descuento debe estar entre 0 y 100.');el.classList.toggle('input-error',!ok);return ok;}
+ids.forEach(id=>{const el=document.getElementById(id);if(!el)return;el.type='text';el.inputMode='decimal';el.setAttribute('min','0');el.setAttribute('max','100');el.setAttribute('step','any');el.addEventListener('input',()=>valid(el));el.addEventListener('change',()=>valid(el));});
+function guard(id,e){const el=document.getElementById(id);if(!valid(el)){e.preventDefault();e.stopImmediatePropagation();el.reportValidity();el.focus();}}
+document.getElementById('salesForm')?.addEventListener('submit',e=>guard('descuento',e),true);
+document.getElementById('salesForm')?.querySelector('[type=submit]')?.addEventListener('click',e=>guard('descuento',e),true);
+document.getElementById('btnGuardarEdicion')?.addEventListener('click',e=>guard('edit_descuento',e),true);
+})();
