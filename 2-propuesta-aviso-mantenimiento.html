@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Propuesta · Aviso de mantenimiento</title>
+<style>
+:root{--isopan-blue:#0056b3;--amber-bg:#fffbeb;--amber-border:#f59e0b;--amber-text:#92400e;--text-main:#1e293b;--text-secondary:#64748b}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:#f1f5f9;color:var(--text-main);padding:28px 16px 60px;min-height:100vh}
+.wrap{max-width:1060px;margin:0 auto}
+h1{font-size:24px;margin-bottom:8px}
+.sub{color:var(--text-secondary);font-size:14px;line-height:1.55;max-width:640px;margin-bottom:20px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:26px}
+.btn{border:0;border-radius:12px;padding:12px 18px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;background:var(--isopan-blue);color:#fff;box-shadow:0 6px 16px rgba(0,86,179,.22)}
+.btn:active{opacity:.85}
+.btn.sec{background:#fff;color:var(--isopan-blue);border:1.5px solid #c9dcf0;box-shadow:none}
+.toggle{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary);background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:10px 14px;cursor:pointer}
+.frames{display:flex;flex-wrap:wrap;gap:36px;align-items:flex-start}
+.frameBlock{display:flex;flex-direction:column;gap:10px}
+.frameBlock h2{font-size:13px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.06em}
+/* ===== phone frame ===== */
+.phone{width:390px;max-width:100%;height:720px;border:10px solid #0f172a;border-radius:44px;overflow:hidden;position:relative;background:#f8fafc;box-shadow:0 24px 60px -18px rgba(15,23,42,.35)}
+/* ===== desktop frame ===== */
+.desktop{width:620px;max-width:100%;height:420px;border:8px solid #0f172a;border-radius:18px;overflow:hidden;position:relative;background:#f8fafc;box-shadow:0 24px 60px -18px rgba(15,23,42,.30)}
+@media(max-width:700px){.desktop{height:360px}}
+/* --- fake app chrome (shared) --- */
+.appHeader{padding:14px 18px 10px;transition:transform .3s ease}
+.appHeader .brand{font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--text-secondary)}
+.appHeader .brand b{background:#fef3c7;color:#92400e;border-radius:20px;padding:2px 7px;font-size:9px;margin-left:4px}
+.appHeader h3{font-size:21px;margin-top:4px}
+.appBody{padding:6px 16px;display:flex;flex-direction:column;gap:10px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:14px 16px}
+.card .k{font-size:11px;color:var(--text-secondary);font-weight:600}
+.card .v{font-size:22px;font-weight:800;color:var(--isopan-blue)}
+.cardRow{display:flex;gap:10px}
+.cardRow .card{flex:1}
+.skel{height:11px;border-radius:6px;background:#e8eef5;margin-top:8px}
+.skel.w60{width:60%}.skel.w80{width:80%}
+/* bottom nav (phone) */
+.bottomNav{position:absolute;left:10px;right:10px;bottom:10px;height:58px;background:rgba(255,255,255,.96);border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 4px 22px rgba(0,86,179,.10);display:flex;z-index:40}
+.bottomNav div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:9px;font-weight:600;color:#64748b}
+.bottomNav div.on{color:var(--isopan-blue)}
+.bottomNav .ic{width:19px;height:19px;border-radius:6px;background:currentColor;opacity:.28}
+.bottomNav div.on .ic{opacity:.55}
+/* left rail (desktop) */
+.rail{position:absolute;left:0;top:0;bottom:0;width:56px;background:rgba(255,255,255,.94);border-right:1px solid #e2e8f0;display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:14px;z-index:40}
+.rail .ric{width:24px;height:24px;border-radius:8px;background:#c8d6e8}
+.rail .ric.on{background:var(--isopan-blue);opacity:.8}
+.deskContent{margin-left:56px}
+/* ==== NUEVO: toast inicial ==== */
+.mantToast{position:absolute;left:50%;transform:translateX(-50%) translateY(16px);bottom:80px;z-index:60;background:#183454;color:#fff;border-radius:12px;padding:12px 16px;font-size:13px;font-weight:600;line-height:1.45;box-shadow:0 10px 30px rgba(0,27,58,.35);max-width:88%;text-align:center;opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s ease}
+.mantToast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.desktop .mantToast{bottom:20px}
+/* ==== NUEVO: franja compacta superior ==== */
+.mantStrip{position:absolute;top:0;left:0;right:0;z-index:50;background:var(--amber-bg);border-bottom:1px solid var(--amber-border);color:var(--amber-text);font-size:12px;font-weight:700;padding:7px 12px;display:flex;align-items:center;justify-content:center;gap:8px;transform:translateY(-102%);transition:transform .3s ease;pointer-events:none}
+.mantStrip.show{transform:translateY(0)}
+.mantStrip .dot{width:8px;height:8px;border-radius:50%;background:var(--amber-border);flex:none;animation:pulso 1.6s infinite}
+@keyframes pulso{0%,100%{opacity:1}50%{opacity:.35}}
+.mantStrip.activo{background:#fef2f2;border-bottom-color:#ef4444;color:#b91c1c}
+.mantStrip.activo .dot{background:#ef4444}
+/* desplazar header y contenido cuando la franja está visible */
+.frameInner{position:absolute;inset:0;transition:padding-top .3s ease}
+.frameInner.conStrip{padding-top:30px}
+/* cortina final de mantenimiento (dentro del marco) */
+.cortina{position:absolute;inset:0;z-index:70;background:linear-gradient(135deg,#00417f 0%,#0056b3 48%,#007da0 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#fff;text-align:center;padding:26px;opacity:0;pointer-events:none;transition:opacity .4s ease}
+.cortina.show{opacity:1;pointer-events:auto}
+.cortina .logo{width:64px;height:64px;border-radius:16px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:900}
+.cortina h4{font-size:19px}
+.cortina p{font-size:13px;opacity:.85;line-height:1.5}
+.cortina .btn{background:#fff;color:var(--isopan-blue);box-shadow:none;font-size:13px;padding:10px 16px}
+.note{margin-top:26px;background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:18px 20px;max-width:640px}
+.note h2{font-size:15px;margin-bottom:8px}
+.note ul{margin-left:18px;font-size:13.5px;color:var(--text-secondary);line-height:1.7}
+.note b{color:var(--text-main)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Propuesta: aviso de mantenimiento sin tapar la navegación</h1>
+<p class="sub">Al activar «Avisar 5 minutos», ahora mismo la banda ámbar sale fija abajo y en el móvil cubre la barra de navegación. Esta es la idea: primero un aviso breve tipo toast y después una franja fina arriba con la cuenta atrás, que no tapa nada y no bloquea toques. Prueba la simulación:</p>
+<div class="controls">
+<button class="btn" id="btnSim">Simular aviso de mantenimiento</button>
+<button class="btn sec" id="btnReset">Reiniciar</button>
+<label class="toggle"><input type="checkbox" id="chkFast" checked> Simulación rápida (30 s en vez de 5 min)</label>
+</div>
+<div class="frames">
+<div class="frameBlock">
+<h2>Móvil</h2>
+<div class="phone" id="frameM">
+<div class="frameInner">
+<div class="appHeader"><div class="brand">CMR ISOPAN IBÉRICA <b>ENSAYO</b></div><h3>Inicio</h3></div>
+<div class="appBody">
+<div class="cardRow">
+<div class="card"><div class="k">Ofertas registradas</div><div class="v">896</div></div>
+<div class="card"><div class="k">Pendientes</div><div class="v">0</div></div>
+</div>
+<div class="card"><div class="k">Así van tus ofertas</div><div class="skel w80"></div><div class="skel w60"></div><div class="skel w80"></div></div>
+<div class="card"><div class="k">Ofertas más recientes</div><div class="skel w80"></div><div class="skel w60"></div></div>
+<div class="card"><div class="skel w60"></div><div class="skel w80"></div><div class="skel w60"></div></div>
+</div>
+</div>
+<div class="mantStrip" data-strip><span class="dot"></span><span data-stripTxt>Mantenimiento en 5:00 · Guarda tu trabajo</span></div>
+<div class="mantToast" data-toast>Mantenimiento programado: la app se pausará en 5 minutos. Guarda tu trabajo.</div>
+<div class="bottomNav"><div class="on"><div class="ic"></div>Inicio</div><div><div class="ic"></div>Historial</div><div><div class="ic"></div>Perfil</div></div>
+<div class="cortina" data-cortina><div class="logo">I</div><h4>CMR en mantenimiento</h4><p>Estamos mejorando la aplicación.<br>Volveremos a estar disponibles pronto.</p><button class="btn" data-salir>Salir de la simulación</button></div>
+</div>
+</div>
+<div class="frameBlock">
+<h2>Ordenador</h2>
+<div class="desktop" id="frameD">
+<div class="frameInner">
+<div class="rail"><div class="ric on"></div><div class="ric"></div><div class="ric"></div><div class="ric"></div></div>
+<div class="deskContent">
+<div class="appHeader"><div class="brand">CMR ISOPAN IBÉRICA <b>ENSAYO</b></div><h3>Inicio</h3></div>
+<div class="appBody">
+<div class="cardRow">
+<div class="card"><div class="k">Ofertas registradas</div><div class="v">896</div></div>
+<div class="card"><div class="k">Pendientes</div><div class="v">0</div></div>
+<div class="card"><div class="k">Metros ofertados</div><div class="v">1.802.958</div></div>
+</div>
+<div class="card"><div class="k">Así van tus ofertas</div><div class="skel w80"></div><div class="skel w60"></div></div>
+<div class="card"><div class="skel w60"></div><div class="skel w80"></div></div>
+</div>
+</div>
+</div>
+<div class="mantStrip" data-strip><span class="dot"></span><span data-stripTxt>Mantenimiento en 5:00 · Guarda tu trabajo</span></div>
+<div class="mantToast" data-toast>Mantenimiento programado: la app se pausará en 5 minutos. Guarda tu trabajo.</div>
+<div class="cortina" data-cortina><div class="logo">I</div><h4>CMR en mantenimiento</h4><p>Estamos mejorando la aplicación.<br>Volveremos a estar disponibles pronto.</p><button class="btn" data-salir>Salir de la simulación</button></div>
+</div>
+</div>
+</div>
+<div class="note">
+<h2>Qué cambiaría respecto ahora</h2>
+<ul>
+<li><b>Antes:</b> banda ámbar fija abajo (bottom 24px) que en móvil cubre la barra Inicio/Historial/Perfil y bloquea los toques.</li>
+<li><b>Después:</b> toast de unos 6 segundos al empezar el aviso (encima de la barra, sin taparla) y luego una <b>franja fina arriba</b> con la cuenta atrás en directo.</li>
+<li>La franja <b>no intercepta toques</b> (pointer-events: none) y desplaza suavemente cabecera y contenido para no cubrirlos.</li>
+<li>Al llegar a 0:00 la franja pasa a rojo «Mantenimiento activo» y aparece la pantalla de mantenimiento (aquí dentro del marco, como demostración).</li>
+<li>Se aplicaría igual en las tres apps de pruebas que tienen este aviso (CMR completo, Registro y Visualizador) y en el ensayo, cada una como página nueva revisada antes de sustituir nada.</li>
+</ul>
+</div>
+</div>
+<script>
+const frames=[document.getElementById('frameM'),document.getElementById('frameD')];
+const btnSim=document.getElementById('btnSim'),btnReset=document.getElementById('btnReset'),chkFast=document.getElementById('chkFast');
+let timers=[];
+function limpiar(){timers.forEach(t=>{clearTimeout(t);clearInterval(t)});timers=[];frames.forEach(f=>{
+f.querySelector('[data-toast]').classList.remove('show');
+f.querySelector('[data-strip]').classList.remove('show','activo');
+f.querySelector('[data-cortina]').classList.remove('show');
+f.querySelector('.frameInner').classList.remove('conStrip');
+});}
+function fmt(s){const m=Math.floor(s/60),r=s%60;return m+':'+String(r).padStart(2,'0');}
+btnSim.onclick=()=>{limpiar();const total=chkFast.checked?30:300;const t0=Date.now();
+frames.forEach(f=>{f.querySelector('[data-toast]').classList.add('show');});
+timers.push(setTimeout(()=>{frames.forEach(f=>{f.querySelector('[data-toast]').classList.remove('show');
+f.querySelector('[data-strip]').classList.add('show');f.querySelector('.frameInner').classList.add('conStrip');});},6000));
+const iv=setInterval(()=>{const rest=Math.max(0,total-Math.floor((Date.now()-t0)/1000));
+frames.forEach(f=>{f.querySelector('[data-stripTxt]').textContent=rest>0?('Mantenimiento en '+fmt(rest)+' · Guarda tu trabajo'):'Mantenimiento activo';});
+if(rest<=0){clearInterval(iv);frames.forEach(f=>{f.querySelector('[data-strip]').classList.add('activo');f.querySelector('[data-cortina]').classList.add('show');});}},500);
+timers.push(iv);};
+btnReset.onclick=limpiar;
+frames.forEach(f=>{f.querySelector('[data-salir]').onclick=limpiar;});
+</script>
+</body>
+</html>
