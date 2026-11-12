@@ -876,11 +876,16 @@ body[data-cierre="v1"] .pipeCloseBtn,body[data-cierre="v1"] .pipeViewBtn{border-
 #cmrPipeMini[data-v="v1"] .motivoGrid button{background:rgba(255,255,255,.6);border:1px solid rgba(226,232,240,.9);border-radius:14px}
 body[data-cierre="v2"] .pipeViewBtn{border-radius:999px;background:#fff;border:1.5px solid #0056b3;color:#0056b3;padding:4px 12px;font-weight:700}
 body[data-cierre="v2"] .pipeCloseBtn{border-radius:999px;background:linear-gradient(135deg,#0056b3,#007da0);color:#fff;border:0;padding:5px 13px;font-weight:700;box-shadow:0 5px 14px rgba(0,86,179,.3)}
-#cmrPipeMini[data-v="v2"] .cierreOpts{flex-direction:row}#cmrPipeMini[data-v="v2"] .cierreOpt{flex:1;justify-content:center;color:#fff;border:0;padding:16px;border-radius:16px;box-shadow:0 10px 24px rgba(15,23,42,.18)}
-#cmrPipeMini[data-v="v2"] .cierreOpt:hover{filter:brightness(1.06)}
-#cmrPipeMini[data-v="v2"] .cierreOpt.ganada{background:linear-gradient(150deg,#16a34a,#166534)}
-#cmrPipeMini[data-v="v2"] .cierreOpt.perdida{background:linear-gradient(150deg,#dc2626,#991b1b)}
-#cmrPipeMini[data-v="v2"] .cierreOpt::before{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.22);font-size:15px}
+#cmrPipeMini[data-v="v2"] .cierreOpts{flex-direction:row}#cmrPipeMini[data-v="v2"] .cierreOpt{flex:1;justify-content:center;background:#fff;border:2px solid;padding:16px;border-radius:16px;box-shadow:0 4px 14px rgba(15,23,42,.08);transition:all .18s ease}
+#cmrPipeMini[data-v="v2"] .cierreOpt.ganada{border-color:#16a34a;color:#15803d}
+#cmrPipeMini[data-v="v2"] .cierreOpt.perdida{border-color:#dc2626;color:#b91c1c}
+#cmrPipeMini[data-v="v2"] .cierreOpt:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(15,23,42,.18);color:#fff}
+#cmrPipeMini[data-v="v2"] .cierreOpt.ganada:hover{background:linear-gradient(150deg,#16a34a,#166534)}
+#cmrPipeMini[data-v="v2"] .cierreOpt.perdida:hover{background:linear-gradient(150deg,#dc2626,#991b1b)}
+#cmrPipeMini[data-v="v2"] .cierreOpt:active{transform:scale(.93);transition-duration:.07s}
+#cmrPipeMini[data-v="v2"] .cierreOpt::before{width:30px;height:30px;border-radius:50%;font-size:15px;transition:all .18s ease}
+#cmrPipeMini[data-v="v2"] .cierreOpt.ganada:hover::before{background:#fff;color:#16a34a}
+#cmrPipeMini[data-v="v2"] .cierreOpt.perdida:hover::before{background:#fff;color:#dc2626}
 #cmrPipeMini[data-v="v2"] .motivoGrid button{background:#fff;border:1.5px solid #dbe5f0}
 body[data-cierre="v3"] .pipeViewBtn{border-radius:999px;background:transparent;border:1px solid rgba(15,23,42,.35);color:#0f172a;padding:4px 12px;font-weight:700}
 body[data-cierre="v3"] .pipeCloseBtn{border-radius:999px;background:rgba(15,23,42,.88);color:#fff;border:0;padding:5px 13px;font-weight:700}
