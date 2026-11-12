@@ -766,6 +766,7 @@ cmrStatsPeriodPaint();
 </script>
 
 <style>
+#cmrReact .reactCols .pipeColumn{display:flex}
 #cmrPipeTrays{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:1200;display:flex;flex-direction:column;gap:14px;pointer-events:none}
 .pipeTray{pointer-events:auto;transform:translateX(130%);transition:transform .3s cubic-bezier(.2,.8,.2,1);border-radius:18px 0 0 18px;padding:26px 20px;min-width:132px;text-align:center;font-weight:800;font-size:15px;line-height:1.5;color:#fff;box-shadow:-10px 0 30px #0f172a40;cursor:default}
 #cmrPipeTrays.on .pipeTray{transform:translateX(0)}
