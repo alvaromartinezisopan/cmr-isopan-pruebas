@@ -1172,7 +1172,7 @@ button:not(#cmrPlus):not(.btnMenuToggle):active{transform:scale(.95)}
           collapseT=setTimeout(()=>{
             document.body.classList.remove('cmrPullOpen');
             document.documentElement.style.setProperty('--cmrPull','0px');
-          },300);
+          },80);
           byeT=setTimeout(()=>{
             tip.classList.remove('cmrPullBye');
             const st=stateOf(tip.textContent||'');
