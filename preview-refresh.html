@@ -1136,7 +1136,7 @@ button:not(#cmrPlus):not(.btnMenuToggle){transition:transform .12s ease}
 button:not(#cmrPlus):not(.btnMenuToggle):active{transform:scale(.95)}
 
 #cmrPullRefresh.cmrPullBye{animation:cmrPullBye .42s ease forwards}
-@keyframes cmrPullBye{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-14px)}}
+@keyframes cmrPullBye{from{opacity:1;transform:translateX(-50%) translateY(0)}to{opacity:0;transform:translateX(-50%) translateY(-14px)}}
 @media(prefers-reduced-motion:reduce){#cmrPullRefresh.cmrPullBye{animation:none;opacity:0}}
 </style>
 <script data-preview-refresh="pullrefresh">
