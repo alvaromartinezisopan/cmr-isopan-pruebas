@@ -1134,26 +1134,55 @@ body.cmrPullOpen.cmrTopHide #cmrTop{transform:translateY(calc(var(--cmrPull,0px)
 @keyframes cmrSpin{to{transform:rotate(360deg)}}
 button:not(#cmrPlus):not(.btnMenuToggle){transition:transform .12s ease}
 button:not(#cmrPlus):not(.btnMenuToggle):active{transform:scale(.95)}
+
+#cmrPullRefresh.cmrPullBye{animation:cmrPullBye .42s ease forwards}
+@keyframes cmrPullBye{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-14px)}}
+@media(prefers-reduced-motion:reduce){#cmrPullRefresh.cmrPullBye{animation:none;opacity:0}}
 </style>
 <script data-preview-refresh="pullrefresh">
 (function(){
   function bind(){
     const tip=document.getElementById('cmrPullRefresh');
     if(!tip){return setTimeout(bind,300);}
-    let collapseT=null;
+    let collapseT=null, byeT=null, byeActive=false, lastState='pull';
+    const stateOf=txt=>txt.indexOf('Suelta')===0?'ready':txt.indexOf('Actualizando')===0?'loading':txt==='Actualizado'?'done':txt.indexOf('No se pudo')===0?'error':'pull';
     const sync=()=>{
-      const pull=parseFloat(tip.style.getPropertyValue('--pull'))||0;
       const txt=tip.textContent||'';
-      const state=txt.indexOf('Suelta')===0?'ready':txt.indexOf('Actualizando')===0?'loading':txt==='Actualizado'?'done':txt.indexOf('No se pudo')===0?'error':'pull';
+      if(byeActive){
+        const st=stateOf(txt);
+        if(st!=='done'&&st!=='error'){ clearTimeout(byeT); tip.classList.remove('cmrPullBye'); byeActive=false; }
+        else return;
+      }
+      const pull=parseFloat(tip.style.getPropertyValue('--pull'))||0;
+      const state=stateOf(txt);
       tip.dataset.state=state;
       if(!tip.hidden){
+        lastState=state;
         clearTimeout(collapseT);
         document.body.classList.add('cmrPullOpen');
         const gap=(state==='loading'||state==='done'||state==='error')?56:pull;
         document.documentElement.style.setProperty('--cmrPull',gap+'px');
       }else{
-        clearTimeout(collapseT);
-        collapseT=setTimeout(()=>{document.body.classList.remove('cmrPullOpen');document.documentElement.style.setProperty('--cmrPull','0px');},250);
+        if(lastState==='done'||lastState==='error'){
+          lastState='pull';
+          byeActive=true;
+          tip.hidden=false;
+          tip.classList.add('cmrPullBye');
+          clearTimeout(collapseT);
+          collapseT=setTimeout(()=>{
+            document.body.classList.remove('cmrPullOpen');
+            document.documentElement.style.setProperty('--cmrPull','0px');
+          },80);
+          byeT=setTimeout(()=>{
+            tip.classList.remove('cmrPullBye');
+            const st=stateOf(tip.textContent||'');
+            if(st==='done'||st==='error') tip.hidden=true;
+            byeActive=false;
+          },450);
+        }else{
+          clearTimeout(collapseT);
+          collapseT=setTimeout(()=>{document.body.classList.remove('cmrPullOpen');document.documentElement.style.setProperty('--cmrPull','0px');},250);
+        }
       }
     };
     new MutationObserver(sync).observe(tip,{attributes:true,attributeFilter:['style','hidden'],childList:true,characterData:true,subtree:true});
