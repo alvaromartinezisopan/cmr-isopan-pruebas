@@ -1119,6 +1119,81 @@ body.cmrTopHide #cmrRail .cmrNav b{display:none!important}
 body.cmrTopHide #cmrRail .cmrProfile b:after{content:none}
 }
 </style>
+<style data-preview-refresh="pullrefresh">
+#cmrWarning, body>section, #cmrPipeToolbar{transition:transform .22s ease}
+body.cmrPullOpen>#cmrWarning, body.cmrPullOpen>section, body.cmrPullOpen>#cmrPipeToolbar{transform:translateY(var(--cmrPull,0px))}
+body.cmrPullOpen:not(.cmrTopHide) #cmrTop{transform:translateY(var(--cmrPull,0px))}
+body.cmrPullOpen.cmrTopHide #cmrTop{transform:translateY(calc(var(--cmrPull,0px) - 140%))}
+#cmrPullRefresh::before{content:'\2193';display:inline-block;margin-right:6px;transition:transform .2s ease}
+#cmrPullRefresh[data-state="ready"]::before{transform:rotate(180deg)}
+#cmrPullRefresh[data-state="loading"]::before{content:'\27F3';animation:cmrSpin .8s linear infinite}
+#cmrPullRefresh[data-state="done"]{border-color:#86efac;color:#15803d}
+#cmrPullRefresh[data-state="done"]::before{content:'\2713';color:#16a34a}
+#cmrPullRefresh[data-state="error"]{border-color:#fecaca;color:#b91c1c}
+#cmrPullRefresh[data-state="error"]::before{content:'\26A0';color:#dc2626}
+@keyframes cmrSpin{to{transform:rotate(360deg)}}
+button:not(#cmrPlus):not(.btnMenuToggle){transition:transform .12s ease}
+button:not(#cmrPlus):not(.btnMenuToggle):active{transform:scale(.95)}
+</style>
+<script data-preview-refresh="pullrefresh">
+(function(){
+  function bind(){
+    const tip=document.getElementById('cmrPullRefresh');
+    if(!tip){return setTimeout(bind,300);}
+    let collapseT=null;
+    const sync=()=>{
+      const pull=parseFloat(tip.style.getPropertyValue('--pull'))||0;
+      const txt=tip.textContent||'';
+      const state=txt.indexOf('Suelta')===0?'ready':txt.indexOf('Actualizando')===0?'loading':txt==='Actualizado'?'done':txt.indexOf('No se pudo')===0?'error':'pull';
+      tip.dataset.state=state;
+      if(!tip.hidden){
+        clearTimeout(collapseT);
+        document.body.classList.add('cmrPullOpen');
+        const gap=(state==='loading'||state==='done'||state==='error')?56:pull;
+        document.documentElement.style.setProperty('--cmrPull',gap+'px');
+      }else{
+        clearTimeout(collapseT);
+        collapseT=setTimeout(()=>{document.body.classList.remove('cmrPullOpen');document.documentElement.style.setProperty('--cmrPull','0px');},250);
+      }
+    };
+    new MutationObserver(sync).observe(tip,{attributes:true,attributeFilter:['style','hidden'],childList:true,characterData:true,subtree:true});
+    sync();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
+})();
+</script>
+<style data-preview-pill="barras">
+@media(max-width:699px){
+#cmrRail{border-radius:999px}
+#cmrRail .cmrNav{border-radius:999px}
+#cmrTop{border-radius:999px;right:calc(max(16px,env(safe-area-inset-right,0px)) + 52px)}
+#cmrBell{position:fixed;top:21px;right:max(16px,env(safe-area-inset-right,0px));z-index:960;transition:transform .28s ease;transform:translateY(var(--cmrPull,0px))}
+body.cmrTopHide #cmrBell{transform:translateY(calc(var(--cmrPull,0px) - 220%));pointer-events:none}
+body.cmrLoggedOut #cmrBell{visibility:hidden}
+#cmrNotifCard{position:fixed;top:72px;right:max(16px,env(safe-area-inset-right,0px))}
+}
+</style>
+<script data-preview-pill="barras">
+(function(){
+  var mq=matchMedia('(max-width:699px)');
+  function place(){
+    var b=document.getElementById('cmrBell'),c=document.getElementById('cmrNotifCard'),top=document.getElementById('cmrTop');
+    if(!b||!top)return;
+    if(mq.matches){ if(b.parentElement!==document.body)document.body.appendChild(b); if(c&&c.parentElement!==document.body)document.body.appendChild(c); }
+    else { if(b.parentElement===document.body)top.appendChild(b); if(c&&c.parentElement===document.body)top.appendChild(c); }
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',place);else place();
+  if(mq.addEventListener)mq.addEventListener('change',place);
+})();
+</script>
+<style data-preview-top="b">
+@media(max-width:699px){
+#cmrTop{background:linear-gradient(rgba(245,248,252,.97) 55%,rgba(245,248,252,0));border:0;box-shadow:none;border-radius:0;backdrop-filter:none;-webkit-backdrop-filter:none;padding:8px 4px 18px;right:calc(max(16px,env(safe-area-inset-right,0px)) + 52px)}
+#cmrTop>div:first-child{display:flex;flex-direction:column;align-items:flex-start;gap:0}
+#cmrTop p{font-size:11px;opacity:.85}
+#cmrTop h1{font-size:27px;margin:0;line-height:1.15}
+}
+</style>
 </body>
 </html>
 <script src="8-cmr-mobile-refresh.js"></script>
