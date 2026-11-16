@@ -1195,7 +1195,7 @@ body.cmrLoggedOut #cmrBell{visibility:hidden}
 }
 </style>
 <script data-preview-top="b">
-(function(){var w=document.getElementById('cmrWarning');if(w)w.insertAdjacentHTML('beforeend',' <b>&middot; Propuesta B</b>');})();
+(function(){function tag(){var w=document.getElementById('cmrWarning');if(!w)return setTimeout(tag,400);var apply=function(){if(!/Propuesta/.test(w.textContent))w.insertAdjacentHTML('beforeend',' <b>&middot; Propuesta B</b>');};apply();new MutationObserver(function(){apply();}).observe(w,{childList:true,characterData:true,subtree:true});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',tag);else tag();})();
 </script>
 </body>
 </html>
