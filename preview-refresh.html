@@ -1162,6 +1162,30 @@ button:not(#cmrPlus):not(.btnMenuToggle):active{transform:scale(.95)}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
 })();
 </script>
+<style data-preview-pill="barras">
+@media(max-width:699px){
+#cmrRail{border-radius:999px}
+#cmrRail .cmrNav{border-radius:999px}
+#cmrTop{border-radius:999px;right:calc(max(16px,env(safe-area-inset-right,0px)) + 52px)}
+#cmrBell{position:fixed;top:21px;right:max(16px,env(safe-area-inset-right,0px));z-index:960;transition:transform .28s ease;transform:translateY(var(--cmrPull,0px))}
+body.cmrTopHide #cmrBell{transform:translateY(calc(var(--cmrPull,0px) - 220%));pointer-events:none}
+body.cmrLoggedOut #cmrBell{visibility:hidden}
+#cmrNotifCard{position:fixed;top:72px;right:max(16px,env(safe-area-inset-right,0px))}
+}
+</style>
+<script data-preview-pill="barras">
+(function(){
+  var mq=matchMedia('(max-width:699px)');
+  function place(){
+    var b=document.getElementById('cmrBell'),c=document.getElementById('cmrNotifCard'),top=document.getElementById('cmrTop');
+    if(!b||!top)return;
+    if(mq.matches){ if(b.parentElement!==document.body)document.body.appendChild(b); if(c&&c.parentElement!==document.body)document.body.appendChild(c); }
+    else { if(b.parentElement===document.body)top.appendChild(b); if(c&&c.parentElement===document.body)top.appendChild(c); }
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',place);else place();
+  if(mq.addEventListener)mq.addEventListener('change',place);
+})();
+</script>
 </body>
 </html>
 <script src="8-cmr-mobile-refresh.js"></script>
