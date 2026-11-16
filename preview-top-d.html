@@ -1193,7 +1193,7 @@ body.cmrLoggedOut #cmrBell{visibility:hidden}
 </style>
 <script data-preview-top="d">
 (function(){
-  var w=document.getElementById('cmrWarning');if(w)w.insertAdjacentHTML('beforeend',' <b>&middot; Propuesta D</b>');
+  (function(){function tag(){var w=document.getElementById('cmrWarning');if(!w)return setTimeout(tag,400);var apply=function(){if(!/Propuesta/.test(w.textContent))w.insertAdjacentHTML('beforeend',' <b>&middot; Propuesta D</b>');};apply();new MutationObserver(function(){apply();}).observe(w,{childList:true,characterData:true,subtree:true});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',tag);else tag();})();
   var t=document.querySelector('#cmrTop .cmrTopRight');if(!t)return;
   var s=document.createElement('span');s.id='cmrTopDate';
   s.textContent=new Date().toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'}).replace(/[.,]/g,'');
