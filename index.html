@@ -934,7 +934,7 @@ function cmrPipeTraysShow(on){
  let t=cmrGet('cmrPipeTrays');
  const v=(new URLSearchParams(location.search).get('bandejas'))||localStorage.getItem('cmrTrayStyle')||'vA';
  if(!t){t=document.createElement('div');t.id='cmrPipeTrays';t.setAttribute('aria-hidden','true');
-  t.innerHTML='<div class="pipeTray ganada" data-ph="ganada"><span class="trayIco">\u2713</span><span>Ganada</span><small>Soltar aquí</small></div><div class="pipeTray perdida" data-ph="perdida"><span class="trayIco">\u2715</span><span>Perdida</span><small>Soltar aquí</small></div>';
+  t.innerHTML='<div class="pipeTray ganada" data-ph="ganada"><span class="trayIco">\u2713</span><span>Ganada</span></div><div class="pipeTray perdida" data-ph="perdida"><span class="trayIco">\u2715</span><span>Perdida</span></div>';
   t.querySelectorAll('.pipeTray').forEach(tr=>{const ph=tr.dataset.ph;tr.ondragover=e=>{e.preventDefault();e.dataTransfer.dropEffect='move';tr.classList.add('pipeDropOver')};tr.ondragleave=()=>tr.classList.remove('pipeDropOver');tr.ondrop=e=>{tr.classList.remove('pipeDropOver');cmrPipeDrop(e,ph)}});
   document.body.appendChild(t)}
  t.className=v;document.body.classList.toggle('cmrTraysActive',!!on);
