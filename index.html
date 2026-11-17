@@ -1534,7 +1534,7 @@ function cmrMdSetTab(tab){if(cmrMdTab===tab)return;cmrMdTab=tab;cmrMdRender();}
 function cmrMdVerOferta(id){const o=(cmrMdData&&cmrMdData.os||[]).find(x=>Number(x.id)===Number(id));if(!o){mostrarPopUp('No se pudo abrir la oferta','Comprueba la conexión y vuelve a intentarlo.','error');return;}abrirFicha(mapearRegistro(o));}
 // --- Buscador general ---
 let cmrSearchData=null,cmrSearchTimer=0;
-function cmrSearchToggle(){const card=cmrGet('cmrSearchCard'),btn=cmrGet('cmrLupa');const open=card.hidden;card.hidden=!open;btn.setAttribute('aria-expanded',String(open));btn.classList.toggle('cmrBellActive',open);if(open){cmrSearchCargar();setTimeout(()=>cmrGet('cmrSearchInput').focus(),60);}}
+function cmrSearchToggle(){const card=cmrGet('cmrSearchCard'),btn=cmrGet('cmrLupa');const open=card.hidden;if(open&&window.cmrSetNotif)cmrSetNotif(false);card.hidden=!open;btn.setAttribute('aria-expanded',String(open));btn.classList.toggle('cmrBellActive',open);if(open){cmrSearchCargar();setTimeout(()=>cmrGet('cmrSearchInput').focus(),60);}}
 function cmrSearchCerrar(){const card=cmrGet('cmrSearchCard');if(!card||card.hidden)return;card.hidden=true;const btn=cmrGet('cmrLupa');btn.setAttribute('aria-expanded','false');btn.classList.remove('cmrBellActive');}
 async function cmrSearchCargar(){if(cmrSearchData)return;const p=perfilActual;if(!p)return;try{const[cs,os]=await Promise.all([cmrCliRead('clientes',p),cmrCliRead('ofertas',p)]);if(p!==perfilActual)return;cmrSearchData={cs,os};cmrSearchRun();}catch(e){}}
 function cmrSearchInputEv(){clearTimeout(cmrSearchTimer);cmrSearchTimer=setTimeout(cmrSearchRun,200);}
@@ -1547,6 +1547,7 @@ document.addEventListener('click',e=>{const card=cmrGet('cmrSearchCard');if(card
 
 
 document.getElementById('cliNombre').addEventListener('input',cmrDupRevisar);
+document.getElementById('cmrBell').addEventListener('click',()=>{const c=document.getElementById('cmrSearchCard');if(c&&!c.hidden){c.hidden=true;const b=document.getElementById('cmrLupa');b.setAttribute('aria-expanded','false');b.classList.remove('cmrBellActive');}});
 </script>
 </body>
 </html>
