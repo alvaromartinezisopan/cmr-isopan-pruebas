@@ -213,3 +213,6 @@ document.getElementById('btnGuardarEdicion')?.addEventListener('click',e=>guard(
   box.append(ref,client);line.replaceWith(box);
  };
 })();
+
+/* Icono Ofertas: opción 2 aprobada. */
+(()=>{const item=document.querySelector('#cmrRail [data-route="ofertas"]');const old=item?.querySelector('svg');if(!old)return;const template=document.createElement('template');template.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="15" height="15" rx="3"/><path d="M17 6V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1M10 11h7M10 15h4"/></svg>';const icon=template.content.firstElementChild;for(const attr of old.attributes){if(!['viewBox','fill','stroke','stroke-width','stroke-linecap','stroke-linejoin','xmlns'].includes(attr.name))icon.setAttribute(attr.name,attr.value);}old.replaceWith(icon);})();
