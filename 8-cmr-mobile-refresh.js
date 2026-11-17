@@ -195,3 +195,21 @@ document.getElementById('btnGuardarEdicion')?.addEventListener('click',e=>guard(
   },true);
   addEventListener('resize',()=>{if(active)close(true);});
 })();
+
+/* Identidad de Cerrar oferta: propuesta aprobada el 17 nov. */
+(() => {
+ const style=document.createElement('style');
+ style.textContent=`#cmrPipeMini .crmCloseIdentity{display:flex;align-items:center;justify-content:center;gap:12px;padding:12px 14px;margin:12px auto 24px;width:fit-content;max-width:100%;border:1px solid #dfeaf7;border-radius:12px;background:#f0f6fd;text-align:left}#cmrPipeMini .crmCloseIdentity .crmCloseRef{display:inline-block;flex:none;border-radius:6px;background:#dce9fb;color:#235596;padding:4px 9px;font-size:12px;font-weight:700;line-height:1.4;max-width:100%;overflow-wrap:anywhere}#cmrPipeMini .crmCloseIdentity .crmCloseClient{min-width:0;color:#1e3046;font-size:14px;font-weight:700;line-height:1.45;overflow-wrap:anywhere}@media(max-width:480px){#cmrPipeMini .crmCloseIdentity{flex-wrap:wrap;gap:8px;justify-content:flex-start;width:100%}#cmrPipeMini .crmCloseIdentity .crmCloseClient{flex:1 1 160px}}`;
+ document.head.appendChild(style);
+ const ask=cmrPipeAskCierre;
+ cmrPipeAskCierre=function(id){
+  ask(id);
+  const offer=cmrPipeRows.find(o=>Number(o.id)===Number(id));
+  const line=document.querySelector('#cmrPipeMini .modal-card>p');
+  if(!offer||!line)return;
+  const box=document.createElement('div');box.className='crmCloseIdentity';
+  const ref=document.createElement('span');ref.className='crmCloseRef';ref.textContent=offer.referencia||'Sin referencia';
+  const client=document.createElement('span');client.className='crmCloseClient';client.textContent=offer.cliente||'Sin cliente';
+  box.append(ref,client);line.replaceWith(box);
+ };
+})();
