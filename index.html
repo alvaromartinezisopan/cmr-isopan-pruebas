@@ -1620,3 +1620,6 @@ cmrMdRender=function(){const t=cmrGet('cmrHomeVisits'),p=perfilActual;if(!t||!cm
 <script id="crmFollowSaveToast">
  (()=>{const f=cmrGet('cmrPipeForm'),save=cmrPipeSave;f.removeEventListener('submit',save);cmrPipeSave=async function(e,m){const modal=cmrGet('cmrPipeEdit'),open=modal.classList.contains('active');await save(e,m);if(open&&!modal.classList.contains('active')&&cmrGet('pipeEditError').hidden)cmrPipeToast('Seguimiento guardado.');};f.addEventListener('submit',cmrPipeSave);})();
 </script>
+<script id="crmModalScrollLock">
+ (()=>{const ok=(el,dy)=>{for(;el&&el.nodeType===1;el=el.parentElement){if(el.classList&&el.classList.contains('modal-overlay'))return false;const o=getComputedStyle(el).overflowY;if((o==='auto'||o==='scroll')&&el.scrollHeight>el.clientHeight){if(dy<0&&el.scrollTop>0)return true;if(dy>0&&el.scrollTop+el.clientHeight<el.scrollHeight-1)return true;}}return false;};addEventListener('wheel',e=>{if(!document.querySelector('.modal-overlay.active'))return;if(e.ctrlKey)return;if(!ok(e.target,e.deltaY))e.preventDefault();},{passive:false});})();
+</script>
