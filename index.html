@@ -1583,3 +1583,36 @@ cmrMdRender=function(){const t=cmrGet('cmrHomeVisits'),p=perfilActual;if(!t||!cm
 </script><style>.homeStatLink{cursor:pointer}.homeStat{padding:10px 12px}.homeStat strong{font-size:22px;margin:2px 0 3px}.homeStat span{font-size:11px}@media (min-width:700px){.homeStats{grid-template-columns:repeat(6,1fr);gap:10px}}</style></body>
 </html>
 <script src="8-cmr-mobile-refresh.js"></script>
+
+<style id="crmDesktopModalApproved">
+ /* Approved desktop agenda and follow-up layout, 17 Nov 2026. Mobile unchanged. */
+ @media (min-width:768px){
+  #cmrVisitaModal .visitFormCard,#cmrPipeEdit .modal-card{position:relative;width:920px!important;max-width:calc(100vw - 64px)!important;padding:28px 32px 24px!important;}
+  #cmrVisitaModal .cmrCloseBar,#cmrPipeEdit .cmrCloseBar{position:absolute;right:32px;top:25px;margin:0;padding:0;height:40px;}
+  #cmrVisitaModal .cmrBadge,#cmrVisitaModal .visitResponsible{display:none;}
+  #cmrVisitaModal #visitTitle{margin:3px 60px 30px 0;}
+  #cmrPipeEdit h2{margin:3px 70% 30px 0;}
+  #cmrPipeEdit #pipeEditTitle{position:absolute;right:96px;top:28px;max-width:52%;margin:0;font-size:13px;white-space:normal;text-align:right;line-height:1.4;}
+  #cmrVisitaForm,#cmrPipeForm{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:56px;align-items:start;}
+  #cmrVisitaForm>.form-group,#cmrVisitaForm>.visitFormRow,#cmrPipeForm>.form-group{margin-bottom:18px;min-width:0;}
+  #cmrVisitaForm>.form-group:has(#visitClienteSearch){grid-column:1;grid-row:1;}
+  #cmrVisitaForm>.form-group:has(#visitTipo){grid-column:1;grid-row:2;}
+  #cmrVisitaForm>.visitFormRow{grid-column:1;grid-row:3;}
+  #cmrVisitaForm>.form-group:has(#visitZona){grid-column:1;grid-row:4;}
+  #cmrVisitaForm>.form-group:has(#visitOferta){grid-column:2;grid-row:1 / 3;}
+  #cmrVisitaForm>.form-group:has(#visitNota){grid-column:2;grid-row:3 / 5;}
+  #cmrVisitaForm #visitNota{height:136px;resize:vertical;}
+  #cmrVisitaForm>#visitResultadoGroup,#cmrVisitaForm>#visitEstadoGroup,#cmrVisitaForm>.visitHelp,#cmrVisitaForm>#visitError,#cmrVisitaForm>.cliFormActions{grid-column:1 / -1;}
+  #cmrVisitaForm>.cliFormActions{width:100%;margin-top:12px;}
+  #cmrVisitaForm #visitSave{width:100%;}
+  #cmrPipeForm>.form-group:has(#pipeEditPhase){grid-column:1;grid-row:1;}
+  #cmrPipeForm>.form-group:has(#pipeEditProbability){grid-column:1;grid-row:2;}
+  #cmrPipeForm>.form-group:has(#pipeEditClose){grid-column:1;grid-row:3;}
+  #cmrPipeForm>.form-group:has(#pipeEditNext){grid-column:2;grid-row:1 / 3;}
+  #cmrPipeForm>.form-group:has(#pipeEditDate){grid-column:2;grid-row:3;}
+  #cmrPipeForm #pipeEditNext{height:132px;resize:vertical;}
+  #cmrPipeForm>.visitHelp,#cmrPipeForm>#pipeEditError,#cmrPipeForm>#pipeEditSave{grid-column:1 / -1;}
+  #cmrPipeForm #pipeEditSave{width:100%;margin-top:20px;}
+ }
+
+ </style>
