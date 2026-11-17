@@ -1494,7 +1494,7 @@ body.cmrLoggedOut #cmrBell{visibility:hidden}
 .cmrSearchFoot{margin-top:10px;padding-top:9px;border-top:1px solid #eef2f7;font-size:11px;color:#94a3b8;line-height:1.5;text-align:center}
 @media(max-width:699px){
 #cmrLupa{position:fixed;top:calc(21px + env(safe-area-inset-top,0px));right:calc(max(16px,env(safe-area-inset-right,0px)) + 50px);z-index:960;transition:transform .28s ease;transform:translateY(var(--cmrPull,0px))}
-body.cmrTopHide #cmrLupa{transform:translateY(calc(var(--cmrPull,0px) - 220%));pointer-events:none}
+body.cmrTopHide #cmrLupa{transform:translateY(calc(var(--cmrPull,0px) - 220%));pointer-events:none}@media(min-width:700px){#cmrLupa{position:fixed;top:calc(21px + env(safe-area-inset-top,0px));right:calc(max(16px,env(safe-area-inset-right,0px)) + 50px);z-index:960}}
 #cmrSearchCard{top:96px;left:12px;right:12px;width:auto;max-height:calc(100vh - 196px);overflow:auto;border-radius:20px;padding:14px 12px 10px}
 .cmrSearchBox kbd{display:none}
 }
