@@ -1616,3 +1616,7 @@ cmrMdRender=function(){const t=cmrGet('cmrHomeVisits'),p=perfilActual;if(!t||!cm
  }
 
  </style>
+
+<script id="crmFollowSaveToast">
+ (()=>{const f=cmrGet('cmrPipeForm'),save=cmrPipeSave;f.removeEventListener('submit',save);cmrPipeSave=async function(e,m){const modal=cmrGet('cmrPipeEdit'),open=modal.classList.contains('active');await save(e,m);if(open&&!modal.classList.contains('active')&&cmrGet('pipeEditError').hidden)cmrPipeToast('Seguimiento guardado.');};f.addEventListener('submit',cmrPipeSave);})();
+</script>
