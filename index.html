@@ -1547,7 +1547,7 @@ document.addEventListener('click',e=>{const card=cmrGet('cmrSearchCard');if(card
 
 
 document.getElementById('cliNombre').addEventListener('input',cmrDupRevisar);
-const _cmrBell=document.getElementById('cmrBell');if(_cmrBell)_cmrBell.parentElement.insertBefore(document.getElementById('cmrLupa'),_cmrBell);
+(function(){var mq=matchMedia('(max-width:699px)');function _cmrPlaceLupa(){var l=document.getElementById('cmrLupa'),tr=document.querySelector('#cmrTop .cmrTopRight');if(!l||!tr)return;if(mq.matches){if(l.parentElement!==document.body)document.body.appendChild(l);}else{if(l.parentElement!==tr)tr.appendChild(l);}}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',_cmrPlaceLupa);else _cmrPlaceLupa();if(mq.addEventListener)mq.addEventListener('change',_cmrPlaceLupa);})();
 document.getElementById('cmrBell').addEventListener('click',()=>{const c=document.getElementById('cmrSearchCard');if(c&&!c.hidden){c.hidden=true;const b=document.getElementById('cmrLupa');b.setAttribute('aria-expanded','false');b.classList.remove('cmrBellActive');}});
 </script>
 <style id="cmrMdEqualA">
