@@ -710,7 +710,7 @@ function rcOrdenarDatos(){if(!rcOrden.key)return;const col=rcColDef(rcOrden.key)
 function rcAlternarOrden(key){if(rcOrden.key===key)rcOrden.dir*=-1;else rcOrden={key:key,dir:1};renderizarTablaHistorial();}
 function rcRenderCabecera(){const cg=document.getElementById('historyColgroup');const thead=document.getElementById('historyTableHead');const visibles=rcColumnasVisibles();cg.innerHTML=visibles.map(c=>`<col style="width:${rcAncho(c)}px">`).join('');thead.innerHTML='';const tr=document.createElement('tr');visibles.forEach(col=>{const th=document.createElement('th');th.dataset.key=col.key;th.className=(col.fija?`sticky-col sticky-${col.key}`:'')
 +(col.ordenable?' th-sortable':'')
-+(rcOrden.key===col.key?' th-ordenado':'');const icono=rcOrden.key===col.key?(rcOrden.dir===1?'▲':'▼'):(col.ordenable?'<span style="opacity:0.35">↕</span>':'');th.innerHTML=`<span class="th-label">${col.label} <span class="th-sort-icon">${icono}</span></span>`
++(rcOrden.key===col.key?' th-ordenado':'');if(col.ordenable)th.setAttribute('aria-sort',rcOrden.key===col.key?(rcOrden.dir===1?'ascending':'descending'):'none');const icono=rcOrden.key===col.key?`<svg class="rc-sort-chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="${rcOrden.dir===1?'M3 10L8 5L13 10':'M3 6L8 11L13 6'}"/></svg>`:'';th.innerHTML=`<span class="th-label">${col.label} <span class="th-sort-icon">${icono}</span></span>`
 +(col.fija?'':'<span class="col-resizer" aria-label="Arrastra para cambiar el ancho" role="separator"></span>');rcConectarEventosTh(th,col);tr.appendChild(th);});thead.appendChild(tr);cg.innerHTML='';visibles.forEach(c=>{const colEl=document.createElement('col');colEl.style.width=rcAncho(c)+'px';cg.appendChild(colEl);});const table=document.getElementById('historyTable');const base=visibles.reduce((sum,c)=>sum+rcAncho(c),0);table.style.setProperty('--rc-w-acciones',rcAncho(rcColDef('acciones'))+'px');table.style.setProperty('--rc-table-width',Math.max(containerWidthHistory(table),base)+'px');}
 function containerWidthHistory(table){return table.closest('.table-container').clientWidth;}
 function rcActualizarRellenoSticky(visibles=rcColumnasVisibles()){const table=document.getElementById('historyTable');const container=table.closest('.table-container');const total=visibles.reduce((sum,c)=>sum+rcAncho(c),0);const gap=0;const spacer=document.querySelector('#historyColgroup .sticky-spacer-col');if(spacer)spacer.style.width=gap+'px';table.style.setProperty('--rc-w-acciones',rcAncho(rcColDef('acciones'))+'px');table.style.setProperty('--rc-table-width',Math.max(container.clientWidth,total+gap)+'px');}
@@ -1902,3 +1902,14 @@ body:not(:has(#cmrRail.expanded)):not(.cmrLoggedOut) #cmrTop,body:not(:has(#cmrR
 <script>(function(){const w=document.getElementById('cmrWarning');if(w){w.setAttribute('role','status');document.body.appendChild(w);cmrDemoModoPintar();}})();</script>
 
 <style id="cmrOverdueInsideStyle">.mdMeta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding-right:66px}.mdItem{position:relative}.mdOverdueBadge{position:absolute;top:12px;right:12px;font-size:10px;font-weight:700;color:#a56317;line-height:1.4;white-space:nowrap}@media(max-width:699px){.mdOverdueBadge{top:12px;right:12px}}.mdItem:not(.overdue) .mdMeta{padding-right:0}</style>
+
+<!-- Cabeceras limpias aprobadas: Ofertas e Historial, 18nov2026 -->
+<style id="cmrCleanColumnHeaders">
+:is(body[data-section="ofertas"],body[data-section="historial"]) #historyTable th .th-sort-icon:empty{display:none}
+:is(body[data-section="ofertas"],body[data-section="historial"]) #historyTable th .th-sort-icon{margin-left:5px;line-height:0;flex:0 0 auto}
+:is(body[data-section="ofertas"],body[data-section="historial"]) #historyTable .rc-sort-chevron{display:inline-block;width:10px;height:10px;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+:is(body[data-section="ofertas"],body[data-section="historial"]) #historyTable .col-resizer{opacity:1;background:transparent}
+:is(body[data-section="ofertas"],body[data-section="historial"]) #historyTable .col-resizer::before{content:none}
+:is(body[data-section="ofertas"],body[data-section="historial"]) #historyTable th:hover .col-resizer,
+:is(body[data-section="ofertas"],body[data-section="historial"]) #historyTable .col-resizer.activo{background:linear-gradient(#9ab9db,#9ab9db) center/1px 18px no-repeat}
+</style>
