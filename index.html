@@ -1240,7 +1240,7 @@ if(method==='PATCH'||method==='PUT'){const idm=url.match(/[?&]id=eq\.(\d+)/);con
 if(method==='DELETE'){const idm=url.match(/[?&]id=eq\.(\d+)/);if(idm){const id=Number(idm[1]);(deletes[table]=deletes[table]||new Set()).add(id);const u=upserts[table];if(u)u.delete(id)}return new Response(null,{status:204})}
 return orig(input,init)}catch(e){const mm=String((init&&init.method)||(input&&input.method)||'GET').toUpperCase();if(mm!=='GET'&&mm!=='HEAD')return new Response(JSON.stringify({message:'No se pudo simular el cambio. Nada se ha guardado.'}),{status:500,headers:{'Content-Type':'application/json'}});return orig(input,init)}}}
 function cmrDemoModoCambiar(delegado,rol){try{if(delegado)sessionStorage.setItem('cmrModoDemo',JSON.stringify({delegado:delegado,rol:rol}));else sessionStorage.removeItem('cmrModoDemo');}catch(e){}location.reload();}
-function cmrDemoModoPintar(){let md=null;try{md=JSON.parse(sessionStorage.getItem('cmrModoDemo')||'null')}catch(e){}const actual=document.getElementById('cmrDemoModoActual');if(actual)actual.textContent=md?('Viendo como: '+md.delegado+' ('+(md.rol==='jefe'?'jefe':'comercial')+') · '+(md.rol==='jefe'?'solo lectura':'los cambios no se guardan')):'Estás viendo tu perfil real.';const w=document.getElementById('cmrWarning');if(w)w.textContent=md?('Entorno de pruebas · MODO DEMO: viendo como '+md.delegado+'. '+(md.rol==='jefe'?'Solo lectura.':'Los cambios que hagas no se guardan.')):'Entorno de pruebas: nada de lo que hagas aquí toca la app oficial que usan los comerciales.';}
+function cmrDemoModoPintar(){let md=null;try{md=JSON.parse(sessionStorage.getItem('cmrModoDemo')||'null')}catch(e){}const actual=document.getElementById('cmrDemoModoActual');if(actual)actual.textContent=md?('Viendo como: '+md.delegado+' ('+(md.rol==='jefe'?'jefe':'comercial')+') · '+(md.rol==='jefe'?'solo lectura':'los cambios no se guardan')):'Estás viendo tu perfil real.';const w=document.getElementById('cmrWarning');if(w){w.hidden=!md;w.textContent=md?(md.rol==='jefe'?'DEMO · Solo lectura':'DEMO · Los cambios no se guardan'):'';}}
 async function cmrCargarRegCliente(c){const host=document.getElementById('cliRegBody');if(!host)return;try{const{data,error}=await sb.from('cliente_registros').select('tipo,motivo,delegado,created_at').eq('cliente_id',c.id).order('created_at',{ascending:false}).limit(50);if(error)throw error;const tipos={no_quiere_atender:'No quiere atender'};host.innerHTML=data&&data.length?data.map(r=>'<div class="cliOffer"><div><b>'+cmrEsc(tipos[r.tipo]||r.tipo)+'</b><small>'+cmrEsc(new Date(r.created_at).toLocaleString('es-ES',{dateStyle:'medium',timeStyle:'short'}))+(r.delegado?' · '+cmrEsc(r.delegado):'')+'</small>'+(r.motivo?'<p style="margin:4px 0 0">'+cmrEsc(r.motivo)+'</p>':'')+'</div></div>').join(''):'<p class="homeMuted">Este cliente no tiene registros todavía.</p>'}catch(e){host.innerHTML='<p class="homeMuted" role="alert">No se pudieron cargar los registros.</p>'}}
 </script>
 
@@ -1765,3 +1765,11 @@ body:not(:has(#cmrRail.expanded)):not(.cmrLoggedOut) #cmrTop,body:not(:has(#cmrR
  new MutationObserver(arrange).observe(card,{childList:true,subtree:true});
 })();
 </script>
+
+<!-- Aviso DEMO compacto al pie, 18nov2026 -->
+<style id="cmrDemoFooterStyle">
+#cmrWarning{position:static!important;inset:auto!important;width:fit-content;max-width:100%;margin:24px auto 8px!important;padding:7px 12px!important;border:1px solid #e4d8b5;border-radius:999px;background:#fff8e7;color:#80621c;font-size:11px!important;line-height:1.4;text-align:center;box-shadow:none!important;clear:both}
+#cmrWarning[hidden],body.cmrLoggedOut #cmrWarning{display:none!important}
+@media(min-width:700px){body{padding-top:84px}}
+</style>
+<script>(function(){const w=document.getElementById('cmrWarning');if(w){w.setAttribute('role','status');document.body.appendChild(w);cmrDemoModoPintar();}})();</script>
