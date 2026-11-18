@@ -1688,6 +1688,29 @@ const empty=footer.querySelector(':scope > span');if(empty&&!empty.childElementC
 })();
 </script>
 
+<style id="cmrSummaryRefinement">
+body[data-section="ofertas"] #historyModal .hist-resumen{border:0;background:transparent;overflow:visible;gap:12px;margin:18px 0 20px}
+body[data-section="ofertas"] #historyModal .hist-stat{position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;padding:18px 20px;border:1px solid #dce7f4;border-radius:15px;background:linear-gradient(135deg,#fff,#f1f6fd);box-shadow:0 3px 10px #183e6905}
+body[data-section="ofertas"] #historyModal .hist-stat:nth-child(n+3){background:linear-gradient(135deg,#fff,#edf8f3);border-color:#d4eade}
+body[data-section="ofertas"] #historyModal .hs-valor{font-size:27px;line-height:1.2;letter-spacing:-.6px}
+body[data-section="ofertas"] #historyModal .hs-label{font-size:11px;text-transform:none;letter-spacing:0;color:#637a95;font-weight:600}
+body[data-section="ofertas"] #historyModal .cmrKpiIcon{position:absolute;top:20px;right:20px;display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:#e4effe;color:#0056b3}
+body[data-section="ofertas"] #historyModal .hist-stat:nth-child(n+3) .cmrKpiIcon{background:#dff2e9;color:#158162}
+body[data-section="ofertas"] #historyTable th{background:#e8f1fc;border:0;padding-top:15px;padding-bottom:15px;color:#19578e;font-size:11px;letter-spacing:0;text-transform:none}
+body[data-section="ofertas"] #historyTable th:first-child{border-radius:12px 0 0 12px}
+body[data-section="ofertas"] #historyTable th:last-child{border-radius:0 12px 12px 0}
+body[data-section="ofertas"] #historyTable th .th-sort-icon{margin-left:5px;font-size:13px}
+body[data-section="ofertas"] #historyTable th .col-resizer{opacity:.35}
+@media(max-width:699px){
+body[data-section="ofertas"] #historyModal .hist-resumen{gap:10px}
+body[data-section="ofertas"] #historyModal .hist-stat{padding:15px 12px;min-height:92px;border:1px solid #dce7f4}
+body[data-section="ofertas"] #historyModal .hs-valor{font-size:24px}
+body[data-section="ofertas"] #historyModal .hs-label{font-size:10px}
+body[data-section="ofertas"] #historyModal .cmrKpiIcon{top:12px;right:10px;width:25px;height:25px;border-radius:8px;opacity:.6}
+body[data-section="ofertas"] #historyModal .cmrKpiIcon svg{width:14px;height:14px}
+}
+</style>
+<script>(()=>{const icons=["<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"2\"/><path d=\"M9 8h6M9 12h6M9 16h3\"/>", "<path d=\"M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4M8 8l8 8M12 8h4v4\"/>", "<path d=\"m5 12 4 4L19 6\"/>", "<path d=\"M5 19 19 5\"/><circle cx=\"7\" cy=\"7\" r=\"3\"/><circle cx=\"17\" cy=\"17\" r=\"3\"/>"];function decorate(){if(document.body.dataset.section!=='ofertas')return;document.querySelectorAll('#histResumen .hist-stat').forEach((e,i)=>{if(!e.querySelector('.cmrKpiIcon')){const icon=document.createElement('span');icon.className='cmrKpiIcon';icon.setAttribute('aria-hidden','true');icon.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+icons[i]+'</svg>';e.append(icon)}})}const original=rcRenderResumen;rcRenderResumen=function(){const result=original.apply(this,arguments);decorate();return result};})();</script>
 </body>
 </html>
 <script src="8-cmr-mobile-refresh.js"></script>
