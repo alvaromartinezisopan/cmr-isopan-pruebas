@@ -1651,15 +1651,9 @@ body[data-section="ofertas"] #historyModal .offerMobileMeta{justify-content:spac
 body[data-section="ofertas"] #historyModal .offerMobileCard .offerNext{margin-top:12px;background:#f3f7fd;border-radius:10px;padding:11px;font-weight:650;line-height:1.6}
 body[data-section="ofertas"] #historyModal .offerMobileCard .offerAlert{font-weight:600;margin-top:7px;font-size:10px}
 body[data-section="ofertas"] #historyModal .cmrBMobileClose{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:10px;font-size:11px;color:#7386a1}
-body[data-section="ofertas"] #historyModal .offerMobileCard footer{margin-top:11px;padding-top:10px;justify-content:flex-end}
+body[data-section="ofertas"] #historyModal .offerMobileCard footer{margin-top:11px;padding-top:10px;padding-right:64px;justify-content:flex-end}
 body[data-section="ofertas"] #historyModal .offerMobileCard footer button{min-width:44px;min-height:44px}
 body[data-section="ofertas"] #historyModal .offerMobileCard .mobileExtra:empty{display:none}
-}
-
-#cmrBNewOffer{display:none}
-@media(max-width:699px){
-body[data-section="ofertas"] #cmrPlus{display:none!important}
-body[data-section="ofertas"] #cmrBNewOffer{display:inline-flex;align-items:center;justify-content:center;width:44px;min-width:44px;height:44px;padding:10px;border:1px solid #0056b3;border-radius:11px;background:#0056b3;color:white;flex-shrink:0}
 }
 </style>
 <script id="cmrPrioridadesDesignBScript">
@@ -1669,11 +1663,6 @@ const pencil='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke
 rcRenderCuerpo=function(){
 original.apply(this,arguments);
 if(document.body.dataset.section!=='ofertas')return;
-const headerActions=document.querySelector('#historyModal .history-header>div:last-child');
-if(headerActions&&perfilActual&&!perfilActual.solo_lectura&&!document.getElementById('cmrBNewOffer')){
-const add=document.createElement('button');add.type='button';add.id='cmrBNewOffer';add.setAttribute('aria-label','Nueva oferta');add.title='Nueva oferta';add.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';add.addEventListener('click',cmrAbrirOferta);headerActions.append(add);
-}
-
 const exportButton=document.getElementById('btnExportarExcel');if(exportButton){exportButton.setAttribute('aria-label','Exportar a Excel');exportButton.title='Exportar a Excel'}
 const start=histTamPagina==='todos'?0:(histPagina-1)*histTamPagina;
 const data=misDatosFiltrados.slice(start,histTamPagina==='todos'?undefined:start+histTamPagina);
