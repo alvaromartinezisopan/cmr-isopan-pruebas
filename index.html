@@ -1361,7 +1361,7 @@ function cmrInvitarMontar(host, session){
   +'<div class="invNote">La persona recibe un correo de bienvenida con un botón para crear su contraseña: no tienes que pasarle nada. El enlace es de un solo uso; si le caduca o no le llega, puedes reenviar la invitación.</div>'
   +'<label class="invLab" for="cmrInvNombre">Nombre</label><input class="invIn" id="cmrInvNombre" placeholder="Nombre y apellidos" autocomplete="off">'
   +'<label class="invLab" for="cmrInvEmail">Correo de acceso</label><input class="invIn" id="cmrInvEmail" type="email" placeholder="correo@ejemplo.com" autocomplete="off">'
-  +'<label class="invLab" for="cmrInvTipo">Tipo de usuario</label><select class="invIn" id="cmrInvTipo"><option value="comercial">Delegado comercial</option><option value="jefe">Jefe</option></select>'
+  +'<label class="invLab" for="cmrInvTipo">Tipo de usuario</label><select class="invIn" id="cmrInvTipo"><option value="comercial">Delegado comercial</option><option value="jefe">Responsable comercial</option></select>'
   +'<div class="invRow"><span>Registrar y editar sus ofertas</span><button type="button" class="invSw on" id="cmrInvSwEditar" aria-label="Registrar y editar sus ofertas"></button></div>'
   +'<div class="invRow"><span>Ver todas las ofertas y estadísticas</span><button type="button" class="invSw" id="cmrInvSwVis" aria-label="Ver todas las ofertas y estadísticas"></button></div>'
   +'<div class="invRow"><span>Administrar usuarios</span><span class="invSolo">Solo tú</span></div>'
@@ -1409,7 +1409,7 @@ async function cmrVerificarActivacion(tokenHash){
 let cmrUsuariosRows=[];
 let cmrEditarUid=null;
 function cmrAdminPuedeGestionar(session){return !!(session&&session.user&&session.user.id===CMR_ADMIN);}
-function cmrEtiquetaRol(u,adminId){if(u.id===adminId)return 'Administrador';return u.rol==='jefe'?'Jefe':'Comercial';}
+function cmrEtiquetaRol(u,adminId){if(u.id===adminId)return 'Administrador';return u.rol==='jefe'?'Responsable comercial':'Comercial';}
 function cmrEditarAbrir(uid){
   const u=(cmrUsuariosRows||[]).find(x=>x.id===uid);if(!u)return;
   cmrEditarUid=uid;
@@ -1417,7 +1417,7 @@ function cmrEditarAbrir(uid){
   if(!m){m=document.createElement('div');m.id='cmrEditarModal';m.className='usrModal';document.body.appendChild(m);}
   m.innerHTML='<div class="usrModalCard"><h3 class="usrModalTitle">Editar a '+cmrEsc(u.delegado||'Sin nombre')+'</h3>'
   +'<p class="usrModalText">Cambia su tipo y sus permisos. El nombre no se edita: liga sus ofertas y clientes. Los cambios no envian correos y quedan anotados.</p>'
-  +'<label class="invLab" for="cmrEdTipo">Tipo de usuario</label><select class="invIn" id="cmrEdTipo"><option value="comercial">Delegado comercial</option><option value="jefe">Jefe</option></select>'
+  +'<label class="invLab" for="cmrEdTipo">Tipo de usuario</label><select class="invIn" id="cmrEdTipo"><option value="comercial">Delegado comercial</option><option value="jefe">Responsable comercial</option></select>'
   +'<div class="invRow"><span>Registrar y editar sus ofertas</span><button type="button" class="invSw" id="cmrEdSwEditar" aria-label="Registrar y editar sus ofertas"></button></div>'
   +'<div class="invRow"><span>Ver todas las ofertas y estadísticas</span><button type="button" class="invSw" id="cmrEdSwVis" aria-label="Ver todas las ofertas y estadísticas"></button></div>'
   +'<div class="invRow"><span>Administrar usuarios</span><span class="invSolo">Solo tú</span></div>'
@@ -2045,7 +2045,7 @@ async function cmrSaveComplete(e){
 </script>
 
 <script id="perfilBJs">
-function perfPintar(){const nm=(perfilActual&&perfilActual.delegado)||'';const parts=nm.trim().split(/\s+/).filter(Boolean);const ini=(parts.length>1?parts[0][0]+parts[parts.length-1][0]:(parts[0]||'?').slice(0,2)).toLocaleUpperCase('es');['perfAv','perfAv2'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=ini});['perfNombre'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=nm});const rol=document.getElementById('perfRol');if(rol)rol.textContent=perfilActual?window.cmrAuthUid===CMR_ADMIN?'Administrador':(perfilActual.rol==='jefe'?'Jefe':(perfilActual.solo_lectura?'Solo consulta':'Comercial')):'';perfAbrir('datos',true)}
+function perfPintar(){const nm=(perfilActual&&perfilActual.delegado)||'';const parts=nm.trim().split(/\s+/).filter(Boolean);const ini=(parts.length>1?parts[0][0]+parts[parts.length-1][0]:(parts[0]||'?').slice(0,2)).toLocaleUpperCase('es');['perfAv','perfAv2'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=ini});['perfNombre'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=nm});const rol=document.getElementById('perfRol');if(rol)rol.textContent=perfilActual?window.cmrAuthUid===CMR_ADMIN?'Administrador':(perfilActual.rol==='jefe'?'Responsable comercial':(perfilActual.solo_lectura?'Solo consulta':'Comercial')):'';perfAbrir('datos',true)}
 function perfAbrir(k,silencio){document.querySelectorAll('#cmrProfilePanel .perfItem').forEach(b=>b.classList.toggle('on',b.dataset.pane===k));document.querySelectorAll('#cmrProfilePanel .perfPane').forEach(p=>p.classList.toggle('on',p.id==='perfPane-'+k));const l=document.querySelector('#cmrProfilePanel .perfLayout');if(l)l.dataset.view=silencio&&window.matchMedia('(max-width:699px)').matches?'list':'pane'}
 function perfVolver(){const l=document.querySelector('#cmrProfilePanel .perfLayout');if(l)l.dataset.view='list';window.scrollTo(0,0)}
 document.addEventListener('click',e=>{const b=e.target.closest('#cmrProfilePanel .perfItem');if(b){perfAbrir(b.dataset.pane);if(window.matchMedia('(max-width:699px)').matches)window.scrollTo(0,0)}});
