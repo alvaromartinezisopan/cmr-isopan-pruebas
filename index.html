@@ -1401,10 +1401,55 @@ async function cmrVerificarActivacion(tokenHash){
   return r;
 }
 
-async function cmrAdminUsuarios(){const panel=cmrGet('cmrProfilePanel');if(!panel)return;const{data:{session}}=await sb.auth.getSession();if(!session)return;if(session.user.id!==CMR_ADMIN&&(!perfilActual||perfilActual.rol!=='jefe'))return;const gi=document.getElementById('perfInvitar');if(gi)gi.style.display=session.user.id===CMR_ADMIN?'none':'';let sec=document.getElementById('cmrAdminUsuarios');if(sec)sec.remove();sec=document.createElement('section');sec.id='cmrAdminUsuarios';(document.getElementById('perfUsuariosHost')||panel).appendChild(sec);const nv=document.getElementById('perfNavAdmin');if(nv)nv.hidden=false;sec.innerHTML='<p>Cargando usuarios…</p>';
+// Editar usuario (tipo y permisos) + gate de la seccion Administracion.
+// Usa la accion 'actualizar' de la funcion admin-usuarios (sin cambios de servidor).
+let cmrUsuariosRows=[];
+let cmrEditarUid=null;
+function cmrAdminPuedeGestionar(session){return !!(session&&session.user&&session.user.id===CMR_ADMIN);}
+function cmrEtiquetaRol(u,adminId){if(u.id===adminId)return 'Administrador';return u.rol==='jefe'?'Jefe':'Comercial';}
+function cmrEditarAbrir(uid){
+  const u=(cmrUsuariosRows||[]).find(x=>x.id===uid);if(!u)return;
+  cmrEditarUid=uid;
+  let m=document.getElementById('cmrEditarModal');
+  if(!m){m=document.createElement('div');m.id='cmrEditarModal';m.className='usrModal';document.body.appendChild(m);}
+  m.innerHTML='<div class="usrModalCard"><h3 class="usrModalTitle">Editar a '+cmrEsc(u.delegado||'Sin nombre')+'</h3>'
+  +'<p class="usrModalText">Cambia su tipo y sus permisos. El nombre no se edita: liga sus ofertas y clientes. Los cambios no envian correos y quedan anotados.</p>'
+  +'<label class="invLab" for="cmrEdTipo">Tipo de usuario</label><select class="invIn" id="cmrEdTipo"><option value="comercial">Delegado comercial</option><option value="jefe">Jefe</option></select>'
+  +'<div class="invRow"><span>Registrar y editar sus ofertas</span><button type="button" class="invSw" id="cmrEdSwEditar" aria-label="Registrar y editar sus ofertas"></button></div>'
+  +'<div class="invRow"><span>Ver todas las ofertas y estadísticas</span><button type="button" class="invSw" id="cmrEdSwVis" aria-label="Ver todas las ofertas y estadísticas"></button></div>'
+  +'<div class="invRow"><span>Administrar usuarios</span><span class="invSolo">Solo tú</span></div>'
+  +'<p class="usrModalError" role="alert" hidden></p>'
+  +'<div class="usrModalBtns"><button class="usrBtn" onclick="cmrEditarCerrar()">Cancelar</button><button class="usrBtn usrBtnAmb" id="cmrEdGuardar" onclick="cmrEditarGuardar()">Guardar cambios</button></div></div>';
+  m.querySelector('#cmrEdTipo').value=u.rol==='jefe'?'jefe':'comercial';
+  if(u.solo_lectura!==true)m.querySelector('#cmrEdSwEditar').classList.add('on');
+  if(u.acceso_visualizador===true)m.querySelector('#cmrEdSwVis').classList.add('on');
+  m.querySelectorAll('.invSw').forEach(s=>s.addEventListener('click',()=>s.classList.toggle('on')));
+  m.classList.add('active');
+}
+function cmrEditarCerrar(){const m=document.getElementById('cmrEditarModal');if(m)m.classList.remove('active');cmrEditarUid=null;}
+async function cmrEditarGuardar(){
+  const m=document.getElementById('cmrEditarModal');if(!m||!cmrEditarUid)return;
+  const err=m.querySelector('.usrModalError'),btn=m.querySelector('#cmrEdGuardar');
+  err.hidden=true;
+  const{data:{session}}=await sb.auth.getSession();
+  if(!cmrAdminPuedeGestionar(session)){err.textContent='Solo el administrador puede editar usuarios.';err.hidden=false;return;}
+  if(cmrEditarUid===CMR_ADMIN){err.textContent='La cuenta del administrador no se edita desde aquí.';err.hidden=false;return;}
+  btn.disabled=true;
+  try{
+    const body={accion:'actualizar',usuario_uid:cmrEditarUid,rol:m.querySelector('#cmrEdTipo').value,solo_lectura:!m.querySelector('#cmrEdSwEditar').classList.contains('on'),acceso_visualizador:m.querySelector('#cmrEdSwVis').classList.contains('on')};
+    const{data,error}=await sb.functions.invoke('admin-usuarios',{body});
+    let msg=null;
+    if(error){msg='No se pudieron guardar los cambios.';try{const j=await error.context.json();if(j.error)msg=j.error;}catch(e){}}
+    else if(data&&data.error)msg=data.error;
+    if(msg){err.textContent=msg;err.hidden=false;return;}
+    cmrEditarCerrar();
+    await cmrAdminUsuarios();
+  }finally{btn.disabled=false;}
+}
+async function cmrAdminUsuarios(){const panel=cmrGet('cmrProfilePanel');if(!panel)return;const{data:{session}}=await sb.auth.getSession();if(!session)return;if(!cmrAdminPuedeGestionar(session))return;const gi=document.getElementById('perfInvitar');if(gi)gi.style.display=session.user.id===CMR_ADMIN?'none':'';let sec=document.getElementById('cmrAdminUsuarios');if(sec)sec.remove();sec=document.createElement('section');sec.id='cmrAdminUsuarios';(document.getElementById('perfUsuariosHost')||panel).appendChild(sec);const nv=document.getElementById('perfNavAdmin');if(nv)nv.hidden=false;sec.innerHTML='<p>Cargando usuarios…</p>';
 if(!document.getElementById('cmrUsuarioModal')){const m=document.createElement('div');m.id='cmrUsuarioModal';m.className='usrModal';m.innerHTML='<div class="usrModalCard"><h3 class="usrModalTitle"></h3><p class="usrModalText"></p><p class="usrModalError" role="alert" hidden></p><div class="usrModalBtns"><button class="usrBtn" onclick="cmrUsuarioCerrar()">Cancelar</button><button class="usrBtn usrBtnAmb usrModalDo" onclick="cmrUsuarioDo()">Confirmar</button></div></div>';document.body.appendChild(m);}
-try{const{data,error}=await sb.from('perfiles').select('id,delegado,rol,bloqueado').order('delegado');if(error)throw error;
-sec.innerHTML='<p style="font-size:13px;color:#64748b">Desactivar es reversible: la persona no puede entrar, pero conserva sus ofertas, clientes, historial y estadísticas. Puedes reactivarla cuando quieras.</p><div class="usrList">'+data.map(u=>{const esYo=u.id===session.user.id,prot=u.id===CMR_ADMIN;return '<div class="usrRow'+(u.bloqueado?' usrOff':'')+'"><div class="usrInfo"><b>'+cmrEsc(u.delegado||'Sin nombre')+'</b><span class="usrRol">'+(u.rol==='jefe'?'Administrador':'Comercial')+'</span>'+(u.bloqueado?'<span class="usrPillOff">Desactivado</span>':'')+(esYo?'<span class="usrYo">Tu cuenta</span>':'')+'</div>'+((esYo||prot)?'':(u.bloqueado?'<button class="usrBtn usrBtnOk" onclick="cmrUsuarioAsk(\''+u.id+'\',\''+cmrEsc(u.delegado||'')+'\',false)">Reactivar</button>':'<button class="usrBtn usrBtnAmb" onclick="cmrUsuarioAsk(\''+u.id+'\',\''+cmrEsc(u.delegado||'')+'\',true)">Desactivar</button>'))+'</div>'}).join('')+'</div><details class="usrDanger"><summary>Zona de peligro · Borrado definitivo</summary><p>Borrar la cuenta es irreversible y deja su ficha huérfana: si esa persona vuelve, entrará como usuario nuevo, sin vínculo con su historial. Por eso el borrado no está aquí: solo se hace a mano desde el panel de Supabase y no es lo recomendado. Usa Desactivar salvo que tengas claro que la cuenta no debe existir.</p></details>';
+try{const{data,error}=await sb.from('perfiles').select('id,delegado,rol,bloqueado,solo_lectura,acceso_visualizador').order('delegado');if(error)throw error;cmrUsuariosRows=data||[];
+sec.innerHTML='<p style="font-size:13px;color:#64748b">Desactivar es reversible: la persona no puede entrar, pero conserva sus ofertas, clientes, historial y estadísticas. Puedes reactivarla cuando quieras.</p><div class="usrList">'+data.map(u=>{const esYo=u.id===session.user.id,prot=u.id===CMR_ADMIN;return '<div class="usrRow'+(u.bloqueado?' usrOff':'')+'"><div class="usrInfo"><b>'+cmrEsc(u.delegado||'Sin nombre')+'</b><span class="usrRol">'+cmrEtiquetaRol(u,CMR_ADMIN)+'</span>'+(u.bloqueado?'<span class="usrPillOff">Desactivado</span>':'')+(esYo?'<span class="usrYo">Tu cuenta</span>':'')+'</div>'+((esYo||prot)?'':('<button class="usrBtn" onclick="cmrEditarAbrir(\''+u.id+'\')">Editar</button>'+(u.bloqueado?'<button class="usrBtn usrBtnOk" onclick="cmrUsuarioAsk(\''+u.id+'\',\''+cmrEsc(u.delegado||'')+'\',false)">Reactivar</button>':'<button class="usrBtn usrBtnAmb" onclick="cmrUsuarioAsk(\''+u.id+'\',\''+cmrEsc(u.delegado||'')+'\',true)">Desactivar</button>')))+'</div>'}).join('')+'</div><details class="usrDanger"><summary>Zona de peligro · Borrado definitivo</summary><p>Borrar la cuenta es irreversible y deja su ficha huérfana: si esa persona vuelve, entrará como usuario nuevo, sin vínculo con su historial. Por eso el borrado no está aquí: solo se hace a mano desde el panel de Supabase y no es lo recomendado. Usa Desactivar salvo que tengas claro que la cuenta no debe existir.</p></details>';
 if(session.user.id===CMR_ADMIN){const ih=document.createElement('div');sec.appendChild(ih);cmrInvitarMontar(ih,session);}
 }catch(e){sec.innerHTML='<p role="alert">No se pudo cargar la lista de usuarios. No se ha cambiado nada.</p><button class="cmrPrimary" onclick="cmrAdminUsuarios()">Reintentar</button>'}}
 function cmrUsuarioCerrar(){document.getElementById("cmrUsuarioModal").classList.remove("active");}
@@ -1997,7 +2042,7 @@ async function cmrSaveComplete(e){
 </script>
 
 <script id="perfilBJs">
-function perfPintar(){const nm=(perfilActual&&perfilActual.delegado)||'';const parts=nm.trim().split(/\s+/).filter(Boolean);const ini=(parts.length>1?parts[0][0]+parts[parts.length-1][0]:(parts[0]||'?').slice(0,2)).toLocaleUpperCase('es');['perfAv','perfAv2'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=ini});['perfNombre'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=nm});const rol=document.getElementById('perfRol');if(rol)rol.textContent=perfilActual?(perfilActual.rol==='jefe'?'Administrador':(perfilActual.solo_lectura?'Solo consulta':'Comercial')):'';perfAbrir('datos',true)}
+function perfPintar(){const nm=(perfilActual&&perfilActual.delegado)||'';const parts=nm.trim().split(/\s+/).filter(Boolean);const ini=(parts.length>1?parts[0][0]+parts[parts.length-1][0]:(parts[0]||'?').slice(0,2)).toLocaleUpperCase('es');['perfAv','perfAv2'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=ini});['perfNombre'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=nm});const rol=document.getElementById('perfRol');if(rol)rol.textContent=perfilActual?cmrEtiquetaRol(perfilActual,CMR_ADMIN)==='Administrador'?'Administrador':(perfilActual.rol==='jefe'?'Jefe':(perfilActual.solo_lectura?'Solo consulta':'Comercial')):'';perfAbrir('datos',true)}
 function perfAbrir(k,silencio){document.querySelectorAll('#cmrProfilePanel .perfItem').forEach(b=>b.classList.toggle('on',b.dataset.pane===k));document.querySelectorAll('#cmrProfilePanel .perfPane').forEach(p=>p.classList.toggle('on',p.id==='perfPane-'+k));const l=document.querySelector('#cmrProfilePanel .perfLayout');if(l)l.dataset.view=silencio&&window.matchMedia('(max-width:699px)').matches?'list':'pane'}
 function perfVolver(){const l=document.querySelector('#cmrProfilePanel .perfLayout');if(l)l.dataset.view='list';window.scrollTo(0,0)}
 document.addEventListener('click',e=>{const b=e.target.closest('#cmrProfilePanel .perfItem');if(b){perfAbrir(b.dataset.pane);if(window.matchMedia('(max-width:699px)').matches)window.scrollTo(0,0)}});
