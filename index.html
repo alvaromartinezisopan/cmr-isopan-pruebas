@@ -1347,7 +1347,7 @@ function cmrAccGo(e,fn,id,extra){e.stopPropagation();const m=cmrGet('accMenu'+id
 </script><style>.usrList{display:flex;flex-direction:column;gap:8px;margin-top:10px}.usrRow{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;padding:10px 14px}
 .usrR-admin{border-left:4px solid #2563eb}
 .usrR-jefe{border-left:4px solid #7c3aed}
-.usrR-com{border-left:4px solid #16a34a}.usrRow.usrOff{opacity:.6;background:#f8fafc}.usrInfo{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;flex:1;min-width:0}.usrRol{font-size:12px;color:#64748b}.usrPillOff{background:#fef3c7;color:#92400e;border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700}.usrYo{background:#e0f2fe;color:#075985;border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700}.usrBtn{border:1.5px solid #e2e8f0;background:#fff;border-radius:10px;padding:7px 14px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;color:#1e293b}.usrBtn:hover{background:#f1f5f9}.usrBtnAmb{background:#f59e0b;border-color:#f59e0b;color:#fff}.usrBtnAmb:hover{background:#d97706}.usrBtnOk{background:#16a34a;border-color:#16a34a;color:#fff}.usrBtnOk:hover{background:#15803d}.usrDanger{margin-top:18px;border:1.5px solid #fecaca;border-radius:12px;padding:10px 14px;background:#fff}.usrDanger summary{cursor:pointer;font-size:13px;font-weight:700;color:#b91c1c}.usrDanger p{font-size:12.5px;color:#7f1d1d;line-height:1.6;margin:8px 0 2px}.usrModal{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;align-items:center;justify-content:center;z-index:400;padding:20px}.usrModal.active{display:flex}.usrModalCard{background:#fff;border-radius:16px;max-width:420px;width:100%;padding:24px;box-shadow:0 20px 50px rgba(15,23,42,.25)}.usrModalCard h3{margin:0 0 8px;font-size:17px}.usrModalText{font-size:13.5px;color:#334155;line-height:1.6;margin:0 0 14px}.usrModalError{font-size:12.5px;color:#b91c1c;margin:0 0 10px}.usrModalBtns{display:flex;gap:10px;justify-content:flex-end}</style><script>
+.usrR-com{border-left:4px solid #16a34a}.usrRow.usrOff{opacity:.6;background:#f8fafc}.usrInfo{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;flex:1;min-width:0}.usrRol{font-size:12px;color:#64748b}.usrPillOff{background:#fef3c7;color:#92400e;border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700}.usrYo{background:#e0f2fe;color:#075985;border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700}.usrBtn{border:1.5px solid #e2e8f0;background:#fff;border-radius:10px;padding:7px 14px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;color:#1e293b}.usrBtn:hover{background:#f1f5f9}.usrBtnAmb{background:#f59e0b;border-color:#f59e0b;color:#fff}.usrBtnAmb:hover{background:#d97706}.usrBtnOk{background:#16a34a;border-color:#16a34a;color:#fff}.usrBtnOk:hover{background:#15803d}.usrDanger{margin-top:18px;border:1.5px solid #fecaca;border-radius:12px;padding:10px 14px;background:#fff}.usrDanger summary{cursor:pointer;font-size:13px;font-weight:700;color:#b91c1c}.usrDanger p{font-size:12.5px;color:#7f1d1d;line-height:1.6;margin:8px 0 2px}.usrModal{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;align-items:center;justify-content:center;z-index:400;padding:20px}.usrModal.active{display:flex}.usrModalCard{background:#fff;border-radius:16px;max-width:420px;width:100%;padding:24px;box-shadow:0 20px 50px rgba(15,23,42,.25)}.usrModalCard h3{margin:0 0 8px;font-size:17px}.usrModalText{font-size:13.5px;color:#334155;line-height:1.6;margin:0 0 14px}.usrModalError{font-size:12.5px;color:#b91c1c;margin:0 0 10px}.usrRecup{border-top:1px solid #e2e8f0;margin:14px 0 0;padding:12px 0 0}.usrRecupTxt{font-size:12.5px;color:#64748b;margin:6px 0 0;line-height:1.5}.usrRecupOk{font-size:12.5px;color:#15803d;margin:8px 0 0;line-height:1.5}.usrRecupBtns{display:flex;gap:8px;margin:10px 0 0}.usrModalBtns{display:flex;gap:10px;justify-content:flex-end}</style><script>
 var cmrUsuarioPendiente=null;
 // === Invitar usuario (solo cuenta admin) + activacion con invitaciones ===
 // Reutiliza la funcion de servidor admin-usuarios ya existente en el proyecto.
@@ -1422,6 +1422,7 @@ function cmrEditarAbrir(uid){
   +'<div class="invRow"><span>Registrar y editar sus ofertas</span><button type="button" class="invSw" id="cmrEdSwEditar" aria-label="Registrar y editar sus ofertas"></button></div>'
   +'<div class="invRow"><span>Ver todas las ofertas y estadísticas</span><button type="button" class="invSw" id="cmrEdSwVis" aria-label="Ver todas las ofertas y estadísticas"></button></div>'
   +'<div class="invRow"><span>Administrar usuarios</span><span class="invSolo">Solo tú</span></div>'
+  +(!u.bloqueado?'<div class="usrRecup" id="cmrEdRecup"><button type="button" class="usrBtn" id="cmrEdRecupBtn" onclick="cmrRecuperarPedir()">Recuperar acceso</button><p class="usrRecupTxt">Le envía un correo para crear una contraseña nueva. Su ficha y sus permisos no cambian.</p></div>':'')
   +'<p class="usrModalError" role="alert" hidden></p>'
   +'<div class="usrModalBtns"><button class="usrBtn" onclick="cmrEditarCerrar()">Cancelar</button><button class="usrBtn usrBtnAmb" id="cmrEdGuardar" onclick="cmrEditarGuardar()">Guardar cambios</button></div></div>';
   m.querySelector('#cmrEdTipo').value=u.rol==='jefe'?'jefe':'comercial';
@@ -1429,6 +1430,38 @@ function cmrEditarAbrir(uid){
   if(u.acceso_visualizador===true)m.querySelector('#cmrEdSwVis').classList.add('on');
   m.querySelectorAll('.invSw').forEach(s=>s.addEventListener('click',()=>s.classList.toggle('on')));
   m.classList.add('active');
+}
+
+function cmrRecuperarCancelar(){
+  const host=document.getElementById('cmrEdRecup');if(!host)return;
+  host.innerHTML='<button type="button" class="usrBtn" id="cmrEdRecupBtn" onclick="cmrRecuperarPedir()">Recuperar acceso</button><p class="usrRecupTxt">Le envía un correo para crear una contraseña nueva. Su ficha y sus permisos no cambian.</p>';
+}
+function cmrRecuperarPedir(){
+  const u=(cmrUsuariosRows||[]).find(x=>x.id===cmrEditarUid);if(!u)return;
+  const host=document.getElementById('cmrEdRecup');if(!host)return;
+  host.innerHTML='<p class="usrModalText" style="margin:0">¿Enviamos el correo de recuperación a <b>'+cmrEsc(cmrNombreVisible(u.delegado||'esta persona'))+'</b>? El enlace abre la app y le deja crear una contraseña nueva.</p><div class="usrRecupBtns"><button type="button" class="usrBtn usrBtnAmb" id="cmrEdRecupSi" onclick="cmrRecuperarEnviar()">Enviar correo</button><button type="button" class="usrBtn" onclick="cmrRecuperarCancelar()">Ahora no</button></div>';
+}
+async function cmrRecuperarEnviar(){
+  const host=document.getElementById('cmrEdRecup');if(!host||!cmrEditarUid)return;
+  const m=document.getElementById('cmrEditarModal');
+  const err=m?m.querySelector('.usrModalError'):null;
+  if(err)err.hidden=true;
+  const{data:{session}}=await sb.auth.getSession();
+  if(!cmrAdminPuedeGestionar(session)){if(err){err.textContent='Solo el administrador puede gestionar usuarios.';err.hidden=false;}return;}
+  if(cmrEditarUid===CMR_ADMIN){if(err){err.textContent='La cuenta del administrador no se gestiona desde aquí.';err.hidden=false;}return;}
+  host.innerHTML='<p class="usrModalText" style="margin:0">Enviando el correo de recuperación…</p>';
+  let msg=null,okMsg=null;
+  try{
+    const{data,error}=await sb.functions.invoke('admin-usuarios',{body:{accion:'recuperar',usuario_uid:cmrEditarUid}});
+    if(error){msg='No se pudo enviar el correo de recuperación.';try{const j=await error.context.json();if(j.error)msg=j.error;}catch(e){}}
+    else if(data&&data.error)msg=data.error;
+    else okMsg=(data&&data.mensaje)?data.mensaje:'Correo de recuperación enviado.';
+  }catch(e){msg='No se pudo enviar el correo de recuperación. Inténtalo de nuevo en unos minutos.';}
+  if(okMsg){
+    host.innerHTML='<p class="usrRecupOk">'+cmrEsc(okMsg)+' Su ficha y sus permisos no han cambiado. Queda anotado en su historial.</p>';
+  }else{
+    host.innerHTML='<p class="usrModalText" style="margin:0">'+cmrEsc(msg)+'</p><div class="usrRecupBtns"><button type="button" class="usrBtn" onclick="cmrRecuperarCancelar()">Entendido</button></div>';
+  }
 }
 function cmrEditarCerrar(){const m=document.getElementById('cmrEditarModal');if(m)m.classList.remove('active');cmrEditarUid=null;}
 async function cmrEditarGuardar(){
