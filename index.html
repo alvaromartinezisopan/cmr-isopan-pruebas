@@ -508,23 +508,23 @@ Exportar
 .ana-kpi.ana-kpi-win b{color:#15803d}
 .ana-kpi.ana-kpi-loss b{color:#b91c1c}
 .ana-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}
+.ana-head-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ana-filtros-toggle .cmrSumChev{transition:transform .18s ease}
+.ana-filtros-toggle[aria-expanded="true"] .cmrSumChev{transform:rotate(180deg)}
+#anaFiltros{display:none}
+#anaFiltros.abierto{display:flex}
 @media(max-width:699px){
 body[data-section="ofertas"] #cmrPipeToolbar .cmrRefresh{display:none}
 body[data-section="ofertas"] #historyModal .history-header>div:first-child{display:none}
 body[data-section="ofertas"] #historyModal #btnExportarExcel{display:none}
-.ana-filtros-toggle{margin-bottom:10px}
-.ana-filtros-toggle .cmrSumChev{transition:transform .18s ease}
-.ana-filtros-toggle[aria-expanded="true"] .cmrSumChev{transform:rotate(180deg)}
-#anaFiltros{display:none}
-#anaFiltros.abierto{display:flex;flex-direction:column;align-items:stretch;gap:12px}
+#anaFiltros.abierto{flex-direction:column;align-items:stretch;gap:12px}
 #anaFiltros.abierto .filter-group{min-width:0;flex:none;width:100%}
 }
 .ana-panel{background:rgba(255,255,255,0.65);border:1px solid rgba(0,86,179,0.12);border-radius:14px;padding:12px 14px}
 </style>
 
 <div class="ana-wrap" id="anaWrap">
-<div class="ana-head"><div><div class="ana-titulo">Análisis</div><div class="ana-sub">Cruza los datos como quieras y exporta lo que ves a Excel.</div></div><button type="button" class="ana-export" id="anaBtnExport">⬇ Exportar CSV</button></div>
-<button type="button" id="anaFiltrosToggle" class="btn-columnas btn-filtros-toggle ana-filtros-toggle" aria-expanded="false" aria-controls="anaFiltros" title="Mostrar u ocultar filtros"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#0056b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg> Filtros <svg class="cmrSumChev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+<div class="ana-head"><div><div class="ana-titulo">Análisis</div><div class="ana-sub">Cruza los datos como quieras y exporta lo que ves a Excel.</div></div><div class="ana-head-actions"><button type="button" id="anaFiltrosToggle" class="btn-columnas btn-filtros-toggle ana-filtros-toggle" aria-expanded="false" aria-controls="anaFiltros" title="Mostrar u ocultar filtros"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#0056b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg> Filtros <svg class="cmrSumChev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><button type="button" class="ana-export" id="anaBtnExport">⬇ Exportar CSV</button></div></div>
 <div class="ana-filtros" id="anaFiltros">
 <div class="filter-group"><label>Desde</label><input type="date" id="anaDesde" class="form-control"></div>
 <div class="filter-group"><label>Hasta</label><input type="date" id="anaHasta" class="form-control"></div>
