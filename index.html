@@ -1943,6 +1943,18 @@ body:not(:has(#cmrRail.expanded)):not(.cmrLoggedOut) #cmrTop,body:not(:has(#cmrR
 @media(max-width:699px){
  #viewModal .fichaActions .cmrPrimary{flex:1 1 0;padding:10px 8px!important}
 }
+
+/* Editar registro en ordenador ancho: dos columnas como Nueva oferta (aprobado 19nov) */
+@media(min-width:1000px){
+ #editModal:not(.cmrEditFooter) .modal-card{max-width:920px;display:grid;grid-template-columns:1fr 1fr;column-gap:22px;row-gap:12px;align-items:start;text-align:left}
+ #editModal:not(.cmrEditFooter) .modal-card>.cmrCloseBar,
+ #editModal:not(.cmrEditFooter) .modal-card>h2,
+ #editModal:not(.cmrEditFooter) .modal-card>#editSubtitle,
+ #editModal:not(.cmrEditFooter) .modal-card>#btnGuardarEdicion,
+ #editModal:not(.cmrEditFooter) .modal-card>#editOfferNotes{grid-column:1/-1}
+ #editModal:not(.cmrEditFooter) .modal-card>.form-row{display:contents}
+ #editModal:not(.cmrEditFooter) .modal-card>.form-row>.form-group{min-width:0}
+}
 /* (8) Mi dia: borde igualado al de Ver todas las ofertas */
 .mdActions button{box-sizing:border-box;border:1.5px solid #0056b3}
 /* (1) El + nunca tapa: se oculta con cualquier ventana o panel abierto */
