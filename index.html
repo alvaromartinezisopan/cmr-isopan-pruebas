@@ -1931,8 +1931,18 @@ body:not(:has(#cmrRail.expanded)):not(.cmrLoggedOut) #cmrTop,body:not(:has(#cmrR
 #editModal.cmrEditFooter .cmrEditScroll{padding-top:16px;scroll-padding-top:16px}
 #editModal.cmrEditFooter .cmrCloseBar{top:12px}
 
-/* Detalle de la oferta: sin lineas finas sobre y bajo los botones (confirmado 19nov) */
-#viewModal .fichaActions{border-top:0;border-bottom:0;padding:0}
+/* Detalle de la oferta: opcion B aprobada 19nov - Editar con borde azul y fondo blanco, Seguimiento sigue verde, botones compactos, menos aire, sin lineas finas */
+#viewModal .fichaActions{display:flex!important;grid-template-columns:none!important;gap:10px;margin:8px 0!important;padding:0;border-top:0;border-bottom:0}
+#viewModal .fichaActions .cmrPrimary{width:auto!important;min-width:0;padding:10px 20px!important}
+#fichaEdit{background:#fff!important;color:#0056b3!important;border:1.5px solid #0056b3!important;box-shadow:none!important}
+#viewModal .modal-card{padding-top:14px!important}
+#viewModal h2{margin:0 0 2px!important}
+#fichaSubtitle{margin-bottom:2px!important}
+#viewModal .fichaItem{padding:8px 10px!important}
+#fichaGrid{gap:8px!important;margin-top:6px!important}
+@media(max-width:699px){
+ #viewModal .fichaActions .cmrPrimary{flex:1 1 0;padding:10px 8px!important}
+}
 /* (8) Mi dia: borde igualado al de Ver todas las ofertas */
 .mdActions button{box-sizing:border-box;border:1.5px solid #0056b3}
 /* (1) El + nunca tapa: se oculta con cualquier ventana o panel abierto */
