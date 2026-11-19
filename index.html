@@ -2084,6 +2084,7 @@ function perfAbrir(k,silencio){document.querySelectorAll('#cmrProfilePanel .perf
 function perfVolver(){const l=document.querySelector('#cmrProfilePanel .perfLayout');if(l)l.dataset.view='list';window.scrollTo(0,0)}
 document.addEventListener('click',e=>{const b=e.target.closest('#cmrProfilePanel .perfItem');if(b){perfAbrir(b.dataset.pane);if(window.matchMedia('(max-width:699px)').matches)window.scrollTo(0,0)}});
 </script>
+<style id="cmrPropuestaMenuTitulos">.perfItem .perfLab{font-weight:600}</style>
 </body>
 </html>
 <script src="8-cmr-mobile-refresh.js"></script>
