@@ -222,7 +222,23 @@
 .perfT{flex:1;font-size:14px;color:#1e293b}.perfT small{display:block;color:#64748b;font-size:12px;margin-top:2px}
 .perfOff{opacity:.55;filter:grayscale(.6);pointer-events:none;user-select:none}
 .perfSw{width:38px;height:22px;border-radius:12px;background:#cbd5e1;position:relative;flex:none}.perfSw:after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff}.perfSw.on{background:#94a3b8}.perfSw.on:after{left:19px}
-#perfPane-admin #cmrAdminMant,#perfPane-admin #cmrAdminUsuarios{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:18px;margin-bottom:14px}#perfPane-admin #cmrAdminUsuarios:before{content:"Usuarios y permisos";display:block;font-size:18px;font-weight:700;color:#0f172a;margin-bottom:6px}
+#perfPane-admin #cmrAdminMant,#perfPane-admin #cmrAdminUsuarios{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:18px;margin-bottom:14px}#perfPane-admin #cmrAdminUsuarios:before{content:"Usuarios y permisos";display:block;font-size:18px;font-weight:700;color:#0f172a;margin-bottom:6px}.invSep{height:1px;background:#eef2f7;margin:16px 0 4px}
+.invH4{font-size:15px;margin:0 0 4px;color:#0f172a}
+.invNote{font-size:12.5px;color:#64748b;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:10px 12px;line-height:1.55;margin:12px 0}
+.invLab{display:block;font-size:12px;font-weight:700;color:#475569;margin:14px 0 6px}
+.invIn{width:100%;border:1.5px solid #cbd5e1;border-radius:9px;padding:9px 12px;font-size:13px;box-sizing:border-box;font-family:inherit;color:#1e293b;background:#fff}
+.invRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-top:1px solid #eef2f7;font-size:13.5px;color:#1e293b}
+.invSw{width:38px;height:22px;border-radius:12px;background:#cbd5e1;position:relative;flex:none;border:0;cursor:pointer;padding:0}
+.invSw:after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff}
+.invSw.on{background:#0056b3}
+.invSw.on:after{left:19px}
+.invSolo{font-size:12px;color:#64748b}
+.invBtn{border:0;border-radius:10px;background:#0056b3;color:#fff;padding:11px 18px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:14px}
+.invBtn:disabled{opacity:.5}
+.invBtn2{border:1.5px solid #e2e8f0;background:#fff;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;color:#1e293b;margin-top:10px}
+.invErr{font-size:12.5px;color:#b91c1c;margin:10px 0 0}
+.invOk{font-size:13px;color:#086c4c;margin:10px 0 0}
+
 @media(max-width:699px){
 #cmrProfilePanel{border-radius:18px}
 .perfLayout{display:block;min-height:0}
@@ -714,7 +730,7 @@ document.getElementById('btnActivarAcceso').addEventListener('click',async()=>{
  if(b.disabled||!cmrActivacionPendiente)return;
  b.disabled=true;b.textContent='Validando acceso...';e.style.display='none';
  try{
-  const {data,error}=await sb.auth.verifyOtp({token_hash:cmrActivacionPendiente,type:'recovery'});
+  const {data,error}=await cmrVerificarActivacion(cmrActivacionPendiente);
   if(error||!data.session)throw error||new Error('SIN_SESION');
   cmrActivacionPendiente=null;history.replaceState(null,'',location.pathname+location.search);
   mostrarVistaLogin('loginViewNueva');
@@ -1330,10 +1346,66 @@ document.addEventListener('DOMContentLoaded',()=>{const anaFields=['anaDesde','a
 function cmrAccGo(e,fn,id,extra){e.stopPropagation();const m=cmrGet('accMenu'+id);if(m)m.hidden=true;if(fn==='cmrReactVisita')cmrReactVisita(id);else if(fn==='cmrReactOferta')cmrReactOferta(id);else if(fn==='cmrReactInactivo')cmrReactInactivo(id,extra)}
 </script><style>.usrList{display:flex;flex-direction:column;gap:8px;margin-top:10px}.usrRow{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;padding:10px 14px}.usrRow.usrOff{opacity:.6;background:#f8fafc}.usrInfo{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px}.usrRol{font-size:12px;color:#64748b}.usrPillOff{background:#fef3c7;color:#92400e;border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700}.usrYo{background:#e0f2fe;color:#075985;border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700}.usrBtn{border:1.5px solid #e2e8f0;background:#fff;border-radius:10px;padding:7px 14px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;color:#1e293b}.usrBtn:hover{background:#f1f5f9}.usrBtnAmb{background:#f59e0b;border-color:#f59e0b;color:#fff}.usrBtnAmb:hover{background:#d97706}.usrBtnOk{background:#16a34a;border-color:#16a34a;color:#fff}.usrBtnOk:hover{background:#15803d}.usrDanger{margin-top:18px;border:1.5px solid #fecaca;border-radius:12px;padding:10px 14px;background:#fff}.usrDanger summary{cursor:pointer;font-size:13px;font-weight:700;color:#b91c1c}.usrDanger p{font-size:12.5px;color:#7f1d1d;line-height:1.6;margin:8px 0 2px}.usrModal{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;align-items:center;justify-content:center;z-index:400;padding:20px}.usrModal.active{display:flex}.usrModalCard{background:#fff;border-radius:16px;max-width:420px;width:100%;padding:24px;box-shadow:0 20px 50px rgba(15,23,42,.25)}.usrModalCard h3{margin:0 0 8px;font-size:17px}.usrModalText{font-size:13.5px;color:#334155;line-height:1.6;margin:0 0 14px}.usrModalError{font-size:12.5px;color:#b91c1c;margin:0 0 10px}.usrModalBtns{display:flex;gap:10px;justify-content:flex-end}</style><script>
 var cmrUsuarioPendiente=null;
-async function cmrAdminUsuarios(){const panel=cmrGet('cmrProfilePanel');if(!panel)return;const{data:{session}}=await sb.auth.getSession();if(!session)return;if(session.user.id!==CMR_ADMIN&&(!perfilActual||perfilActual.rol!=='jefe'))return;let sec=document.getElementById('cmrAdminUsuarios');if(sec)sec.remove();sec=document.createElement('section');sec.id='cmrAdminUsuarios';(document.getElementById('perfUsuariosHost')||panel).appendChild(sec);const nv=document.getElementById('perfNavAdmin');if(nv)nv.hidden=false;sec.innerHTML='<p>Cargando usuarios…</p>';
+// === Invitar usuario (solo cuenta admin) + activacion con invitaciones ===
+// Reutiliza la funcion de servidor admin-usuarios ya existente en el proyecto.
+// No cambia la funcion ni el servidor: solo llama a sus acciones 'invitar' y 'reenviar'.
+function cmrInvitarMontar(host, session){
+  host.innerHTML='';
+  if(!session||!session.user||session.user.id!==CMR_ADMIN)return false;
+  host.innerHTML=
+   '<div class="invSep"></div>'
+  +'<h4 class="invH4">Invitar usuario</h4>'
+  +'<div class="invNote">La persona recibe un correo de bienvenida con un botón para crear su contraseña: no tienes que pasarle nada. El enlace es de un solo uso; si le caduca o no le llega, puedes reenviar la invitación.</div>'
+  +'<label class="invLab" for="cmrInvNombre">Nombre</label><input class="invIn" id="cmrInvNombre" placeholder="Nombre y apellidos" autocomplete="off">'
+  +'<label class="invLab" for="cmrInvEmail">Correo de acceso</label><input class="invIn" id="cmrInvEmail" type="email" placeholder="correo@ejemplo.com" autocomplete="off">'
+  +'<label class="invLab" for="cmrInvTipo">Tipo de usuario</label><select class="invIn" id="cmrInvTipo"><option value="comercial">Delegado comercial</option><option value="jefe">Jefe</option></select>'
+  +'<div class="invRow"><span>Registrar y editar sus ofertas</span><button type="button" class="invSw on" id="cmrInvSwEditar" aria-label="Registrar y editar sus ofertas"></button></div>'
+  +'<div class="invRow"><span>Ver todas las ofertas y estadísticas</span><button type="button" class="invSw" id="cmrInvSwVis" aria-label="Ver todas las ofertas y estadísticas"></button></div>'
+  +'<div class="invRow"><span>Administrar usuarios</span><span class="invSolo">Solo tú</span></div>'
+  +'<button type="button" class="invBtn" id="cmrInvEnviar">Enviar invitación</button>'
+  +'<p class="invErr" id="cmrInvErr" role="alert" hidden></p>'
+  +'<p class="invOk" id="cmrInvOk" hidden></p>'
+  +'<button type="button" class="invBtn2" id="cmrInvReenviar" hidden>Reenviar invitación</button>';
+  host.querySelectorAll('.invSw').forEach(s=>s.addEventListener('click',()=>s.classList.toggle('on')));
+  host.querySelector('#cmrInvEnviar').addEventListener('click',()=>cmrInvitarEnviar(host,'invitar'));
+  host.querySelector('#cmrInvReenviar').addEventListener('click',()=>cmrInvitarEnviar(host,'reenviar'));
+  return true;
+}
+async function cmrInvitarEnviar(host, accion){
+  const err=host.querySelector('#cmrInvErr'), ok=host.querySelector('#cmrInvOk'), re=host.querySelector('#cmrInvReenviar'), btn=host.querySelector('#cmrInvEnviar');
+  err.hidden=true; ok.hidden=true; re.hidden=true;
+  const email=(host.querySelector('#cmrInvEmail').value||'').trim().toLowerCase();
+  const nombre=(host.querySelector('#cmrInvNombre').value||'').trim();
+  const rol=host.querySelector('#cmrInvTipo').value;
+  if(nombre.length<2){err.textContent='Escribe el nombre.';err.hidden=false;return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='El correo no parece válido.';err.hidden=false;return;}
+  btn.disabled=true;
+  try{
+    const body = accion==='invitar'
+      ? {accion, email, nombre, rol, solo_lectura:!host.querySelector('#cmrInvSwEditar').classList.contains('on'), acceso_visualizador:host.querySelector('#cmrInvSwVis').classList.contains('on')}
+      : {accion, email};
+    const {data,error} = await sb.functions.invoke('admin-usuarios',{body});
+    let msg=null, pendiente=false;
+    if(error){ msg='No se pudo enviar la invitación.'; try{const j=await error.context.json(); if(j.error)msg=j.error; pendiente=j.pendiente===true;}catch(e){} }
+    else if(data&&data.error){ msg=data.error; pendiente=data.pendiente===true; }
+    if(msg){ err.textContent=msg; err.hidden=false; if(pendiente&&accion==='invitar')re.hidden=false; return; }
+    ok.textContent=(data&&data.mensaje)||(accion==='invitar'?'Invitación enviada.':'Invitación reenviada.');
+    ok.hidden=false;
+    if(accion==='invitar'){host.querySelector('#cmrInvNombre').value='';host.querySelector('#cmrInvEmail').value='';}
+    if(typeof cmrAdminUsuarios==='function')cmrAdminUsuarios();
+  }finally{btn.disabled=false;}
+}
+async function cmrVerificarActivacion(tokenHash){
+  let r=await sb.auth.verifyOtp({token_hash:tokenHash,type:'invite'});
+  if(r.error||!r.data||!r.data.session) r=await sb.auth.verifyOtp({token_hash:tokenHash,type:'recovery'});
+  return r;
+}
+
+async function cmrAdminUsuarios(){const panel=cmrGet('cmrProfilePanel');if(!panel)return;const{data:{session}}=await sb.auth.getSession();if(!session)return;if(session.user.id!==CMR_ADMIN&&(!perfilActual||perfilActual.rol!=='jefe'))return;const gi=document.getElementById('perfInvitar');if(gi)gi.style.display=session.user.id===CMR_ADMIN?'none':'';let sec=document.getElementById('cmrAdminUsuarios');if(sec)sec.remove();sec=document.createElement('section');sec.id='cmrAdminUsuarios';(document.getElementById('perfUsuariosHost')||panel).appendChild(sec);const nv=document.getElementById('perfNavAdmin');if(nv)nv.hidden=false;sec.innerHTML='<p>Cargando usuarios…</p>';
 if(!document.getElementById('cmrUsuarioModal')){const m=document.createElement('div');m.id='cmrUsuarioModal';m.className='usrModal';m.innerHTML='<div class="usrModalCard"><h3 class="usrModalTitle"></h3><p class="usrModalText"></p><p class="usrModalError" role="alert" hidden></p><div class="usrModalBtns"><button class="usrBtn" onclick="cmrUsuarioCerrar()">Cancelar</button><button class="usrBtn usrBtnAmb usrModalDo" onclick="cmrUsuarioDo()">Confirmar</button></div></div>';document.body.appendChild(m);}
 try{const{data,error}=await sb.from('perfiles').select('id,delegado,rol,bloqueado').order('delegado');if(error)throw error;
 sec.innerHTML='<p style="font-size:13px;color:#64748b">Desactivar es reversible: la persona no puede entrar, pero conserva sus ofertas, clientes, historial y estadísticas. Puedes reactivarla cuando quieras.</p><div class="usrList">'+data.map(u=>{const esYo=u.id===session.user.id,prot=u.id===CMR_ADMIN;return '<div class="usrRow'+(u.bloqueado?' usrOff':'')+'"><div class="usrInfo"><b>'+cmrEsc(u.delegado||'Sin nombre')+'</b><span class="usrRol">'+(u.rol==='jefe'?'Administrador':'Comercial')+'</span>'+(u.bloqueado?'<span class="usrPillOff">Desactivado</span>':'')+(esYo?'<span class="usrYo">Tu cuenta</span>':'')+'</div>'+((esYo||prot)?'':(u.bloqueado?'<button class="usrBtn usrBtnOk" onclick="cmrUsuarioAsk(\''+u.id+'\',\''+cmrEsc(u.delegado||'')+'\',false)">Reactivar</button>':'<button class="usrBtn usrBtnAmb" onclick="cmrUsuarioAsk(\''+u.id+'\',\''+cmrEsc(u.delegado||'')+'\',true)">Desactivar</button>'))+'</div>'}).join('')+'</div><details class="usrDanger"><summary>Zona de peligro · Borrado definitivo</summary><p>Borrar la cuenta es irreversible y deja su ficha huérfana: si esa persona vuelve, entrará como usuario nuevo, sin vínculo con su historial. Por eso el borrado no está aquí: solo se hace a mano desde el panel de Supabase y no es lo recomendado. Usa Desactivar salvo que tengas claro que la cuenta no debe existir.</p></details>';
+if(session.user.id===CMR_ADMIN){const ih=document.createElement('div');sec.appendChild(ih);cmrInvitarMontar(ih,session);}
 }catch(e){sec.innerHTML='<p role="alert">No se pudo cargar la lista de usuarios. No se ha cambiado nada.</p><button class="cmrPrimary" onclick="cmrAdminUsuarios()">Reintentar</button>'}}
 function cmrUsuarioCerrar(){document.getElementById("cmrUsuarioModal").classList.remove("active");}
 function cmrUsuarioAsk(id,nombre,bloquear){cmrUsuarioPendiente={id:id,bloquear:bloquear};const m=document.getElementById('cmrUsuarioModal');m.querySelector('.usrModalTitle').textContent=bloquear?('¿Desactivar a '+nombre+'?'):('¿Reactivar a '+nombre+'?');m.querySelector('.usrModalText').textContent=bloquear?(nombre+' no podrá entrar en la app, pero no perderá nada: sus ofertas, clientes, historial y estadísticas se conservan. Puedes reactivarlo cuando quieras.'):(nombre+' podrá volver a entrar en la app con su cuenta, con todo su historial intacto.');m.querySelector('.usrModalError').hidden=true;const ok=m.querySelector('.usrModalDo');ok.textContent=bloquear?'Sí, desactivar':'Sí, reactivar';ok.className=bloquear?'usrBtn usrBtnAmb usrModalDo':'usrBtn usrBtnOk usrModalDo';m.classList.add('active');}
