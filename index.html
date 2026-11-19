@@ -547,7 +547,7 @@ Exportar
 
 <div id="editModal" class="modal-overlay">
 <div class="modal-card"><div class="cmrCloseBar"><button class="btn-close-modal" onclick="cerrarEdicion()" aria-label="Cerrar" type="button"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
-<h2 id="editTitle">Editar Registro</h2>
+<h2 id="editTitle">Editar registro</h2>
 <p id="editSubtitle">Modifica los datos y guarda los cambios.</p>
 
 <div class="form-group">
@@ -622,7 +622,7 @@ Exportar
 </div>
 
 <button type="button" class="btn-submit" id="btnGuardarEdicion">
-<span id="btnEditText">Guardar Cambios</span>
+<span id="btnEditText">Guardar cambios</span>
 <div id="btnEditLoader" class="loader"></div>
 </button>
 </div>
@@ -771,7 +771,7 @@ async function cambiarEstadoRegistro(idx,nuevoEstado){const reg=misDatosFiltrado
 reg.estado=nuevoEstado;renderizarTablaHistorial();await enviarActualizacion({fila:reg.fila,estado:nuevoEstado});}
 const editExitoSlider=document.getElementById('edit_exito');function updateEditSliderVisuals(){cmrSyncProbPills(document.getElementById('editExitoPills'),editExitoSlider);}
 editExitoSlider.addEventListener('input',updateEditSliderVisuals);document.querySelectorAll('input[name="edit_pais"]').forEach(radio=>{radio.addEventListener('change',(e)=>{const esPT=e.target.value==='Portugal';document.getElementById('edit_label_provincia').textContent=esPT?'Distrito':'Provincia';renderizarProvinciasEn(document.getElementById('edit_provincia'),esPT?distritosPT:provinciasES);});});document.getElementById('editModal').addEventListener('input',(e)=>{if(e.target.classList&&e.target.classList.contains('input-error'))e.target.classList.remove('input-error');if(e.target.type==='radio'){const group=e.target.closest('.radio-group')||e.target.closest('.radio-group-blocks');if(group&&group.classList.contains('input-error'))group.classList.remove('input-error');}});let editRegistro=null;function abrirEdicion(idx){const f=misDatosFiltrados[idx];if(!f)return;if(perfilActual&&perfilActual.solo_lectura)return;abrirRegistroModal(f,false);}
-function abrirRegistroModal(f,soloVer){if(!f)return;if(!soloVer&&perfilActual&&perfilActual.solo_lectura)return;if(registroSinIdentificador(f))return;editRegistro=f;document.querySelectorAll('#editModal .input-error').forEach(el=>el.classList.remove('input-error'));const pais=f.pais==='Portugal'?'Portugal':'España';document.querySelector(`input[name="edit_pais"][value="${pais}"]`).checked=true;document.getElementById('edit_label_provincia').textContent=pais==='Portugal'?'Distrito':'Provincia';renderizarProvinciasEn(document.getElementById('edit_provincia'),pais==='Portugal'?distritosPT:provinciasES);document.getElementById('edit_provincia').value=f.provincia||'';document.getElementById('edit_cliente').value=f.cliente||'';document.getElementById('edit_referencia').value=f.referencia||'';document.getElementById('edit_descuento').value=normalizarNumero(f.descuento);document.getElementById('edit_metros').value=normalizarNumero(f.metros);const radioProd=document.querySelector(`input[name="edit_producto"][value="${f.producto}"]`);if(radioProd)radioProd.checked=true;const radioAisl=document.querySelector(`input[name="edit_aislante"][value="${f.aislante}"]`);if(radioAisl)radioAisl.checked=true;let ex=parseFloat(String(f.exito||'').replace('%','').replace(',','.'));if(isNaN(ex))ex=50;if(ex<25)ex=10;else if(ex>70)ex=90;else ex=50;editExitoSlider.value=ex;updateEditSliderVisuals();document.getElementById('edit_estado').value=(f.estado==='Ganado'||f.estado==='Perdido')?f.estado:'';document.getElementById('editSubtitle').textContent=`Registro de ${f.cliente || '-'} · ${f.fecha || '-'}`;document.getElementById('editTitle').textContent=soloVer?'Detalle de la oferta':'Editar Registro';document.getElementById('editModal').classList.toggle('cmrViewMode',!!soloVer);let notes=document.getElementById('editOfferNotes');if(!notes){notes=document.createElement('section');notes.id='editOfferNotes';notes.className='fichaNotas';document.getElementById('btnGuardarEdicion').after(notes)}cmrLoadOfferNotes(f,'editOfferNotes');document.getElementById('editModal').classList.add('active');document.body.classList.add('modal-open');}
+function abrirRegistroModal(f,soloVer){if(!f)return;if(!soloVer&&perfilActual&&perfilActual.solo_lectura)return;if(registroSinIdentificador(f))return;editRegistro=f;document.querySelectorAll('#editModal .input-error').forEach(el=>el.classList.remove('input-error'));const pais=f.pais==='Portugal'?'Portugal':'España';document.querySelector(`input[name="edit_pais"][value="${pais}"]`).checked=true;document.getElementById('edit_label_provincia').textContent=pais==='Portugal'?'Distrito':'Provincia';renderizarProvinciasEn(document.getElementById('edit_provincia'),pais==='Portugal'?distritosPT:provinciasES);document.getElementById('edit_provincia').value=f.provincia||'';document.getElementById('edit_cliente').value=f.cliente||'';document.getElementById('edit_referencia').value=f.referencia||'';document.getElementById('edit_descuento').value=normalizarNumero(f.descuento);document.getElementById('edit_metros').value=normalizarNumero(f.metros);const radioProd=document.querySelector(`input[name="edit_producto"][value="${f.producto}"]`);if(radioProd)radioProd.checked=true;const radioAisl=document.querySelector(`input[name="edit_aislante"][value="${f.aislante}"]`);if(radioAisl)radioAisl.checked=true;let ex=parseFloat(String(f.exito||'').replace('%','').replace(',','.'));if(isNaN(ex))ex=50;if(ex<25)ex=10;else if(ex>70)ex=90;else ex=50;editExitoSlider.value=ex;updateEditSliderVisuals();document.getElementById('edit_estado').value=(f.estado==='Ganado'||f.estado==='Perdido')?f.estado:'';document.getElementById('editSubtitle').textContent=`Registro de ${f.cliente || '-'} · ${f.fecha || '-'}`;document.getElementById('editTitle').textContent=soloVer?'Detalle de la oferta':'Editar registro';document.getElementById('editModal').classList.toggle('cmrViewMode',!!soloVer);let notes=document.getElementById('editOfferNotes');if(!notes){notes=document.createElement('section');notes.id='editOfferNotes';notes.className='fichaNotas';document.getElementById('btnGuardarEdicion').after(notes)}cmrLoadOfferNotes(f,'editOfferNotes');document.getElementById('editModal').classList.add('active');document.body.classList.add('modal-open');}
 function cerrarEdicion(){document.getElementById('editModal').classList.remove('active');document.getElementById('editModal').classList.remove('cmrViewMode');document.body.classList.remove('modal-open');editRegistro=null;}
 document.getElementById('btnGuardarEdicion').addEventListener('click',async()=>{if(!editRegistro)return;if(document.getElementById('editModal').classList.contains('cmrViewMode'))return;if(perfilActual&&perfilActual.solo_lectura)return;let hasError=false;['edit_cliente','edit_referencia','edit_provincia','edit_descuento','edit_metros'].forEach(id=>{const el=document.getElementById(id);el.classList.remove('input-error');if(!String(el.value).trim()){el.classList.add('input-error');hasError=true;}});[['edit_producto','group-edit-producto'],['edit_aislante','group-edit-aislante'],['edit_pais','group-edit-pais']].forEach(([name,gid])=>{const checked=document.querySelector(`input[name="${name}"]:checked`);const g=document.getElementById(gid);g.classList.remove('input-error');if(!checked){g.classList.add('input-error');hasError=true;}});if(hasError)return;const btnGuardar=document.getElementById('btnGuardarEdicion');const btnEditText=document.getElementById('btnEditText');const btnEditLoader=document.getElementById('btnEditLoader');btnEditText.style.display='none';btnEditLoader.style.display='block';btnGuardar.disabled=true;const optProvincia=document.getElementById('edit_provincia').selectedOptions[0];const nuevosDatos={pais:document.querySelector('input[name="edit_pais"]:checked').value,cliente:document.getElementById('edit_cliente').value.trim(),referencia:document.getElementById('edit_referencia').value.trim(),provincia:document.getElementById('edit_provincia').value,codigo:(optProvincia&&optProvincia.dataset.codigo)?optProvincia.dataset.codigo:'',producto:document.querySelector('input[name="edit_producto"]:checked').value,aislante:document.querySelector('input[name="edit_aislante"]:checked').value,descuento:document.getElementById('edit_descuento').value,exito:editExitoSlider.value+'%',metros:document.getElementById('edit_metros').value,estado:document.getElementById('edit_estado').value};const ok=await enviarActualizacion(Object.assign({fila:editRegistro.fila},nuevosDatos),true);if(ok){Object.assign(editRegistro,nuevosDatos);filtrarTablaHistorial();cerrarEdicion();cmrLoadHomeVisits();mostrarPopUp('¡Registro Actualizado!','Los cambios se han guardado correctamente.','success',{cliente:nuevosDatos.cliente,referencia:nuevosDatos.referencia,metros:nuevosDatos.metros});}
 btnEditText.style.display='block';btnEditLoader.style.display='none';btnGuardar.disabled=false;});['filtroDesde','filtroHasta','filtroCliente','filtroReferencia','filtroProducto','filtroAislante','filtroEstado'].forEach(id=>{document.getElementById(id).addEventListener(id.includes('filtroCliente')||id.includes('filtroReferencia')?'input':'change',()=>{histPagina=1;filtrarTablaHistorial();});});document.getElementById('btnExportarExcel').addEventListener('click',()=>{if(!misDatosFiltrados.length)return alert('No hay datos para exportar.');const defs={fecha:['Fecha',d=>d.fecha||'-'],cliente:['Cliente',d=>d.cliente||'-'],referencia:['Referencia',d=>d.referencia||'-'],provincia:['Provincia',d=>d.provincia||'-'],producto:['Producto',d=>d.producto||'-'],aislante:['Aislante',d=>d.aislante||'-'],descuento:['Descuento (%)',d=>parseFloat(normalizarNumero(d.descuento))||0],metros:['Metros (m²)',d=>parseFloat(normalizarNumero(d.metros))||0],exito:['Probabilidad (%)',d=>parseFloat(String(d.exito||''))||''],fecha_cierre:['Cierre estimado',d=>d.fecha_cierre||'Sin fecha'],siguiente_paso:['Próximo paso',d=>d.siguiente_paso||'Sin próximo paso'],estado:['Fase',d=>cmrPipePhases.find(x=>x[0]===cmrPipePhaseOf(d))?.[1]||'Enviada']};const cols=rcColumnasVisibles().filter(c=>c.key!=='acciones');const excelData=[cols.map(c=>defs[c.key][0])];misDatosFiltrados.forEach(d=>excelData.push(cols.map(c=>defs[c.key][1](d))));const ws=XLSX.utils.aoa_to_sheet(excelData);ws['!cols']=cols.map(c=>({wch:Math.max(12,Math.min(30,c.label.length+6))}));const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Mi_Historial");XLSX.writeFile(wb,"Historial_Comercial.xlsx");});</script>
@@ -1118,7 +1118,7 @@ function cmrPipeAskMotivo(id,onSelect){
  const motivos=['Precio','Competencia','Plazo de entrega','Sin presupuesto','Proyecto parado','Sin respuesta','Otro motivo'];
  cmrPipeMiniModal('¿Por qué se pierde?',`<div class="cmrLossIdentity"><span class="cmrLossRef">${cmrEsc(o.referencia||'Sin referencia')}</span><span class="cmrLossClient">${cmrEsc(o.cliente||'')}</span></div><div class="motivoGrid cmrLossMotivoGrid">${motivos.map(m=>`<button type="button" data-motivo="${cmrEsc(m)}">${m==='Otro motivo'?'<span aria-hidden="true">✎</span> ':''}${m}</button>`).join('')}</div>`);
  const guardar=motivo=>{cmrPipeCloseMini();if(onSelect)onSelect(motivo);else cmrPipeMove(id,'perdida',motivo)};
- cmrGet('cmrPipeMini').querySelectorAll('[data-motivo]').forEach(btn=>{btn.onclick=()=>{const motivo=btn.dataset.motivo;if(motivo!=='Otro motivo'){guardar(motivo);return}cmrPipeMiniModal('Otro motivo',`<div class="cmrLossIdentity"><span class="cmrLossRef">${cmrEsc(o.referencia||'Sin referencia')}</span><span class="cmrLossClient">${cmrEsc(o.cliente||'')}</span></div><form id="cmrOtroMotivoForm"><label for="cmrOtroMotivoTexto">¿Cuál es el motivo?</label><textarea id="cmrOtroMotivoTexto" class="form-control" required rows="3" placeholder="Escribe el motivo de pérdida"></textarea><p id="cmrOtroMotivoError" class="cliFormError" role="alert" hidden>Escribe el motivo para continuar.</p><button type="submit" class="cmrPrimary">Guardar como perdida</button></form>`);const input=cmrGet('cmrOtroMotivoTexto');input.focus();cmrGet('cmrOtroMotivoForm').onsubmit=e=>{e.preventDefault();const texto=input.value.trim();if(!texto){cmrGet('cmrOtroMotivoError').hidden=false;input.focus();return}guardar('Otro motivo: '+texto)}}});
+ cmrGet('cmrPipeMini').querySelectorAll('[data-motivo]').forEach(btn=>{btn.onclick=()=>{const motivo=btn.dataset.motivo;if(motivo!=='Otro motivo'){guardar(motivo);return}cmrPipeMiniModal('Otro motivo',`<div class="cmrLossIdentity"><span class="cmrLossRef">${cmrEsc(o.referencia||'Sin referencia')}</span><span class="cmrLossClient">${cmrEsc(o.cliente||'')}</span></div><form id="cmrOtroMotivoForm"><label for="cmrOtroMotivoTexto">¿Cuál es el motivo?</label><textarea id="cmrOtroMotivoTexto" class="form-control" required rows="3" placeholder="Escribe el motivo de pérdida"></textarea><p id="cmrOtroMotivoError" class="cliFormError" role="alert" hidden>Escribe el motivo para continuar.</p><button type="submit" class="cmrPrimary">Guardar como pérdida</button></form>`);const input=cmrGet('cmrOtroMotivoTexto');input.focus();cmrGet('cmrOtroMotivoForm').onsubmit=e=>{e.preventDefault();const texto=input.value.trim();if(!texto){cmrGet('cmrOtroMotivoError').hidden=false;input.focus();return}guardar('Otro motivo: '+texto)}}});
 }
 let cmrPipeScrollLock=null;
 function cmrPipeLockScroll(){if(cmrPipeScrollLock)return;const b=document.body;cmrPipeScrollLock={x:window.scrollX,y:window.scrollY,styles:{position:b.style.position,top:b.style.top,left:b.style.left,right:b.style.right,width:b.style.width,overflow:b.style.overflow}};Object.assign(b.style,{position:'fixed',top:-cmrPipeScrollLock.y+'px',left:-cmrPipeScrollLock.x+'px',right:'0',width:'100%',overflow:'hidden'})}
@@ -1913,3 +1913,226 @@ body:not(:has(#cmrRail.expanded)):not(.cmrLoggedOut) #cmrTop,body:not(:has(#cmrR
 :is(body[data-section="ofertas"],body[data-section="historial"]) #historyTable th:hover .col-resizer,
 :is(body[data-section="ofertas"],body[data-section="historial"]) #historyTable .col-resizer.activo{background:linear-gradient(#9ab9db,#9ab9db) center/1px 18px no-repeat}
 </style>
+
+
+<!-- Propuestas aprobadas 19nov2026: 1 solapes +, 2 pie fijo guardar, 3 cabecera Ofertas compacta, 4 panel Columnas movil, 5 perfiles demo, 6 titulos y acciones, 7 filtros Estadisticas; + borde Mi dia y modal Otro motivo confirmados por el usuario -->
+<style id="cmrPropuestas19nov">
+/* (6) Jerarquia comun de ventanas: titulo arriba a la izquierda, en la fila de la X */
+:is(#editModal,#viewModal,#cmrVisitaModal,#cmrClientModal,#cmrPipeEdit,#cmrOfertaModal,#cmrPipeMini) .cmrCloseBar{display:flex;width:auto;position:sticky;top:12px;z-index:8;min-height:0;height:0;padding:0;margin:0;overflow:visible;justify-content:flex-end;background:transparent}
+:is(#editModal,#viewModal,#cmrVisitaModal,#cmrClientModal,#cmrPipeEdit,#cmrOfertaModal,#cmrPipeMini) .cmrCloseBar .btn-close-modal{position:static!important;margin:0}
+:is(#editModal,#viewModal,#cmrVisitaModal,#cmrClientModal,#cmrPipeEdit,#cmrOfertaModal) h2{color:#1e293b;font-size:22px;line-height:1.25;text-align:left;margin:2px 0 6px;padding-right:46px}
+#cmrPipeMini .modal-card h2{margin-top:2px;text-align:left}
+:is(#fichaSubtitle,#cmrClientIntro,#pipeEditAviso,.visitResponsible){text-align:left;margin-top:0}
+#editModal .modal-card h2{color:#1e293b}
+#cmrPipeEdit h2{margin:2px 0 10px}
+#cmrPipeEdit #pipeEditTitle{position:static;max-width:none;text-align:left;font-size:15px}
+#cmrOtroMotivoForm label{display:block;margin:0 0 8px;font-weight:600;color:#334155;text-align:left}
+#cmrOtroMotivoForm textarea{margin-top:0}
+#editModal.cmrEditFooter .cmrEditScroll{padding-top:16px;scroll-padding-top:16px}
+#editModal.cmrEditFooter .cmrCloseBar{top:12px}
+
+/* Detalle de la oferta: sin lineas finas sobre y bajo los botones (confirmado 19nov) */
+#viewModal .fichaActions{border-top:0;border-bottom:0;padding:0}
+/* (8) Mi dia: borde igualado al de Ver todas las ofertas */
+.mdActions button{box-sizing:border-box;border:1.5px solid #0056b3}
+/* (1) El + nunca tapa: se oculta con cualquier ventana o panel abierto */
+body:has(.modal-overlay.active:not(#historyModal)) #cmrPlus,
+body:has(#historyModal .filter-panel.abierto) #cmrPlus,
+body:has(#historyModal .columnas-panel.abierto) #cmrPlus{opacity:0;pointer-events:none}
+@media(max-width:699px){
+ .offerMobileCards{padding-bottom:100px}
+ #cmrCalendario .visitMonthFooter{padding-right:88px}
+ #cmrCalendario .visitListWrap,#cmrCalendario .visitList{padding-bottom:70px}
+}
+/* (2) Pie fijo de Guardar en formularios largos (movil) */
+@media(max-width:699px){
+ .modal-overlay.cmrFF .modal-card,.modal-overlay.cmrFF .glass-container{display:flex;flex-direction:column;overflow:hidden;max-height:92vh;max-height:92dvh;padding:0;transform:none!important;will-change:auto}
+ .modal-overlay.cmrFF .cmrCloseBar{position:absolute;top:12px;right:14px;height:40px;width:40px;z-index:8}
+ .modal-overlay.cmrFF .cmrFFHead{flex:0 0 auto;padding:16px 20px 2px}
+ .modal-overlay.cmrFF .cmrFFHead h2{padding-right:34px;margin-top:0}
+ .modal-overlay.cmrFF :is(form#cmrVisitaForm,form#cmrClientForm,form#cmrPipeForm,form#salesForm){flex:1 1 auto;min-height:0;display:flex;flex-direction:column;margin:0;overflow:hidden}
+ .modal-overlay.cmrFF .cmrFormScroll{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:8px 20px 20px}
+ .modal-overlay.cmrFF .cmrFFoot{flex:0 0 auto;align-self:stretch;width:100%;box-sizing:border-box;margin:0;padding:12px 20px max(14px,env(safe-area-inset-bottom,0px));border-top:1px solid #dfe8f2;background:rgba(255,255,255,.97);box-shadow:0 -5px 18px #12375c0a;z-index:7;border-radius:0}
+ .modal-overlay.cmrFF .cmrFFoot .btn-submit,.modal-overlay.cmrFF .cmrFFoot .cmrPrimary{width:100%;margin:0}
+ .modal-overlay.cmrFF .cmrFFoot.cliFormActions{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:12px}
+ .modal-overlay.cmrFF .cmrFFoot.cliFormActions .cmrPrimary{flex:1;width:auto}
+}
+/* (3) Ofertas movil: indicadores en dos filas mas bajas */
+@media(max-width:699px){
+ body[data-section="ofertas"] #historyModal .hist-stat{display:flex;align-items:baseline;justify-content:center;gap:7px;padding:7px 10px}
+ body[data-section="ofertas"] #historyModal .hist-stat .hs-label{margin-top:0}
+ body[data-section="ofertas"] #historyModal .hist-stat .cmrKpiIcon{position:static;width:18px;height:18px;border-radius:6px;opacity:.75;align-self:center;order:-1}
+ body[data-section="ofertas"] #historyModal .hist-stat .cmrKpiIcon svg{width:12px;height:12px}
+ body[data-section="ofertas"] #historyModal .hist-resumen{gap:8px;margin-bottom:10px}
+}
+/* (3) Resumen de actividad plegable (movil) */
+.cmrSumToggle{display:none}
+@media(max-width:699px){
+ .cmrSumToggle{display:inline-flex;align-items:center;gap:7px;min-height:40px;padding:8px 14px;border:1px solid #d7e5f5;border-radius:999px;background:#eef4fb;color:#33475c;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer}
+ .cmrSumToggle b{color:#0056b3;font-weight:800}
+ .cmrSumToggle .cmrSumChev{transition:transform .18s ease}
+ #cmrPipeToolbar.cmrSumOpen .cmrSumToggle .cmrSumChev{transform:rotate(180deg)}
+ #cmrPipeToolbar:not(.cmrSumOpen) #cmrPipeSummaryLive{display:none}
+}
+/* (4) Panel Columnas contenido en movil */
+@media(max-width:699px){
+ #historyModal .columnas-panel{position:fixed;left:10px;right:10px;top:auto;bottom:calc(10px + env(safe-area-inset-bottom,0px));width:auto;max-height:min(64vh,560px);display:flex;flex-direction:column;margin:0;z-index:1250;box-shadow:0 18px 44px rgba(15,35,60,.28)}
+ #historyModal .columnas-panel:not(.abierto){display:none}
+ #historyModal .columnas-panel h3{flex:0 0 auto;margin:0;padding-right:40px}
+ #historyModal .columnas-panel .columnas-chips{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;margin-top:10px}
+ #historyModal .columnas-panel .columnas-nota{flex:0 0 auto}
+ #historyModal .columnas-panel .columnas-reset{flex:0 0 auto}
+ .columnas-cerrar{position:absolute;top:10px;right:12px;width:34px;height:34px;display:grid;place-items:center;border:0;border-radius:10px;background:#eef4fb;color:#33475c;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
+ .columnas-listo{flex:0 0 auto;margin-top:10px;width:100%;min-height:44px;border:0;border-radius:12px;background:#0056b3;color:#fff;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
+}
+/* (5) Perfiles demo como botones con estado claro */
+#cmrDemoModo .homeLink{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border:1.5px solid #c8dcf8;border-radius:12px;background:#fff;font-size:13px;font-weight:600;box-sizing:border-box}
+#cmrDemoModo .homeLink.on{border-color:#0056b3;background:#edf5fd;color:#0056b3;font-weight:700}
+/* (7) Estadisticas movil: filtros largos plegados */
+.statsExtraToggle{display:none}
+@media(max-width:699px){
+ .statsExtraToggle{display:inline-flex;align-items:center;gap:7px;min-height:40px;margin-top:12px;padding:8px 14px;border:1px solid #dbe3ed;border-radius:10px;background:#f8fafc;color:#334155;font-size:12.5px;font-weight:600;font-family:inherit;cursor:pointer}
+ .statsExtraToggle b{color:#0056b3;font-weight:800}
+ .statsExtraToggle .cmrSumChev{transition:transform .18s ease}
+ .statsFilterBox:not(.cmrStatsCollapsed) .statsExtraToggle .cmrSumChev{transform:rotate(180deg)}
+ .statsFilterBox.cmrStatsCollapsed .statsFilters>label:nth-child(n+3),
+ .statsFilterBox.cmrStatsCollapsed .statsFilterFoot{display:none}
+}
+</style>
+
+<script id="cmrPropuestas19novJs">
+(function(){
+ 'use strict';
+ var mq=matchMedia('(max-width:699px)');
+ /* (2) Pie fijo de Guardar en formularios largos */
+ function setupFormFooter(modalId,formId,actionsSel){
+  var modal=document.getElementById(modalId);if(!modal)return;
+  var card=modal.querySelector('.modal-card')||modal.querySelector('.glass-container');
+  var form=document.getElementById(formId);
+  if(!card||!form)return;
+  var scroll=null,head=null,foot=null,createdFoot=false,actions=null;
+  function arrange(){
+   if(mq.matches){
+    if(scroll)return;
+    actions=form.querySelector(actionsSel);if(!actions)return;
+    var close=card.querySelector('.cmrCloseBar');
+    scroll=document.createElement('div');scroll.className='cmrFormScroll';
+    Array.from(form.childNodes).forEach(function(n){if(n!==actions)scroll.appendChild(n)});
+    if(actions.classList.contains('cliFormActions')){foot=actions;foot.classList.add('cmrFFoot');}
+    else{foot=document.createElement('div');foot.className='cmrFFoot';createdFoot=true;foot.appendChild(actions);}
+    form.appendChild(scroll);form.appendChild(foot);
+    head=document.createElement('div');head.className='cmrFFHead';
+    Array.from(card.childNodes).forEach(function(n){if(n!==close&&n!==form)head.appendChild(n)});
+    card.insertBefore(head,form);
+    modal.classList.add('cmrFF');
+   }else if(scroll){
+    Array.from(head.childNodes).forEach(function(n){card.insertBefore(n,form)});
+    head.remove();head=null;
+    var kids=Array.from(scroll.childNodes);
+    scroll.remove();scroll=null;
+    kids.forEach(function(n){form.appendChild(n)});
+    if(createdFoot){foot.remove();form.appendChild(actions);}
+    else{foot.classList.remove('cmrFFoot');form.appendChild(foot);}
+    foot=null;createdFoot=false;
+    modal.classList.remove('cmrFF');
+   }
+  }
+  arrange();mq.addEventListener('change',arrange);
+ }
+ setupFormFooter('cmrOfertaModal','salesForm','#submitBtn');
+ setupFormFooter('cmrVisitaModal','cmrVisitaForm','.cliFormActions');
+ setupFormFooter('cmrClientModal','cmrClientForm','.cliFormActions');
+ setupFormFooter('cmrPipeEdit','cmrPipeForm','#pipeEditSave');
+
+ /* (3) Resumen de actividad plegable en Ofertas movil */
+ var toolbar=document.getElementById('cmrPipeToolbar');
+ var sumLive=document.getElementById('cmrPipeSummaryLive');
+ if(toolbar&&sumLive){
+  var sumBtn=document.createElement('button');
+  sumBtn.type='button';sumBtn.className='cmrSumToggle';
+  sumBtn.setAttribute('aria-expanded','false');
+  sumBtn.innerHTML='<span class="cmrSumTxt">Resumen de actividad</span><span class="cmrSumChev" aria-hidden="true">▾</span>';
+  toolbar.insertBefore(sumBtn,sumLive);
+  function sumCount(){var n=sumLive.querySelectorAll('.pipeStatPill').length;return n;}
+  function sumPaint(){sumBtn.querySelector('.cmrSumTxt').innerHTML='Resumen de actividad'+(sumCount()?' · <b>'+sumCount()+'</b>':'');}
+  sumBtn.addEventListener('click',function(){
+   var open=toolbar.classList.toggle('cmrSumOpen');
+   sumBtn.setAttribute('aria-expanded',open?'true':'false');
+  });
+  new MutationObserver(sumPaint).observe(sumLive,{childList:true,subtree:true});
+  sumPaint();
+ }
+
+ /* (4) Panel Columnas movil: cierre claro e instrucciones moviles */
+ var colPanel=document.getElementById('columnasPanel');
+ if(colPanel){
+  var colClose=document.createElement('button');
+  colClose.type='button';colClose.className='columnas-cerrar';colClose.setAttribute('aria-label','Cerrar panel de columnas');colClose.textContent='✕';
+  var colListo=document.createElement('button');
+  colListo.type='button';colListo.className='columnas-listo';colListo.textContent='Listo';
+  function colCierra(){
+   colPanel.classList.remove('abierto');
+   var b=document.getElementById('btnColumnas');if(b)b.classList.remove('activo');
+  }
+  colClose.addEventListener('click',function(e){e.stopPropagation();colCierra();});
+  colListo.addEventListener('click',function(e){e.stopPropagation();colCierra();});
+  colPanel.appendChild(colClose);colPanel.appendChild(colListo);
+  var nota=colPanel.querySelector('.columnas-nota');
+  var notaDesktop=nota?nota.textContent:'';
+  var notaMovil='Fase y Acciones se desplazan con la tabla. Toca una oferta para ver su ficha. En la cabecera de la tabla: toca para ordenar. El ancho y el orden de columnas se ajustan mejor desde el ordenador.';
+  function colNota(){if(nota)nota.textContent=mq.matches?notaMovil:notaDesktop;}
+  colNota();mq.addEventListener('change',colNota);
+ }
+
+ /* (5) Estado seleccionado en perfiles demo */
+ function demoMarcar(){
+  var md=null;
+  try{md=JSON.parse(sessionStorage.getItem('cmrModoDemo')||'null')}catch(e){}
+  var actual=md&&md.delegado?md.delegado:'';
+  document.querySelectorAll('#cmrDemoModo .homeLink').forEach(function(b){
+   var on=actual?(b.textContent.trim()===actual):(b.textContent.trim()==='Mi perfil');
+   b.classList.toggle('on',on);
+   b.setAttribute('aria-pressed',on?'true':'false');
+  });
+ }
+ if(document.getElementById('cmrDemoModo')){
+  if(typeof window.cmrDemoModoPintar==='function'){
+   var origPintar=window.cmrDemoModoPintar;
+   window.cmrDemoModoPintar=function(){origPintar();demoMarcar();};
+  }
+  document.querySelectorAll('#cmrDemoModo .homeLink').forEach(function(b){b.addEventListener('click',demoMarcar);});
+  demoMarcar();setTimeout(demoMarcar,1500);
+ }
+
+ /* (7) Estadisticas movil: plegar filtros largos con contador */
+ var statsOpen=false;
+ function cmrStatsCollapse(){
+  var box=document.querySelector('.statsFilterBox');
+  if(!box)return;
+  var filters=box.querySelector('.statsFilters');
+  if(!filters)return;
+  box.classList.toggle('cmrStatsCollapsed',!(statsOpen&&mq.matches));
+  var old=box.querySelector('.statsExtraToggle');if(old)old.remove();
+  if(!mq.matches)return;
+  var extras=Array.from(filters.querySelectorAll(':scope > label:nth-child(n+3)'));
+  var n=extras.filter(function(l){var s=l.querySelector('select');return s&&s.value!=='';}).length;
+  var btn=document.createElement('button');
+  btn.type='button';btn.className='statsExtraToggle';
+  btn.setAttribute('aria-expanded',statsOpen?'true':'false');
+  btn.innerHTML='<span>Filtros'+(n?' · <b>'+n+' activo'+(n>1?'s':'')+'</b>':'')+'</span><span class="cmrSumChev" aria-hidden="true">▾</span>';
+  btn.addEventListener('click',function(){
+   statsOpen=!statsOpen;
+   box.classList.toggle('cmrStatsCollapsed',!statsOpen);
+   btn.setAttribute('aria-expanded',statsOpen?'true':'false');
+  });
+  filters.after(btn);
+ }
+ if(typeof window.cmrStatsRender==='function'){
+  var origStats=window.cmrStatsRender;
+  window.cmrStatsRender=function(){origStats();cmrStatsCollapse();};
+ }
+ mq.addEventListener('change',cmrStatsCollapse);
+ cmrStatsCollapse();
+})();
+</script>
+
