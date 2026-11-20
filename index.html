@@ -2085,6 +2085,13 @@ function perfVolver(){const l=document.querySelector('#cmrProfilePanel .perfLayo
 document.addEventListener('click',e=>{const b=e.target.closest('#cmrProfilePanel .perfItem');if(b){perfAbrir(b.dataset.pane);if(window.matchMedia('(max-width:699px)').matches)window.scrollTo(0,0)}});
 </script>
 <style id="cmrPropuestaMenuTitulos">.perfItem .perfLab{font-weight:600}</style>
+<style id="cmrCalendarioAurora20nov">
+/* (P2) Cabecera del calendario con el degradado aurora aprobado */
+.visitMonthHead{background:radial-gradient(ellipse 130% 90% at 88% -20%,rgba(109,91,208,.30),rgba(109,91,208,0) 70%),radial-gradient(ellipse 140% 95% at 60% 120%,rgba(18,160,150,.22),rgba(18,160,150,0) 70%),radial-gradient(ellipse 150% 100% at 108% 55%,rgba(21,120,187,.28),rgba(21,120,187,0) 70%),linear-gradient(100deg,#f4f8ff 0%,#fafbfe 100%)!important;color:#1e293b!important}
+.visitMonthHead h3{color:#1e293b!important}
+.visitMonthHead .homeIcon{background:#e6f0fc!important;border:1px solid #cfe2fa!important;color:#0056b3!important}
+.visitMonthHead .homeIcon:hover{background:#d8e9fc!important}
+</style>
 </body>
 </html>
 <script src="8-cmr-mobile-refresh.js"></script>
