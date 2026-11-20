@@ -2134,6 +2134,38 @@ body[data-section="historial"] #historyModal .offerMobileCard:has(.offerPhase-ga
 
 </style>
 </body>
+<style id="cmrFix20novMediodia">
+/* 20 nov mediodia. Tres correcciones pedidas y aprobadas por el usuario por WhatsApp:
+   1) Pie de Asignar visita/llamada y Nuevo cliente integrado con la ventana, sin franja blanca sobre Guardar.
+   2) Producto y Aislante de Nueva oferta con el estilo de Pais de la operacion (solo estilo; valores y logica intactos).
+   3) Cambios de tamano suaves (no bruscos) al aparecer campos, desplegables y avisos en las ventanas flotantes. */
+
+/* 1) Pie integrado: transparente, sin borde ni sombra (escritorio y cmrFF movil) */
+#cmrVisitaModal .cliFormActions,#cmrClientModal .cliFormActions{background:transparent!important;border-top:0!important;box-shadow:none!important}
+#cmrVisitaModal.cmrFF .cmrFFoot,#cmrClientModal.cmrFF .cmrFFoot{background:transparent;border-top:0;box-shadow:none}
+
+/* 2) Producto/Aislante estilo Pais (anula las pildoras azules que inyecta 8-cmr-mobile-refresh.js en Nueva oferta) */
+#salesForm #group-producto,#salesForm #group-aislante{display:flex;gap:12px;padding:0;border:none;background:transparent;min-height:0}
+#salesForm #group-producto .radio-label,#salesForm #group-aislante .radio-label{background:var(--input-bg);border:2px solid var(--input-border);border-radius:12px;padding:13px 10px;color:var(--text-main);box-shadow:none;transform:none;transition:all var(--transition-speed) ease}
+#salesForm #group-producto .radio-label:has(input:checked),#salesForm #group-aislante .radio-label:has(input:checked){background:#fff;color:var(--isopan-blue);border-color:var(--isopan-blue);box-shadow:0 4px 16px var(--input-focus-ring);transform:translateY(-2px)}
+
+/* 3a) Desplegable de clientes de la visita (en flujo): crecimiento suave */
+#cmrVisitaModal .visitOptions{transition:max-height .24s ease,opacity .18s ease,margin-top .24s ease,padding .24s ease,border-width .24s ease,visibility .24s ease}
+#cmrVisitaModal .visitOptions[hidden]{display:block!important;max-height:0;opacity:0;visibility:hidden;margin-top:0;padding-top:0;padding-bottom:0;border-width:0;overflow:hidden;pointer-events:none}
+/* 3b) Grupos condicionales y avisos de las ventanas flotantes: aparicion suave */
+#cmrVisitaModal #visitResultadoGroup,#cmrVisitaModal #visitEstadoGroup,#cmrVisitaModal #visitError,
+#cmrClientModal #cliProvinciaGroup,#cmrClientModal #cliDupAviso,#cmrClientModal #cmrClientError,#cmrClientModal #cmrVisitNotice,
+#cmrDireccionModal #cmrDireccionError,#cmrNoAtiendeModal #noAtiendeError,#cmrPipeEdit #pipeEditError,
+#editModal #cmrPrepForm,#editModal #prepError,#editModal #cmrOtroMotivoError,#editModal #cliNotaCancelar,#editModal #adminConfirmError{max-height:1000px;transition:max-height .26s ease,opacity .2s ease,margin .26s ease,padding .26s ease,visibility .26s ease}
+#cmrVisitaModal #visitResultadoGroup[hidden],#cmrVisitaModal #visitEstadoGroup[hidden],#cmrVisitaModal #visitError[hidden],
+#cmrClientModal #cliProvinciaGroup[hidden],#cmrClientModal #cliDupAviso[hidden],#cmrClientModal #cmrClientError[hidden],#cmrClientModal #cmrVisitNotice[hidden],
+#cmrDireccionModal #cmrDireccionError[hidden],#cmrNoAtiendeModal #noAtiendeError[hidden],#cmrPipeEdit #pipeEditError[hidden],
+#editModal #cmrPrepForm[hidden],#editModal #prepError[hidden],#editModal #cmrOtroMotivoError[hidden],#editModal #cliNotaCancelar[hidden],#editModal #adminConfirmError[hidden]{display:block!important;max-height:0;opacity:0;visibility:hidden;margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0;overflow:hidden;pointer-events:none}
+/* 3c) Sugerencias de cliente de Nueva oferta (flotantes): fundido en vez de corte */
+.sugerencias{display:block;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s ease,visibility .18s ease}
+.sugerencias.active{opacity:1;visibility:visible;pointer-events:auto}
+</style>
+
 </html>
 <script src="8-cmr-mobile-refresh.js"></script>
 
