@@ -2133,6 +2133,18 @@ body[data-section="historial"] #historyModal .offerMobileCard:has(.offerPhase-ga
 }
 
 </style>
+<style id="cmrFix20novTiempos">
+/* 20nov: Detalle oferta - Tiempos por estado. Solo presentacion. */
+/* 1) La linea vertical se dibujaba solo dentro de cada fila (.faseRow::before) y se cortaba al cruzar un bloque de notas de seguimiento (.segNotas, hermano entre filas). Se prolonga la linea a traves del bloque de notas, alineada con la de las filas (x=5px), desde el final de la linea anterior hasta el punto siguiente. No se dibuja si el bloque es el ultimo elemento (notas del estado final: no hay nada debajo que conectar). */
+#viewModal .segNotas{position:relative}
+#viewModal .segNotas:not(:last-child)::before{content:"";position:absolute;left:-16px;top:6px;bottom:-17px;width:1px;background:#e2e8f0}
+/* 2) La fila del estado actual (.now) ya no deja un trozo de linea huerfano debajo: la regla :last-child existente no la cubria cuando hay notas despues de la ultima fila. */
+#viewModal .faseRow.now::before{display:none}
+/* 3) Punto del estado actual por resultado: verde si Ganada, rojo si Perdida; los estados abiertos mantienen el azul actual. Misma paleta que las etiquetas de estado (.homeState.win/.lost). */
+#viewModal:has(#fichaEstado .homeState.win) .faseRow.now .faseDot{background:#0c6b4a;box-shadow:0 0 0 4px #c9f0dd}
+#viewModal:has(#fichaEstado .homeState.lost) .faseRow.now .faseDot{background:#b02a46;box-shadow:0 0 0 4px #ffd9e2}
+</style>
+
 </body>
 <style id="cmrFix20novMediodia">
 /* 20 nov mediodia. Tres correcciones pedidas y aprobadas por el usuario por WhatsApp:
