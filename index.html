@@ -2324,11 +2324,11 @@ body:not(:has(#cmrRail.expanded)):not(.cmrLoggedOut) #cmrTop,body:not(:has(#cmrR
 #cmrPipeForm>.visitHelp,#cmrPipeForm>#pipeEditError,#cmrPipeForm>#pipeEditSave{grid-column:1 / -1;}
 #cmrPipeForm #pipeEditSave{width:100%;margin-top:0;}
 /* 23nov: Seguimiento, evitar scroll horizontal interno en móvil como en agenda (#115). */
-#cmrPipeEdit .cmrFormScroll{overflow-x:hidden!important;overflow-x:clip!important;overflow-y:auto!important;touch-action:pan-y;overscroll-behavior:contain;max-width:100%;min-width:0}
-#cmrPipeEdit .cmrFormScroll>*{min-width:0;max-width:100%}
-#cmrPipeEdit .followGroup,#cmrPipeEdit .followGroup .form-group{min-width:0;max-width:100%}
-#cmrPipeEdit input.form-control,#cmrPipeEdit select.form-control,#cmrPipeEdit textarea.form-control{width:100%!important;min-width:0!important;max-width:100%!important;box-sizing:border-box}
-#cmrPipeEdit input[type="date"].form-control{display:block;-webkit-min-logical-width:0;min-inline-size:0}
+#cmrPipeEdit.cmrFF .cmrFormScroll{overflow-x:hidden!important;overflow-x:clip!important;overflow-y:auto!important;touch-action:pan-y!important;overscroll-behavior:contain;max-width:100%;min-width:0!important}
+#cmrPipeEdit.cmrFF .cmrFormScroll>*{min-width:0!important;max-width:100%}
+#cmrPipeEdit.cmrFF .followGroup,#cmrPipeEdit.cmrFF .followGroup .form-group{min-width:0!important;max-width:100%}
+#cmrPipeEdit.cmrFF input.form-control,#cmrPipeEdit.cmrFF select.form-control,#cmrPipeEdit.cmrFF textarea.form-control{width:100%!important;min-width:0!important;max-width:100%!important;box-sizing:border-box}
+#cmrPipeEdit.cmrFF input[type="date"].form-control{display:block;-webkit-min-logical-width:0;min-inline-size:0}
 @media(max-width:767px){
 #cmrPipeEdit .modal-card{max-width:calc(100vw - 24px)!important;padding:22px 20px!important;border-radius:23px;}
 #cmrPipeEdit .cmrCloseBar{right:20px;top:19px;}
