@@ -2148,6 +2148,17 @@ body[data-section="historial"] #historyModal .offerMobileCard:has(.offerPhase-ga
 <style id="cmrFix20novFases">.offerPhase-enviada{background:#e1efff;color:#0056b3}.offerPhase-negociacion{background:#fff1cf;color:#8b650f}</style>
 <style id="cmrFix20novTap">html{-webkit-tap-highlight-color:transparent}</style>
 <style id="cmrFix20novScrollB">#cmrVisitaModal .modal-card.modal-card,#cmrVisitaModal .visitFormCard.visitFormCard{background:#f8fafc!important}#cmrVisitaModal .visitTipoBtn.visitTipoBtn{background:#fff!important}#cmrVisitaModal .cliFormActions.cliFormActions{background:#f8fafc!important}</style>
+<style id="cmrFix23novSwipeX">
+/* 23nov: Asignar visita/llamada, sin desplazamiento horizontal del contenido (solo vertical) */
+#cmrVisitaModal .cmrFormScroll{overflow-x:hidden!important;overflow-x:clip!important;overflow-y:auto!important;touch-action:pan-y;overscroll-behavior:contain;max-width:100%;min-width:0}
+#cmrVisitaModal .cmrFormScroll>*{min-width:0;max-width:100%}
+#cmrVisitaModal .visitFormRow{grid-template-columns:minmax(0,1fr)!important}
+@media(min-width:768px){#cmrVisitaModal .visitFormRow{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}}
+#cmrVisitaModal .visitFormRow>.form-group{min-width:0;max-width:100%}
+#cmrVisitaModal input.form-control,#cmrVisitaModal select.form-control,#cmrVisitaModal textarea.form-control{width:100%!important;min-width:0!important;max-width:100%!important;box-sizing:border-box}
+#cmrVisitaModal input[type="date"].form-control,#cmrVisitaModal input[type="time"].form-control{display:block;-webkit-min-logical-width:0;min-inline-size:0}
+</style>
+<script id="cmrFix23novSwipeXJs">document.addEventListener('scroll',function(e){var t=e.target;if(t&&t.classList&&t.classList.contains('cmrFormScroll')&&t.scrollLeft!==0&&t.closest('#cmrVisitaModal'))t.scrollLeft=0},true);</script>
 </body>
 <style id="cmrFix20novMediodia">
 /* 20 nov mediodia. Tres correcciones pedidas y aprobadas por el usuario por WhatsApp:
