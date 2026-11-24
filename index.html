@@ -2727,3 +2727,40 @@ crmDashNav();
 <style id="cmrMobileHideDashboardOnClient">@media(max-width:699px){#cmrClientes.cliHasSelection>.jefeStats{display:none!important}}</style>
 
 <style id="cmrCliFileStickyTopFix">@media(max-width:699px){body.cmrTopHide:has(#cmrClientes.cliHasSelection) #cmrTop,body.cmrTopHide:has(#cmrClientes.cliHasSelection) #cmrBell,body.cmrTopHide:has(#cmrClientes.cliHasSelection) #cmrLupa{transform:none;pointer-events:auto}#cmrClientes.cliHasSelection #cmrCliDetail .cliFileSticky{background:#f8fafc}}</style>
+
+<style id="crmDashTooltipStyles">
+#cmrStatsPanel .dashMonth,#cmrStatsPanel .dashDay{position:relative;cursor:pointer;touch-action:manipulation;outline:none}
+#cmrStatsPanel .dashMonth:focus-visible,#cmrStatsPanel .dashDay:focus-visible{box-shadow:0 0 0 3px #93c5fd;border-radius:8px}
+#cmrStatsPanel .dashTip{position:absolute;z-index:20;left:50%;bottom:calc(100% + 8px);transform:translate(-50%,4px);width:max-content;max-width:min(270px,calc(100vw - 42px));min-width:176px;padding:11px 13px;border:1px solid #d5e0ef;border-radius:13px;background:rgba(255,255,255,.98);box-shadow:0 9px 24px #173a661f;color:#26364a;text-align:left;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .14s ease,transform .14s ease;white-space:normal}
+#cmrStatsPanel .dashTip:before{content:"";position:absolute;left:50%;top:100%;border:6px solid transparent;border-top-color:#d5e0ef;transform:translateX(-50%)}
+#cmrStatsPanel .dashTipTitle{display:block;font-size:12px;font-weight:800;margin-bottom:6px;color:#26364a}
+#cmrStatsPanel .dashTipRow{display:flex;justify-content:space-between;gap:16px;padding:4px 0;border-top:1px solid #e7edf5;font-size:11px;color:#64748b}
+#cmrStatsPanel .dashTipRow b{color:#26364a;white-space:nowrap}
+#cmrStatsPanel .dashTipNote{display:block;margin-top:6px;padding-top:5px;border-top:1px solid #e7edf5;color:#64748b;font-size:9px;line-height:1.4}
+#cmrStatsPanel .dashMonth.is-tip-open .dashTip,#cmrStatsPanel .dashDay.is-tip-open .dashTip{opacity:1;visibility:visible;transform:translate(-50%,0)}
+@media(hover:hover) and (pointer:fine){#cmrStatsPanel .dashMonth:hover .dashTip,#cmrStatsPanel .dashMonth:focus .dashTip,#cmrStatsPanel .dashDay:hover .dashTip,#cmrStatsPanel .dashDay:focus .dashTip{opacity:1;visibility:visible;transform:translate(-50%,0)}}
+@media(max-width:699px){#cmrStatsPanel .dashMonthly,#cmrStatsPanel .dashWeek{overflow:visible}#cmrStatsPanel .dashMonth:first-child .dashTip{left:0;transform:translate(0,4px)}#cmrStatsPanel .dashMonth:first-child.is-tip-open .dashTip{transform:translate(0,0)}#cmrStatsPanel .dashMonth:first-child .dashTip:before{left:12px}#cmrStatsPanel .dashMonth:last-child .dashTip{left:auto;right:0;transform:translate(0,4px)}#cmrStatsPanel .dashMonth:last-child.is-tip-open .dashTip{transform:translate(0,0)}#cmrStatsPanel .dashMonth:last-child .dashTip:before{left:auto;right:10px;transform:none}#cmrStatsPanel .dashDay:nth-child(-n+2) .dashTip{left:0;transform:translate(0,4px)}#cmrStatsPanel .dashDay:nth-child(-n+2).is-tip-open .dashTip{transform:translate(0,0)}#cmrStatsPanel .dashDay:nth-child(-n+2) .dashTip:before{left:12px}#cmrStatsPanel .dashDay:nth-child(n+6) .dashTip{left:auto;right:0;transform:translate(0,4px)}#cmrStatsPanel .dashDay:nth-child(n+6).is-tip-open .dashTip{transform:translate(0,0)}#cmrStatsPanel .dashDay:nth-child(n+6) .dashTip:before{left:auto;right:10px;transform:none}}
+@media(prefers-reduced-motion:reduce){#cmrStatsPanel .dashTip{transition:none}}
+</style>
+<script id="crmDashTooltips">
+(()=>{
+const original=cmrStatsRender,fmt=n=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:0}).format(n);
+function closeTips(root){root.querySelectorAll('.is-tip-open').forEach(e=>{e.classList.remove('is-tip-open');e.setAttribute('aria-expanded','false')});}
+function bindTips(root){
+ root.querySelectorAll('.dashMonth').forEach((el,i)=>{
+  const x=crmDash.month.split('-').map(Number),d=new Date(Date.UTC(x[0],x[1]-6+i,15)),key=d.toISOString().slice(0,7),label=d.toLocaleDateString('es-ES',{month:'long',year:'numeric',timeZone:'UTC'}),subset=cmrStats.rows.filter(r=>(!crmDash.delegate||r.delegado===crmDash.delegate)&&cmrStatsDate(r.fecha).slice(0,7)===key),meters=subset.reduce((a,r)=>a+Math.max(0,cmrStatsNum(r.metros)||0),0),offers=subset.length,won=subset.filter(r=>r.estado==='Ganado').length;
+  el.setAttribute('tabindex','0');el.setAttribute('role','button');el.setAttribute('aria-label',`${label}: ${fmt(meters)} metros cuadrados ofertados, ${fmt(offers)} ofertas registradas, ${fmt(won)} actualmente ganadas`);el.setAttribute('aria-expanded','false');el.querySelector('.dashTip')?.remove();const tip=document.createElement('div');tip.className='dashTip';tip.innerHTML=`<b class="dashTipTitle">${cmrEsc(label)}</b><span class="dashTipRow"><span>m² ofertados</span><b>${fmt(meters)}</b></span><span class="dashTipRow"><span>Ofertas registradas</span><b>${fmt(offers)}</b></span><span class="dashTipRow"><span>Ganadas · estado actual</span><b>${fmt(won)}</b></span><small class="dashTipNote">Ganadas actuales, no necesariamente cerradas en este mes.</small>`;el.appendChild(tip);
+  el.onclick=ev=>{if(matchMedia('(hover:hover) and (pointer:fine)').matches)return;ev.stopPropagation();const was=el.classList.contains('is-tip-open');closeTips(root);if(!was){el.classList.add('is-tip-open');el.setAttribute('aria-expanded','true')}};
+  el.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();const was=el.classList.contains('is-tip-open');closeTips(root);if(!was){el.classList.add('is-tip-open');el.setAttribute('aria-expanded','true')}}else if(ev.key==='Escape')closeTips(root)};
+ });
+ root.querySelectorAll('.dashDay').forEach(el=>{
+  const key=(el.getAttribute('aria-label')||'').split(':')[0],vs=(crmDash.visits||[]).filter(v=>(!crmDash.delegate||v.delegado===crmDash.delegate)&&v.fecha===key&&['programada','realizada'].includes(v.estado)),by=new Map();vs.forEach(v=>{const name=String(v.delegado||'').trim()||'Sin comercial',item=by.get(name)||{visits:0,calls:0};if(v.tipo==='llamada')item.calls++;else item.visits++;by.set(name,item)});const v=vs.filter(x=>x.tipo==='visita'||!x.tipo).length,c=vs.filter(x=>x.tipo==='llamada').length,label=new Date(key+'T12:00:00Z').toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'short',timeZone:'UTC'}),list=[...by.entries()].sort((a,b)=>a[0].localeCompare(b[0],'es'));
+  el.setAttribute('tabindex','0');el.setAttribute('role','button');el.setAttribute('aria-label',`${label}: ${v} visitas, ${c} llamadas en total`);el.setAttribute('aria-expanded','false');el.querySelector('.dashTip')?.remove();const tip=document.createElement('div');tip.className='dashTip';tip.innerHTML=`<b class="dashTipTitle">${cmrEsc(label)}</b>${list.length?list.map(([name,x])=>`<span class="dashTipRow"><span>${cmrEsc(name)}</span><b>${fmt(x.visits)} visitas · ${fmt(x.calls)} llamadas</b></span>`).join(''):'<span class="dashTipRow"><span>Sin actividad</span><b>0 visitas · 0 llamadas</b></span>'}<span class="dashTipRow"><span>Total</span><b>${fmt(v)} visitas · ${fmt(c)} llamadas</b></span>`;el.appendChild(tip);
+  el.onclick=ev=>{if(matchMedia('(hover:hover) and (pointer:fine)').matches)return;ev.stopPropagation();const was=el.classList.contains('is-tip-open');closeTips(root);if(!was){el.classList.add('is-tip-open');el.setAttribute('aria-expanded','true')}};
+  el.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();const was=el.classList.contains('is-tip-open');closeTips(root);if(!was){el.classList.add('is-tip-open');el.setAttribute('aria-expanded','true')}}else if(ev.key==='Escape')closeTips(root)};
+ });
+}
+cmrStatsRender=function(){original();const root=document.getElementById('cmrStatsPanel');if(!root?.classList.contains('crmDashboard')||!cmrStats.rows)return;root.querySelectorAll('.dashMonth,.dashDay').forEach(el=>{el.onclick=null;el.onkeydown=null;el.setAttribute('aria-expanded','false')});bindTips(root)};
+document.addEventListener('click',ev=>{const root=document.getElementById('cmrStatsPanel');if(root&&!ev.target.closest('.dashMonth,.dashDay'))closeTips(root)});
+})();
+</script>
