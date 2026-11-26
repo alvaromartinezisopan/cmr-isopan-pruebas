@@ -1080,7 +1080,7 @@ const SIN='Sin motivo indicado',OTRO='Otro motivo',map=new Map(),otros=new Map()
 for(const r of lost){let m=String(r.motivo_perdida||'').trim();if(!m)m=SIN;else if(/^otro motivo\s*:/i.test(m)){const t=m.replace(/^otro motivo\s*:\s*/i,'').trim();if(t){otros.set(t,(otros.get(t)||0)+1);continue;}else m=OTRO;}else if(/^otro motivo$/i.test(m))m=OTRO;map.set(m,(map.get(m)||0)+1);}
 const arr=[...map].filter(([k])=>k!==SIN).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],'es'));if(map.has(SIN))arr.push([SIN,map.get(SIN)]);
 const pc=v=>cmrStatsFmt(v/n*100,v/n*100%1?1:0)+' %';
-const rowsHtml=arr.map(([k,v])=>{const sin=k===SIN;return `<div class="statsBarRow"><div><span${sin?' style="color:#64748b;font-style:italic"':''}>${esc(k)}</span><strong>${pc(v)} <small>(${cmrStatsFmt(v)})</small></strong></div><div class="statsTrack"><i style="width:${v/n*100}%;background:${sin?'#94a3b8':'#a74332'}"></i></div></div>`}).join('');
+const rowsHtml=arr.map(([k,v])=>{const sin=k===SIN;return `<div class="statsBarRow"><div><span${sin?' style="color:#64748b;font-style:italic"':''}>${esc(k)}</span><strong>${pc(v)} <small>(${cmrStatsFmt(v)})</small></strong></div><div class="statsTrack"><i style="width:${v/n*100}%;background:${sin?'linear-gradient(90deg,#c3cedb,#94a3b8)':'linear-gradient(90deg,#d98676,#a74332)'}"></i></div></div>`}).join('');
 const otrosTotal=[...otros.values()].reduce((a,b)=>a+b,0);const det=otros.size?`<details class="statsOtroDetalle"><summary><span>Otros motivos escritos por los comerciales (${cmrStatsFmt(otrosTotal)})</span><strong>${cmrStatsFmt(otrosTotal)} · ${pc(otrosTotal)}</strong></summary><ul class="statsNotes">${[...otros].sort((a,b)=>b[1]-a[1]).map(([t,c])=>`<li><span>${esc(t)}</span><strong>${cmrStatsFmt(c)} · ${pc(c)}</strong></li>`).join('')}</ul></details>`:'';
 return `<p style="margin:0 0 4px"><strong style="font-size:26px;color:#a74332">${cmrStatsFmt(n)}</strong> <span class="homeMuted">perdidas · ${cmrStatsFmt(n/base.length*100,0)} % de ${cmrStatsFmt(base.length)} ofertas</span></p>${rowsHtml}${det}<p class="homeMuted">Porcentajes sobre todas las ofertas perdidas que cumplen los filtros, por número de ofertas (no m²). Se aplican los mismos filtros que al resto del panel, incluido Estado. Los porcentajes pueden variar por redondeo.</p>`;}
 function cmrStatsRender(){const host=document.getElementById('cmrStatsPanel');if(!host||!cmrStatsGlobal(perfilActual)||cmrStats.profile!==perfilActual)return;const f=cmrStats.filters,badRange=f.desde&&f.hasta&&f.desde>f.hasta,rows=badRange?[]:cmrStatsSelect(cmrStats.rows||[],f),s=cmrStatsSummary(rows),fmt=cmrStatsFmt;const classified=s.n-s.states['Sin clasificar'],pct=(n,d)=>d?fmt(n/d*100,1)+'%':'Sin datos';const dates=rows.map(r=>cmrStatsDate(r.fecha)).filter(Boolean).sort();const unit=cmrStats.metric==='metros'?'m² ofertados':'ofertas';
@@ -2269,7 +2269,7 @@ async function crmObjSave(month){const i=document.getElementById('crmObjInput'),
 .dashObjNote{margin-top:6px!important;color:#b36800!important;font-weight:600}
 .dashKpi.dashObj small b{color:#7a4700}
 </style>
-</body>
+<style id="cmrBarGradStyle">#cmrStatsPanel .statsTrack i.blue{background:linear-gradient(90deg,#4693f7,#0056b3)}</style></body>
 <style id="cmrFix20novMediodia">
 /* 20 nov mediodia. Tres correcciones pedidas y aprobadas por el usuario por WhatsApp:
    1) Pie de Asignar visita/llamada y Nuevo cliente integrado con la ventana, sin franja blanca sobre Guardar.
