@@ -2295,7 +2295,13 @@ const{error:e2}=await sb.auth.updateUser({password:n});
 if(e2){msg(e2.code==='same_password'?'La nueva contraseña es igual a la actual. Escribe una distinta.':e2.code==='weak_password'?'Esa contraseña no cumple los requisitos de seguridad. Prueba con otra distinta.':(e2.code==='session_not_found'||e2.code==='session_expired')?'Tu sesión ha caducado. Vuelve a entrar e inténtalo de nuevo.':'No se ha podido guardar la contraseña. Inténtalo de nuevo en unos segundos.');return}
 reset();$('pwOk').hidden=false;setTimeout(()=>{$('pwOk').hidden=true},8000)
 }catch(x){msg('No se ha podido guardar la contraseña. Inténtalo de nuevo en unos segundos.')}finally{btn.disabled=false;btn.textContent='Guardar contraseña'}})})();
-</script></body>
+</script><style id="cmrXAlign">
+#cmrPipeMini .cmrCloseBar{margin-right:-20px!important}
+:is(#statusModal,#cmrDireccionModal,#cmrNoAtiendeModal,#cmrAdminConfirm,#cmrPrepModal) .cmrCloseBar .btn-close-modal{translate:0 -1px}
+@media(min-width:501px){#cmrPrepModal .cmrCloseBar .btn-close-modal{translate:1px -1px}#cmrOfertaModal:not(.cmrFF) .cmrCloseBar{margin-right:-12px!important;top:8px!important}}
+#cmrOfertaModal.cmrFF .cmrCloseBar{top:11px!important;right:11px!important;margin:0!important}
+</style>
+</body>
 <style id="cmrFix20novMediodia">
 /* 20 nov mediodia. Tres correcciones pedidas y aprobadas por el usuario por WhatsApp:
    1) Pie de Asignar visita/llamada y Nuevo cliente integrado con la ventana, sin franja blanca sobre Guardar.
