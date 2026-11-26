@@ -2842,6 +2842,20 @@ crmDashNav();
 @media(hover:hover) and (pointer:fine){#cmrStatsPanel .dashMonth:hover .dashTip,#cmrStatsPanel .dashMonth:focus .dashTip,#cmrStatsPanel .dashDay:hover .dashTip,#cmrStatsPanel .dashDay:focus .dashTip{opacity:1;visibility:visible}}
 @media(max-width:699px){#cmrStatsPanel .dashMonthly,#cmrStatsPanel .dashWeek{overflow:visible}}
 @media(prefers-reduced-motion:reduce){#cmrStatsPanel .dashTip{transition:none}}
+
+/* X de cerrar: mismo margen (12px) arriba y a la derecha en todos los modales */
+#cmrClientModal .cmrCloseBar{margin-right:-18px!important}
+:is(#cmrVisitaModal,#cmrPipeEdit,#viewModal) .cmrCloseBar{margin-right:-20px!important}
+#editModal:not(.cmrEditFooter) .cmrCloseBar{margin-right:-20px!important}
+#cmrPrepModal .cmrCloseBar{margin-right:-17px!important;margin-top:-7px!important}
+:is(#statusModal,#cmrDireccionModal,#cmrNoAtiendeModal,#cmrAdminConfirm) .cmrCloseBar{margin-right:-20px!important;margin-top:-11px!important}
+@media(max-width:699px){
+:is(#cmrClientModal,#cmrVisitaModal,#cmrPipeEdit) .cmrCloseBar{margin-right:-8px!important}
+#viewModal .cmrCloseBar{margin-right:-20px!important}
+#editModal .cmrCloseBar{right:12px!important}
+#cmrPrepModal .cmrCloseBar{margin-right:-4px!important}
+:is(#cmrDireccionModal,#cmrNoAtiendeModal) .cmrCloseBar{margin-right:-8px!important}
+}
 </style>
 <script id="crmDashTooltips">
 (()=>{
